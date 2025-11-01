@@ -1,0 +1,80 @@
+# ============================
+# 📦 NODE / JAVASCRIPT
+# ============================
+
+# Dependencias
+node_modules/
+
+# Builds / Distribuciones
+dist/
+build/
+tmp/
+temp/
+out/
+.cache/
+.next/
+.nuxt/
+.svelte-kit/
+.angular/
+coverage/
+
+# Archivos de lock opcionales (dependiendo del gestor)
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# ============================
+# 🧩 AMBIENTES / VARIABLES
+# ============================
+.env
+.env.local
+.env.*.local
+
+# ============================
+# 🪵 LOGS Y DEBUG
+# ============================
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+*.log
+
+# ============================
+# 💻 EDITORES Y SISTEMAS
+# ============================
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# ============================
+# ⚙️ SISTEMAS DE COMPILACIÓN
+# ============================
+*.tsbuildinfo
+*.tgz
+*.zip
+
+# ============================
+# 🧰 ANGULAR / FRONTEND
+# ============================
+# Angular outputs
+/.angular/cache/
+/.angular/
+
+# Otros temporales
+src/**/*.js
+src/**/*.map
+
+# ============================
+# ⚡️ MISC
+# ============================
+# Archivos locales o personales
+*.local
+*.bak
+*.tmp
+
+# Carpeta de pruebas temporales
+/test-output/
