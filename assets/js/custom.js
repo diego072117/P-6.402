@@ -1,65 +1,76 @@
-document.addEventListener('DOMContentLoaded', function() {
-    const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
-    const mobileMenu = document.getElementById('mobile-menu');
-    const mobileMenuContent = document.getElementById('mobile-menu-content');
-    const mobileMenuClose = document.getElementById('mobile-menu-close');
+document.addEventListener("DOMContentLoaded", function () {
+  // --- Lógica para ABRIR/CERRAR el menú principal (HU-001) ---
+  const menuToggle = document.getElementById("mobile-menu-toggle");
+  const menuClose = document.getElementById("mobile-menu-close");
+  const menu = document.getElementById("mobile-menu");
 
-    // Abrir menú con animación
-    if (mobileMenuToggle) {
-        mobileMenuToggle.addEventListener('click', function(e) {
-            e.preventDefault();
-            
-            // Mostrar el menú
-            mobileMenu.style.display = 'block';
-            mobileMenu.classList.remove('hidden');
-            
-            // Aplicar animación de entrada (slide down)
-            mobileMenuContent.style.transform = 'translateY(-100%)';
-            
-            // Forzar reflow para que la animación funcione
-            mobileMenuContent.offsetHeight;
-            
-            // Animar hacia abajo
-            setTimeout(() => {
-                mobileMenuContent.style.transform = 'translateY(0)';
-            }, 10);
-            
-            // Prevenir scroll del body
-            document.body.style.overflow = 'hidden';
-        });
-    }
+  if (menuToggle && menu) {
+    menuToggle.addEventListener("click", function () {
+      // Muestra el menú moviéndolo a su posición (de -100% a 0%)
+      menu.classList.remove("-translate-x-full");
+      menu.classList.add("translate-x-0");
+      this.setAttribute("aria-expanded", "true");
+    });
+  }
 
-    // Cerrar menú con animación
-    function closeMenu() {
-        // Animar hacia arriba
-        mobileMenuContent.style.transform = 'translateY(-100%)';
-        
-        // Esperar a que termine la animación antes de ocultar
-        setTimeout(() => {
-            mobileMenu.style.display = 'none';
-            mobileMenu.classList.add('hidden');
-            document.body.style.overflow = '';
-        }, 300);
-    }
+  if (menuClose && menu) {
+    menuClose.addEventListener("click", function () {
+      // Oculta el menú moviéndolo fuera de la pantalla (de 0% a -100%)
+      menu.classList.remove("translate-x-0");
+      menu.classList.add("-translate-x-full");
+      if (menuToggle) {
+        menuToggle.setAttribute("aria-expanded", "false");
+      }
+    });
+  }
 
-    if (mobileMenuClose) {
-        mobileMenuClose.addEventListener('click', function(e) {
-            e.preventDefault();
-            closeMenu();
-        });
-    }
+  // --- LÓGICA para el ACORDEÓN de sub-menús (HU-001) ---
+  // "Cuando el usuario le da clic a un enlace se despliegan las secciones"
 
-    // Cerrar menú al hacer clic en un enlace
-    if (mobileMenu) {
-        const mobileMenuLinks = mobileMenu.querySelectorAll('a');
-        mobileMenuLinks.forEach(link => {
-            link.addEventListener('click', function() {
-                closeMenu();
-            });
-        });
-    }
+  // Buscamos TODOS los botones de despliegue DENTRO del menú móvil
+  const submenuToggles = document.querySelectorAll(
+    "#mobile-menu .mobile-submenu-toggle"
+  );
+
+  submenuToggles.forEach((toggle) => {
+    toggle.addEventListener("click", function (e) {
+      e.preventDefault(); // Previene que la página salte
+
+      // Encuentra el <li> padre y el <ul> sub-menu más cercanos
+      const li = this.closest("li.menu-item-has-children");
+      const submenu = li.querySelector("ul.sub-menu");
+
+      if (submenu) {
+        // Alternar estado ARIA para accesibilidad
+        const isExpanded = this.getAttribute("aria-expanded") === "true";
+        this.setAttribute("aria-expanded", !isExpanded);
+
+        // Alternar ícono (gira la flecha)
+        this.querySelector("svg").classList.toggle("rotate-180");
+
+        // Alternar clases de Tailwind para la animación
+
+        if (!isExpanded) {
+          // ABRIR: Agregar altura, padding y mostrar
+          submenu.classList.remove("max-h-0");
+          submenu.classList.add("max-h-screen");
+          submenu.classList.remove("py-0"); // ⭐ NUEVO
+          submenu.classList.add("py-2"); // ⭐ NUEVO
+          submenu.classList.remove("opacity-0"); // ⭐ NUEVO (opcional, para fade)
+          submenu.classList.add("opacity-100"); // ⭐ NUEVO
+        } else {
+          // CERRAR: Remover altura, padding y ocultar
+          submenu.classList.remove("max-h-screen");
+          submenu.classList.add("max-h-0");
+          submenu.classList.remove("py-2"); // ⭐ NUEVO
+          submenu.classList.add("py-0"); // ⭐ NUEVO
+          submenu.classList.remove("opacity-100"); // ⭐ NUEVO
+          submenu.classList.add("opacity-0"); // ⭐ NUEVO
+        }
+      }
+    });
+  });
 });
-
 
 document.addEventListener("DOMContentLoaded", () => {
   const sliderWrapper = document.getElementById("slider-wrapper");
@@ -77,7 +88,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Clonar para infinito: necesitamos al menos `visibleSlides()` clones a cada lado
   const clonesToAdd = Math.max(3, totalSlides);
-  
+
   // Clones al final
   for (let i = 0; i < clonesToAdd; i++) {
     const clone = originals[i % totalSlides].cloneNode(true);
@@ -85,10 +96,13 @@ document.addEventListener("DOMContentLoaded", () => {
     clone.classList.add("clone");
     sliderContainer.appendChild(clone);
   }
-  
+
   // Clones al inicio
   for (let i = 0; i < clonesToAdd; i++) {
-    const clone = originals[(totalSlides - 1 - i + totalSlides) % totalSlides].cloneNode(true);
+    const clone =
+      originals[(totalSlides - 1 - i + totalSlides) % totalSlides].cloneNode(
+        true
+      );
     clone.id = `clone-start-${i}`;
     clone.classList.add("clone");
     sliderContainer.insertBefore(clone, sliderContainer.firstChild);
@@ -98,23 +112,27 @@ document.addEventListener("DOMContentLoaded", () => {
   let index = clonesToAdd; // Empezar en el primer slide real
   let transitioning = false;
 
-  const getGap = () => parseFloat(getComputedStyle(sliderContainer).columnGap || 0);
-  
+  const getGap = () =>
+    parseFloat(getComputedStyle(sliderContainer).columnGap || 0);
+
   const unitWidth = () => {
-    const slideW = isMobile() 
-      ? sliderWrapper.clientWidth 
+    const slideW = isMobile()
+      ? sliderWrapper.clientWidth
       : originals[0].getBoundingClientRect().width;
     return slideW + getGap();
   };
 
   const moveToIndex = (animate = true) => {
     const w = unitWidth();
-    sliderContainer.style.transition = animate ? "transform 0.45s ease-in-out" : "none";
+    sliderContainer.style.transition = animate
+      ? "transform 0.45s ease-in-out"
+      : "none";
     sliderContainer.style.transform = `translateX(-${w * index}px)`;
 
     // Actualiza dots (solo mobile)
     if (dotsContainer && isMobile()) {
-      const realIndex = ((index - clonesToAdd) % totalSlides + totalSlides) % totalSlides;
+      const realIndex =
+        (((index - clonesToAdd) % totalSlides) + totalSlides) % totalSlides;
       dotsContainer.querySelectorAll("div").forEach((d, i) => {
         d.classList.toggle("bg-[#EAA40C]", i === realIndex);
         d.classList.toggle("bg-gray-300", i !== realIndex);
@@ -127,7 +145,8 @@ document.addEventListener("DOMContentLoaded", () => {
     dotsContainer.innerHTML = "";
     for (let i = 0; i < totalSlides; i++) {
       const dot = document.createElement("div");
-      dot.className = "w-3 h-3 rounded-full bg-gray-300 transition duration-300 cursor-pointer";
+      dot.className =
+        "w-3 h-3 rounded-full bg-gray-300 transition duration-300 cursor-pointer";
       dot.addEventListener("click", () => {
         if (transitioning) return;
         index = i + clonesToAdd;
@@ -157,19 +176,27 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Swipe móvil
   let startX = 0;
-  sliderContainer.addEventListener("touchstart", e => {
-    startX = e.touches[0].clientX;
-  }, { passive: true });
-  
-  sliderContainer.addEventListener("touchend", e => {
-    const endX = e.changedTouches[0].clientX;
-    const diff = startX - endX;
-    
-    if (Math.abs(diff) > 50) {
-      if (diff > 0) next();
-      else prev();
-    }
-  }, { passive: true });
+  sliderContainer.addEventListener(
+    "touchstart",
+    (e) => {
+      startX = e.touches[0].clientX;
+    },
+    { passive: true }
+  );
+
+  sliderContainer.addEventListener(
+    "touchend",
+    (e) => {
+      const endX = e.changedTouches[0].clientX;
+      const diff = startX - endX;
+
+      if (Math.abs(diff) > 50) {
+        if (diff > 0) next();
+        else prev();
+      }
+    },
+    { passive: true }
+  );
 
   // Loop infinito: cuando llegue a un clon, saltar sin animación
   sliderContainer.addEventListener("transitionend", () => {
@@ -181,7 +208,7 @@ document.addEventListener("DOMContentLoaded", () => {
       index = clonesToAdd + (index - clonesToAdd - totalSlides);
       sliderContainer.style.transform = `translateX(-${w * index}px)`;
     }
-    
+
     // Si estamos en los clones del inicio, volver al final real
     if (index < clonesToAdd) {
       sliderContainer.style.transition = "none";
@@ -210,12 +237,16 @@ document.addEventListener("DOMContentLoaded", () => {
 // Carrusel de Historias (solo mobile)
 document.addEventListener("DOMContentLoaded", () => {
   const historiasWrapper = document.getElementById("historias-slider-wrapper");
-  const historiasContainer = document.getElementById("historias-slider-container");
+  const historiasContainer = document.getElementById(
+    "historias-slider-container"
+  );
   const historiasDots = document.getElementById("historias-slider-dots");
 
   if (!historiasWrapper || !historiasContainer) return;
 
-  let originals = Array.from(historiasContainer.querySelectorAll(".historias-slide"));
+  let originals = Array.from(
+    historiasContainer.querySelectorAll(".historias-slide")
+  );
   const totalSlides = originals.length;
 
   // Clonar para infinito
@@ -226,7 +257,11 @@ document.addEventListener("DOMContentLoaded", () => {
   historiasContainer.appendChild(firstClone);
   historiasContainer.insertBefore(lastClone, originals[0]);
 
-  let slides = Array.from(historiasContainer.querySelectorAll(".historias-slide, #historias-first-clone, #historias-last-clone"));
+  let slides = Array.from(
+    historiasContainer.querySelectorAll(
+      ".historias-slide, #historias-first-clone, #historias-last-clone"
+    )
+  );
   let index = 1;
   let transitioning = false;
 
@@ -234,7 +269,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const moveToIndex = (animate = true) => {
     const w = unitWidth();
-    historiasContainer.style.transition = animate ? "transform 0.45s ease-in-out" : "none";
+    historiasContainer.style.transition = animate
+      ? "transform 0.45s ease-in-out"
+      : "none";
     historiasContainer.style.transform = `translateX(-${w * index}px)`;
 
     // Actualizar dots
@@ -250,7 +287,8 @@ document.addEventListener("DOMContentLoaded", () => {
     historiasDots.innerHTML = "";
     for (let i = 0; i < totalSlides; i++) {
       const dot = document.createElement("div");
-      dot.className = "w-3 h-3 rounded-full bg-gray-300 transition duration-300 cursor-pointer";
+      dot.className =
+        "w-3 h-3 rounded-full bg-gray-300 transition duration-300 cursor-pointer";
       dot.addEventListener("click", () => {
         if (transitioning) return;
         index = i + 1;
@@ -262,19 +300,27 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Swipe
   let startX = 0;
-  historiasContainer.addEventListener("touchstart", e => (startX = e.touches[0].clientX), { passive: true });
-  historiasContainer.addEventListener("touchend", e => {
-    const endX = e.changedTouches[0].clientX;
-    const diff = startX - endX;
-    
-    if (Math.abs(diff) > 50) {
-      if (transitioning) return;
-      transitioning = true;
-      if (diff > 0) index++;
-      else index--;
-      moveToIndex();
-    }
-  }, { passive: true });
+  historiasContainer.addEventListener(
+    "touchstart",
+    (e) => (startX = e.touches[0].clientX),
+    { passive: true }
+  );
+  historiasContainer.addEventListener(
+    "touchend",
+    (e) => {
+      const endX = e.changedTouches[0].clientX;
+      const diff = startX - endX;
+
+      if (Math.abs(diff) > 50) {
+        if (transitioning) return;
+        transitioning = true;
+        if (diff > 0) index++;
+        else index--;
+        moveToIndex();
+      }
+    },
+    { passive: true }
+  );
 
   // Loop infinito
   historiasContainer.addEventListener("transitionend", () => {
