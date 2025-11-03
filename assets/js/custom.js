@@ -1,3 +1,4 @@
+// menu mobil
 document.addEventListener("DOMContentLoaded", function () {
   // --- Lógica para ABRIR/CERRAR el menú principal (HU-001) ---
   const menuToggle = document.getElementById("mobile-menu-toggle");
@@ -54,24 +55,25 @@ document.addEventListener("DOMContentLoaded", function () {
           // ABRIR: Agregar altura, padding y mostrar
           submenu.classList.remove("max-h-0");
           submenu.classList.add("max-h-screen");
-          submenu.classList.remove("py-0"); // ⭐ NUEVO
-          submenu.classList.add("py-2"); // ⭐ NUEVO
-          submenu.classList.remove("opacity-0"); // ⭐ NUEVO (opcional, para fade)
-          submenu.classList.add("opacity-100"); // ⭐ NUEVO
+          submenu.classList.remove("py-0");
+          submenu.classList.add("py-2");
+          submenu.classList.remove("opacity-0");
+          submenu.classList.add("opacity-100");
         } else {
           // CERRAR: Remover altura, padding y ocultar
           submenu.classList.remove("max-h-screen");
           submenu.classList.add("max-h-0");
-          submenu.classList.remove("py-2"); // ⭐ NUEVO
-          submenu.classList.add("py-0"); // ⭐ NUEVO
-          submenu.classList.remove("opacity-100"); // ⭐ NUEVO
-          submenu.classList.add("opacity-0"); // ⭐ NUEVO
+          submenu.classList.remove("py-2");
+          submenu.classList.add("py-0");
+          submenu.classList.remove("opacity-100");
+          submenu.classList.add("opacity-0");
         }
       }
     });
   });
 });
 
+// Carrusel noticias
 document.addEventListener("DOMContentLoaded", () => {
   const sliderWrapper = document.getElementById("slider-wrapper");
   const sliderContainer = document.getElementById("slider-container");
@@ -79,8 +81,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const arrowLeft = document.getElementById("arrow-left");
   const arrowRight = document.getElementById("arrow-right");
 
+  if (!sliderContainer || !sliderWrapper) return;
+
   let originals = Array.from(sliderContainer.querySelectorAll(".slide"));
   const totalSlides = originals.length;
+
+  if (totalSlides === 0) return;
 
   // Desktop muestra 3, mobile 1
   const isMobile = () => window.innerWidth < 768;
@@ -249,6 +255,8 @@ document.addEventListener("DOMContentLoaded", () => {
   );
   const totalSlides = originals.length;
 
+  if (totalSlides === 0) return;
+
   // Clonar para infinito
   const firstClone = originals[0].cloneNode(true);
   const lastClone = originals[originals.length - 1].cloneNode(true);
@@ -347,3 +355,339 @@ document.addEventListener("DOMContentLoaded", () => {
   // Inicializar
   moveToIndex(false);
 });
+
+/* ============================================
+   BANNER HERO ANIMADO
+   ============================================ */
+document.addEventListener("DOMContentLoaded", function() {
+  const banners = document.querySelectorAll('.banner-hero-container');
+  
+  banners.forEach(function(banner) {
+    const slides = banner.querySelectorAll('.banner-hero-slide');
+    const dots = banner.querySelectorAll('.banner-hero-dot');
+    const progressBar = banner.querySelector('.banner-hero-progress-bar');
+    const totalSlides = slides.length;
+    
+    if (totalSlides === 0) {
+      console.warn('Banner Hero: No hay slides');
+      return;
+    }
+    
+    let currentSlide = 0;
+    let autoplayInterval;
+    let progressInterval;
+    let progress = 0;
+    
+    const intervalo = parseInt(banner.getAttribute('data-intervalo')) || 5000;
+    
+    function goToSlide(index) {
+      
+      // Remover clase active de todos
+      slides.forEach(function(slide) {
+        slide.classList.remove('active');
+      });
+      dots.forEach(function(dot) {
+        dot.classList.remove('active');
+      });
+      
+      // Agregar clase active al slide y dot actual
+      slides[index].classList.add('active');
+      dots[index].classList.add('active');
+      
+      currentSlide = index;
+      
+      // Resetear barra de progreso
+      progress = 0;
+      if (progressBar) {
+        progressBar.style.height = '0%';
+      }
+    }
+    
+    function updateProgress() {
+      const increment = 100 / (intervalo / 50);
+      progress += increment;
+      
+      if (progress >= 100) {
+        progress = 100;
+      }
+      
+      if (progressBar) {
+        progressBar.style.height = progress + '%';
+      }
+    }
+    
+    function nextSlide() {
+      const next = (currentSlide + 1) % totalSlides;
+      goToSlide(next);
+    }
+    
+    function startAutoplay() {
+      stopAutoplay();
+      autoplayInterval = setInterval(nextSlide, intervalo);
+      progressInterval = setInterval(updateProgress, 50);
+    }
+    
+    function stopAutoplay() {
+      if (autoplayInterval) {
+        clearInterval(autoplayInterval);
+      }
+      if (progressInterval) {
+        clearInterval(progressInterval);
+      }
+    }
+    
+    dots.forEach(function(dot, index) {
+      dot.addEventListener('click', function() {
+        goToSlide(index);
+        startAutoplay();
+      });
+    });
+    
+    startAutoplay();
+    
+    document.addEventListener('visibilitychange', function() {
+      if (document.hidden) {
+        console.log('Pestaña oculta - pausando');
+        stopAutoplay();
+      } else {
+        console.log('Pestaña visible - reanudando');
+        startAutoplay();
+      }
+    });
+  });
+});
+
+
+/* ============================================
+   CARRUSEL POR QUÉ SE DEMANDA A URIBE (Mobile)
+   ============================================ */
+document.addEventListener("DOMContentLoaded", () => {
+  const porQueUribeWrapper = document.getElementById("por-que-uribe-slider-wrapper");
+  const porQueUribeContainer = document.getElementById("por-que-uribe-slider-container");
+  const porQueUribeDots = document.getElementById("por-que-uribe-slider-dots");
+
+  if (!porQueUribeWrapper || !porQueUribeContainer) return;
+
+  let originals = Array.from(
+    porQueUribeContainer.querySelectorAll(".por-que-uribe-slide")
+  );
+  const totalSlides = originals.length;
+
+  if (totalSlides === 0) return;
+
+  // Clonar para infinito
+  const firstClone = originals[0].cloneNode(true);
+  const lastClone = originals[originals.length - 1].cloneNode(true);
+  firstClone.id = "por-que-uribe-first-clone";
+  lastClone.id = "por-que-uribe-last-clone";
+  porQueUribeContainer.appendChild(firstClone);
+  porQueUribeContainer.insertBefore(lastClone, originals[0]);
+
+  let slides = Array.from(
+    porQueUribeContainer.querySelectorAll(
+      ".por-que-uribe-slide, #por-que-uribe-first-clone, #por-que-uribe-last-clone"
+    )
+  );
+  let index = 1;
+  let transitioning = false;
+
+  const unitWidth = () => porQueUribeWrapper.clientWidth;
+
+  const moveToIndex = (animate = true) => {
+    const w = unitWidth();
+    porQueUribeContainer.style.transition = animate
+      ? "transform 0.45s ease-in-out"
+      : "none";
+    porQueUribeContainer.style.transform = `translateX(-${w * index}px)`;
+
+    // Actualizar dots
+    const real = (index - 1 + totalSlides) % totalSlides;
+    porQueUribeDots?.querySelectorAll("div").forEach((d, i) => {
+      d.classList.toggle("bg-[#EAA40C]", i === real);
+      d.classList.toggle("bg-gray-300", i !== real);
+    });
+  };
+
+  // Crear dots
+  if (porQueUribeDots) {
+    porQueUribeDots.innerHTML = "";
+    for (let i = 0; i < totalSlides; i++) {
+      const dot = document.createElement("div");
+      dot.className =
+        "w-3 h-3 rounded-full bg-gray-300 transition duration-300 cursor-pointer";
+      dot.addEventListener("click", () => {
+        if (transitioning) return;
+        index = i + 1;
+        moveToIndex();
+      });
+      porQueUribeDots.appendChild(dot);
+    }
+  }
+
+  // Swipe
+  let startX = 0;
+  porQueUribeContainer.addEventListener(
+    "touchstart",
+    (e) => (startX = e.touches[0].clientX),
+    { passive: true }
+  );
+  porQueUribeContainer.addEventListener(
+    "touchend",
+    (e) => {
+      const endX = e.changedTouches[0].clientX;
+      const diff = startX - endX;
+
+      if (Math.abs(diff) > 50) {
+        if (transitioning) return;
+        transitioning = true;
+        if (diff > 0) index++;
+        else index--;
+        moveToIndex();
+      }
+    },
+    { passive: true }
+  );
+
+  // Loop infinito
+  porQueUribeContainer.addEventListener("transitionend", () => {
+    const current = slides[index];
+    const w = unitWidth();
+
+    if (current?.id === "por-que-uribe-first-clone") {
+      porQueUribeContainer.style.transition = "none";
+      index = 1;
+      porQueUribeContainer.style.transform = `translateX(-${w * index}px)`;
+    }
+    if (current?.id === "por-que-uribe-last-clone") {
+      porQueUribeContainer.style.transition = "none";
+      index = totalSlides;
+      porQueUribeContainer.style.transform = `translateX(-${w * index}px)`;
+    }
+
+    requestAnimationFrame(() => (transitioning = false));
+  });
+
+  // Reajuste al redimensionar
+  window.addEventListener("resize", () => moveToIndex(false));
+
+  // Inicializar
+  moveToIndex(false);
+});
+
+
+/* ============================================
+   CARRUSEL VÍCTIMAS QUE DEMANDAN (Mobile)
+   ============================================ */
+document.addEventListener("DOMContentLoaded", () => {
+  const victimasWrapper = document.getElementById("victimas-slider-wrapper");
+  const victimasContainer = document.getElementById("victimas-slider-container");
+  const victimasDots = document.getElementById("victimas-slider-dots");
+
+  if (!victimasWrapper || !victimasContainer) return;
+
+  let originals = Array.from(
+    victimasContainer.querySelectorAll(".victimas-slide")
+  );
+  const totalSlides = originals.length;
+
+  if (totalSlides === 0) return;
+
+  // Clonar para infinito
+  const firstClone = originals[0].cloneNode(true);
+  const lastClone = originals[originals.length - 1].cloneNode(true);
+  firstClone.id = "victimas-first-clone";
+  lastClone.id = "victimas-last-clone";
+  victimasContainer.appendChild(firstClone);
+  victimasContainer.insertBefore(lastClone, originals[0]);
+
+  let slides = Array.from(
+    victimasContainer.querySelectorAll(
+      ".victimas-slide, #victimas-first-clone, #victimas-last-clone"
+    )
+  );
+  let index = 1;
+  let transitioning = false;
+
+  const unitWidth = () => victimasWrapper.clientWidth;
+
+  const moveToIndex = (animate = true) => {
+    const w = unitWidth();
+    victimasContainer.style.transition = animate
+      ? "transform 0.45s ease-in-out"
+      : "none";
+    victimasContainer.style.transform = `translateX(-${w * index}px)`;
+
+    // Actualizar dots
+    const real = (index - 1 + totalSlides) % totalSlides;
+    victimasDots?.querySelectorAll("div").forEach((d, i) => {
+      d.classList.toggle("bg-[#EAA40C]", i === real);
+      d.classList.toggle("bg-gray-300", i !== real);
+    });
+  };
+
+  // Crear dots
+  if (victimasDots) {
+    victimasDots.innerHTML = "";
+    for (let i = 0; i < totalSlides; i++) {
+      const dot = document.createElement("div");
+      dot.className =
+        "w-3 h-3 rounded-full bg-gray-300 transition duration-300 cursor-pointer";
+      dot.addEventListener("click", () => {
+        if (transitioning) return;
+        index = i + 1;
+        moveToIndex();
+      });
+      victimasDots.appendChild(dot);
+    }
+  }
+
+  // Swipe
+  let startX = 0;
+  victimasContainer.addEventListener(
+    "touchstart",
+    (e) => (startX = e.touches[0].clientX),
+    { passive: true }
+  );
+  victimasContainer.addEventListener(
+    "touchend",
+    (e) => {
+      const endX = e.changedTouches[0].clientX;
+      const diff = startX - endX;
+
+      if (Math.abs(diff) > 50) {
+        if (transitioning) return;
+        transitioning = true;
+        if (diff > 0) index++;
+        else index--;
+        moveToIndex();
+      }
+    },
+    { passive: true }
+  );
+
+  // Loop infinito
+  victimasContainer.addEventListener("transitionend", () => {
+    const current = slides[index];
+    const w = unitWidth();
+
+    if (current?.id === "victimas-first-clone") {
+      victimasContainer.style.transition = "none";
+      index = 1;
+      victimasContainer.style.transform = `translateX(-${w * index}px)`;
+    }
+    if (current?.id === "victimas-last-clone") {
+      victimasContainer.style.transition = "none";
+      index = totalSlides;
+      victimasContainer.style.transform = `translateX(-${w * index}px)`;
+    }
+
+    requestAnimationFrame(() => (transitioning = false));
+  });
+
+  // Reajuste al redimensionar
+  window.addEventListener("resize", () => moveToIndex(false));
+
+  // Inicializar
+  moveToIndex(false);
+});
+

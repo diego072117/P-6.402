@@ -15,7 +15,7 @@ safelist: [
     'group-hover:visible',
     'group-hover:z-50',
     'opacity-0',
-    'opacity-100',  // ⭐ NUEVO
+    'opacity-100', 
     'invisible',
     'z-50',
     'max-h-0',
@@ -25,12 +25,12 @@ safelist: [
     'space-y-2',
     'mt-2',
     'px-4',
-    'py-0',         // ⭐ NUEVO
+    'py-0',      
     'py-2',
     'rounded-md',
-    'border',       // ⭐ NUEVO
-    'border-gray-200', // ⭐ NUEVO
-    'shadow-sm',    // ⭐ NUEVO
+    'border',     
+    'border-gray-200', 
+    'shadow-sm',   
 ],
 
   theme: {
