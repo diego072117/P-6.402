@@ -30,34 +30,6 @@ function obtener_extracto_limpio($post_id)
 }
 
 /**
- * Query para obtener las 3 noticias más recientes
- */
-$args_noticias = array(
-    'post_type'      => 'post',
-    'posts_per_page' => 3,
-    'category_name'  => 'noticias', // Slug de la categoría
-    'orderby'        => 'date',
-    'order'          => 'ASC',
-);
-
-$query_noticias = new WP_Query($args_noticias);
-
-/**
- * Obtener datos del Customizer para "Qué puedo hacer?"
- */
-$que_hacer_titulo_p1 = get_theme_mod('que_hacer_titulo_parte1', 'QUÉ PUEDO');
-$que_hacer_titulo_p2 = get_theme_mod('que_hacer_titulo_parte2', 'HACER?');
-$que_hacer_subtitulo = get_theme_mod('que_hacer_subtitulo', 'Lucha por la verdad y justicia de todxs');
-$que_hacer_descripcion = get_theme_mod('que_hacer_descripcion', 'Contamos con apoyo de:');
-$que_hacer_url_boton = get_theme_mod('que_hacer_url_boton', '#que-puedo-hacer');
-
-/**
- * Obtener estadísticas del CSV
- */
-$estadisticas = obtener_estadisticas_csv();
-
-
-/**
  * Obtener datos del Customizer para Historias
  */
 $historias = array(
@@ -82,17 +54,6 @@ $historias = array(
 );
 
 $historias_url_seccion = get_theme_mod('historias_url_seccion', '/conocenos#historias-victimas');
-
-// Función auxiliar para formatear números (200000 -> 200k)
-function formatear_numero($numero)
-{
-    if ($numero >= 1000000) {
-        return round($numero / 1000000, 1) . 'M';
-    } elseif ($numero >= 1000) {
-        return round($numero / 1000, 1) . 'k';
-    }
-    return $numero;
-}
 
 get_header();
 ?>
@@ -169,244 +130,19 @@ get_header();
 </section>
 
 <!-- Sección Slider - Qué está pasando (Noticias) -->
-<section class="mt-[60px] lg:mt-[180px] bg-white">
-
-    <?php if ($query_noticias->have_posts()) : ?>
-
-        <!-- Contenedor general -->
-        <div class="relative flex justify-center items-center w-full max-w-[1151px] mx-auto">
-
-            <!-- Flecha Izquierda -->
-            <button
-                id="arrow-left"
-                class="hidden lg:flex absolute left-[-80px] top-1/2 -translate-y-1/2 z-10 w-[68px] h-[68px] items-center justify-center transition drop-shadow-md"
-                aria-label="Anterior">
-                <img
-                    src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/icon-left.svg"
-                    alt="Flecha izquierda"
-                    class="w-[68px] h-[68px]" />
-            </button>
-
-            <!-- Wrapper del slider -->
-            <div id="slider-wrapper" class="overflow-hidden w-full px-0 md:px-6">
-                <!-- Contenedor de slides -->
-                <div id="slider-container" class="flex justify-start gap-0 md:gap-6 transition-transform duration-500 ease-in-out">
-
-                    <?php
-                    $slide_count = 0;
-                    while ($query_noticias->have_posts()) : $query_noticias->the_post();
-                        $slide_count++;
-
-                        // Obtener datos de la noticia
-                        $noticia_url = get_permalink();
-                        $noticia_extracto = obtener_extracto_limpio(get_the_ID());
-                        $noticia_imagen = get_the_post_thumbnail_url(get_the_ID(), 'medium_large');
-                        $noticia_fecha = get_the_date('d M Y');
-
-                        // IMPORTANTE: Extraer los dos H1s del contenido
-                        $titulos = obtener_titulos_noticia(get_the_ID());
-
-                        // Si no hay imagen destacada, usar placeholder
-                        if (!$noticia_imagen) {
-                            $noticia_imagen = get_template_directory_uri() . '/assets/images/placeholder-noticia.png';
-                        }
-                    ?>
-
-                        <!-- Card Noticia <?php echo $slide_count; ?> -->
-                        <div
-                            id="slide-<?php echo $slide_count; ?>"
-                            class="slide flex min-w-full md:min-w-[375px] w-full md:w-[375px] flex-col justify-start items-center gap-6 flex-shrink-0 bg-[#F8F8F8] rounded-[6px] shadow-sm p-[60px_30px]">
-
-                            <!-- Imagen (clickeable) -->
-                            <a href="<?php echo esc_url($noticia_url); ?>" class="block w-full h-[254px] self-stretch">
-                                <img
-                                    src="<?php echo esc_url($noticia_imagen); ?>"
-                                    alt="<?php echo esc_attr($titulos['titulo1'] . ' ' . $titulos['titulo2']); ?>"
-                                    class="w-full h-full object-cover rounded-md" />
-                            </a>
-
-                            <!-- Títulos extraídos del contenido -->
-                            <h3 class="self-stretch text-left leading-[48px] font-display font-bold tracking-tight uppercase">
-                                <?php if (!empty($titulos['titulo1'])) : ?>
-                                    <span class="block text-[48px] text-[#000000]">
-                                        <?php echo esc_html($titulos['titulo1']); ?>
-                                    </span>
-                                <?php endif; ?>
-
-                                <?php if (!empty($titulos['titulo2'])) : ?>
-                                    <span class="block text-[48px] text-[#EAA40C]">
-                                        <?php echo esc_html($titulos['titulo2']); ?>
-                                    </span>
-                                <?php endif; ?>
-                            </h3>
-
-                            <!-- Extracto de la noticia -->
-                            <p class="self-stretch text-[#000000] text-[16px] font-[500] leading-[24px] font-[Montserrat] text-left">
-                                <?php echo esc_html($noticia_extracto); ?>
-                            </p>
-
-                            <!-- Fecha de publicación -->
-                            <div class="self-stretch flex justify-start">
-                                <span class="text-[#666] text-[14px] font-[Montserrat] italic">
-                                    <?php echo esc_html($noticia_fecha); ?>
-                                </span>
-                            </div>
-
-                            <!-- Botón "Leer más" -->
-                            <a href="<?php echo esc_url($noticia_url); ?>"
-                                class="flex w-full md:w-[315px] justify-center items-center gap-[10px] px-[32px] py-[12px] rounded-[5px] bg-[#EAA40C] text-black font-bold transition hover:bg-[#d28f00]">
-                                Leer más
-                            </a>
-                        </div>
-
-                    <?php endwhile; ?>
-                    <?php wp_reset_postdata(); ?>
-
-                </div>
-            </div>
-
-            <!-- Flecha Derecha -->
-            <button
-                id="arrow-right"
-                class="hidden lg:flex absolute right-[-80px] top-1/2 -translate-y-1/2 z-10 w-[68px] h-[68px] items-center justify-center transition drop-shadow-md"
-                aria-label="Siguiente">
-                <img
-                    src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/icon-right.svg"
-                    alt="Flecha derecha"
-                    class="w-[68px] h-[68px]" />
-            </button>
-
-        </div>
-
-        <!-- Indicadores (solo mobile) -->
-        <div id="slider-dots" class="flex justify-center items-center gap-2 mt-6 md:hidden"></div>
-
-        <!-- Botón "Más noticias" -->
-        <div class="flex justify-center w-full mt-8">
-            <?php
-            // Obtener URL de la categoría Noticias
-            $categoria_noticias = get_category_by_slug('noticias');
-            $url_mas_noticias = $categoria_noticias ? get_category_link($categoria_noticias->term_id) : '#';
-            ?>
-            <a href="<?php echo esc_url($url_mas_noticias); ?>"
-                class="flex w-full max-w-[315px] lg:w-auto px-8 py-3 justify-center items-center gap-[10px] rounded-[5px] bg-[#A13E18] text-white font-[Montserrat] font-bold hover:bg-[#7d2f08] transition">
-                Más noticias
-            </a>
-        </div>
-
-    <?php else : ?>
-
-        <!-- Mensaje si no hay noticias -->
-        <div class="flex justify-center items-center py-12">
-            <p class="text-[#666] text-[18px] font-[Montserrat]">
-                No hay noticias disponibles en este momento.
-            </p>
-        </div>
-
-    <?php endif; ?>
-
-</section>
+<?php
+get_template_part('template-parts/noticias-slider', null, array(
+    'categoria' => 'noticias',
+    'numero_posts' => 6,
+    'orderby' => 'modified',
+    'texto_boton' => 'Más noticias',
+    'url_boton' => home_url('/noticias'),
+    'texto_vacio' => 'No hay noticias disponibles en este momento.'
+));
+?>
 
 <!-- Sección Qué puedo hacer -->
-<section class="mt-[60px] lg:mt-[180px] bg-white flex justify-center px-[30px] lg:px-0">
-    <div class="flex w-full lg:w-[1151px] flex-col items-center lg:items-start">
-
-        <!-- Bloque superior: título + subtítulo + texto DINÁMICO -->
-        <div class="flex flex-col items-center lg:items-start gap-[24px] w-full">
-
-            <!-- Título DINÁMICO -->
-            <h2 class="flex flex-col lg:flex-row leading-[48px] font-display font-bold tracking-tight uppercase w-full text-left">
-                <span
-                    class="text-[36px] lg:text-[48px] text-[#000000] lg:mr-[8px]"
-                    style="font-feature-settings: 'liga' off, 'clig' off; font-style: normal; font-weight: 700; line-height: 100%;">
-                    <?php echo esc_html($que_hacer_titulo_p1); ?>
-                </span>
-                <span
-                    class="text-[36px] lg:text-[48px] text-[#A13E18]"
-                    style="font-feature-settings: 'liga' off, 'clig' off; font-style: normal; font-weight: 700; line-height: 100%;">
-                    <?php echo esc_html($que_hacer_titulo_p2); ?>
-                </span>
-            </h2>
-
-            <!-- Subtítulo DINÁMICO -->
-            <h3
-                class="text-negro font-[Montserrat] text-[18px] lg:text-[20px] font-bold leading-[24px] text-left w-full"
-                style="font-feature-settings: 'liga' off, 'clig' off;">
-                <?php echo esc_html($que_hacer_subtitulo); ?>
-            </h3>
-
-            <!-- Texto apoyo DINÁMICO -->
-            <p
-                class="text-negro font-[Montserrat] text-[14px] lg:text-[16px] font-medium leading-[24px] text-left w-full"
-                style="font-feature-settings: 'liga' off, 'clig' off;">
-                <?php echo esc_html($que_hacer_descripcion); ?>
-            </p>
-        </div>
-
-        <!-- Bloque inferior: estadísticas y botón DINÁMICO -->
-        <div class="flex flex-col items-center w-full mt-[32px]">
-
-            <!-- Estadísticas DINÁMICAS desde CSV -->
-            <div class="flex flex-col lg:flex-row justify-center lg:justify-between items-center w-full max-w-[375px] lg:max-w-[1000px] gap-[40px] lg:gap-0">
-
-                <!-- Personas (desde CSV) -->
-                <div class="flex flex-col items-center gap-[10px]">
-                    <span
-                        class="text-[#A13E18] font-[Montserrat] text-[64px] lg:text-[96px] font-bold leading-[100%]"
-                        style="font-feature-settings: 'liga' off, 'clig' off;">
-                        <?php echo esc_html(formatear_numero($estadisticas['personas'])); ?>
-                    </span>
-                    <span
-                        class="text-negro font-[Montserrat] text-[32px] lg:text-[42px] font-bold leading-[100%]"
-                        style="font-feature-settings: 'liga' off, 'clig' off;">
-                        Personas
-                    </span>
-                </div>
-
-                <!-- Ciudades (desde CSV) + Botón en desktop -->
-                <div class="flex flex-col items-center gap-[10px]">
-                    <span
-                        class="text-[#A13E18] font-[Montserrat] text-[64px] lg:text-[96px] font-bold leading-[100%]"
-                        style="font-feature-settings: 'liga' off, 'clig' off;">
-                        <?php echo esc_html($estadisticas['ciudades']); ?>
-                    </span>
-                    <span
-                        class="text-negro font-[Montserrat] text-[32px] lg:text-[42px] font-bold leading-[100%]"
-                        style="font-feature-settings: 'liga' off, 'clig' off;">
-                        Ciudades
-                    </span>
-                </div>
-
-                <!-- Países (desde CSV) -->
-                <div class="flex flex-col items-center gap-[10px]">
-                    <span
-                        class="text-[#A13E18] font-[Montserrat] text-[64px] lg:text-[96px] font-bold leading-[100%]"
-                        style="font-feature-settings: 'liga' off, 'clig' off;">
-                        <?php echo esc_html($estadisticas['paises']); ?>
-                    </span>
-                    <span
-                        class="text-negro font-[Montserrat] text-[32px] lg:text-[42px] font-bold leading-[100%]"
-                        style="font-feature-settings: 'liga' off, 'clig' off;">
-                        Países
-                    </span>
-                </div>
-            </div>
-
-            <!-- Botón SOLO en desktop, debajo de Ciudades -->
-            <a href="<?php echo esc_url($que_hacer_url_boton); ?>"
-                class="hidden lg:flex mt-[32px] w-[221px] h-[48px] justify-center items-center rounded-[6px] bg-[#A13E18] text-white font-[Montserrat] font-bold hover:bg-[#7d2f08] transition">
-                Conoce cómo apoyar
-            </a>
-
-            <!-- Botón SOLO en mobile, centrado abajo -->
-            <a href="<?php echo esc_url($que_hacer_url_boton); ?>"
-                class="lg:hidden mt-[40px] flex w-full max-w-[375px] h-[48px] justify-center items-center rounded-[6px] bg-[#A13E18] text-white font-[Montserrat] font-bold hover:bg-[#7d2f08] transition">
-                Conoce cómo apoyar
-            </a>
-        </div>
-
-    </div>
-</section>
+<?php get_template_part('template-parts/que-puedo-hacer'); ?>
 
 <!-- Sección Historias de las víctimas -->
 <section class="mt-[60px] lg:mt-[180px] bg-white flex justify-center px-[30px] lg:px-0">

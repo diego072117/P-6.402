@@ -1,22 +1,23 @@
 <?php
-
 /**
  * Componente: Grid de Actividades
- * Muestra actividades en formato de tarjetas horizontales (3x2)
+ * Muestra actividades en formato de tarjetas con opción de paginación AJAX
  * 
- * Uso:
- * get_template_part('template-parts/actividades-grid', null, array(
- *     'numero_actividades' => 6  // Por defecto 6, usa -1 para todas
- * ));
+ * Parámetros:
+ * - numero_actividades: Número inicial de actividades (por defecto 6)
+ * - paginado: true = carga AJAX, false = botón redirige (por defecto false)
+ * - actividades_por_carga: Cuántas actividades cargar en cada clic (por defecto 6)
  */
 
-// Obtener parámetro de número de actividades (por defecto 6)
+// Obtener parámetros
 $numero_actividades = isset($args['numero_actividades']) ? $args['numero_actividades'] : 6;
+$paginado = isset($args['paginado']) ? $args['paginado'] : false;
+$actividades_por_carga = isset($args['actividades_por_carga']) ? $args['actividades_por_carga'] : 6;
 
-// Obtener las actividades
+// Obtener las actividades iniciales
 $args_query = array(
     'post_type' => 'post',
-    'posts_per_page' => $numero_actividades, // 6 por defecto, -1 para todas
+    'posts_per_page' => $numero_actividades,
     'category_name' => 'actividades',
     'orderby' => 'modified',
     'order' => 'DESC',
@@ -27,16 +28,27 @@ $actividades_query = new WP_Query($args_query);
 
 // Imagen fallback
 $imagen_fallback = get_template_directory_uri() . '/assets/images/img-slider2.png';
+
+// Contar total de actividades disponibles
+$total_query = new WP_Query(array(
+    'post_type' => 'post',
+    'category_name' => 'actividades',
+    'post_status' => 'publish',
+    'posts_per_page' => -1,
+    'fields' => 'ids'
+));
+$total_actividades = $total_query->found_posts;
+wp_reset_postdata();
 ?>
 
 <!-- Sección Actividades -->
-<section class="bg-white flex justify-center">
+<section class="bg-white flex justify-center px-[30px] lg:px-0">
     <div class="w-full max-w-[1153px]">
 
         <?php if ($actividades_query->have_posts()) : ?>
 
             <!-- Grid Desktop: 3 columnas -->
-            <div class="hidden lg:grid lg:grid-cols-3 gap-[32px] mb-[40px]">
+            <div id="actividades-grid-desktop" class="hidden lg:grid lg:grid-cols-3 gap-[32px] mb-[40px]">
                 <?php
                 $counter = 1;
                 while ($actividades_query->have_posts()) : $actividades_query->the_post();
@@ -60,23 +72,20 @@ $imagen_fallback = get_template_directory_uri() . '/assets/images/img-slider2.pn
                         <!-- Overlay oscuro en hover -->
                         <div class="absolute inset-0 bg-black opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
 
-                        < <!-- Contenido superpuesto con blur -->
-                            <div class="relative z-10 p-[24px] flex flex-col justify-start items-start">
-
-                                <!-- Contenedor con blur de fondo (sin negro) -->
-                                <div class="backdrop-blur-md rounded-lg p-[16px] inline-block">
-                                    <!-- Título con número -->
-                                    <h3 class="font-[Montserrat] font-bold leading-[100%] text-[32px] text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
-                                        Actividad <?php echo $counter; ?>
-                                    </h3>
-
-                                    <!-- Fecha -->
-                                    <p class="text-white font-[Montserrat] text-[14px] font-medium mt-[8px] drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
-                                        <?php echo esc_html($fecha); ?>
-                                    </p>
-                                </div>
-
+                        <!-- Contenido superpuesto con blur -->
+                        <div class="relative z-10 p-[24px] flex flex-col justify-start items-start">
+                            <!-- Contenedor con blur de fondo -->
+                            <div class="backdrop-blur-md rounded-lg p-[16px] inline-block">
+                                <!-- Título con número -->
+                                <h3 class="font-[Montserrat] font-bold leading-[100%] text-[32px] text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+                                    Actividad <?php echo $counter; ?>
+                                </h3>
+                                <!-- Fecha -->
+                                <p class="text-white font-[Montserrat] text-[14px] font-medium mt-[8px] drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+                                    <?php echo esc_html($fecha); ?>
+                                </p>
                             </div>
+                        </div>
                     </a>
 
                 <?php
@@ -86,7 +95,7 @@ $imagen_fallback = get_template_directory_uri() . '/assets/images/img-slider2.pn
             </div>
 
             <!-- Mobile: Grid Vertical -->
-            <div class="lg:hidden flex flex-col items-center gap-[40px] mb-[40px]">
+            <div id="actividades-grid-mobile" class="lg:hidden flex flex-col items-center gap-[40px] mb-[40px]">
                 <?php
                 $counter = 1;
                 $actividades_query->rewind_posts();
@@ -108,20 +117,17 @@ $imagen_fallback = get_template_directory_uri() . '/assets/images/img-slider2.pn
 
                         <!-- Contenido superpuesto con blur -->
                         <div class="relative z-10 p-[24px] flex flex-col justify-start items-start">
-
-                            <!-- Contenedor con blur de fondo (sin negro) -->
+                            <!-- Contenedor con blur de fondo -->
                             <div class="backdrop-blur-md rounded-lg p-[16px] inline-block">
                                 <!-- Título con número -->
                                 <h3 class="font-[Montserrat] font-bold leading-[100%] text-[28px] text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
                                     Actividad <?php echo $counter; ?>
                                 </h3>
-
                                 <!-- Fecha -->
                                 <p class="text-white font-[Montserrat] text-[14px] font-medium mt-[8px] drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
                                     <?php echo esc_html($fecha); ?>
                                 </p>
                             </div>
-
                         </div>
                     </a>
 
@@ -131,12 +137,26 @@ $imagen_fallback = get_template_directory_uri() . '/assets/images/img-slider2.pn
                 ?>
             </div>
 
-            <!-- Botón Ver Todas las Actividades -->
+            <!-- Botón Ver Todas las Actividades (SIEMPRE VISIBLE) -->
             <div class="flex justify-center">
-                <a href="<?php echo esc_url(home_url('/actividades')); ?>"
-                    class="px-[48px] py-[14px] bg-[#A13E18] text-white font-[Montserrat] text-[16px] font-bold rounded-[6px] hover:bg-[#8a3315] transition-colors duration-300">
-                    Ver todas las actividades
-                </a>
+                <?php if ($paginado) : ?>
+                    <!-- Botón con AJAX -->
+                    <button id="cargar-mas-actividades"
+                        data-offset="<?php echo $numero_actividades; ?>"
+                        data-por-carga="<?php echo $actividades_por_carga; ?>"
+                        data-total="<?php echo $total_actividades; ?>"
+                        data-contador="<?php echo $actividades_query->post_count + 1; ?>"
+                        class="px-[48px] py-[14px] bg-[#A13E18] text-white font-[Montserrat] text-[16px] font-bold rounded-[6px] hover:bg-[#8a3315] transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed">
+                        <span class="btn-text">Conoce más</span>
+                        <span class="btn-loading hidden">Cargando...</span>
+                    </button>
+                <?php else : ?>
+                    <!-- Botón con redirección -->
+                    <a href="<?php echo esc_url(home_url('/actividades')); ?>"
+                        class="px-[48px] py-[14px] bg-[#A13E18] text-white font-[Montserrat] text-[16px] font-bold rounded-[6px] hover:bg-[#8a3315] transition-colors duration-300">
+                        Ver todas las actividades
+                    </a>
+                <?php endif; ?>
             </div>
 
         <?php else : ?>

@@ -1554,6 +1554,683 @@ function justicia_customize_register($wp_customize)
         'settings'   => 'banner_hero_noticias_slide3_texto',
         'type'       => 'textarea',
     ));
+
+    // ===================================
+    // BANNER HERO - PÁGINA QUÉ PUEDO HACER
+    // ===================================
+    $wp_customize->add_section('banner_hero_que_puedo_hacer_section', array(
+        'title'      => __('Banner Hero - Qué Puedo Hacer', 'tema-custom'),
+        'priority'   => 36,
+        'description' => 'Configuración del banner animado para la página Qué Puedo Hacer (3 slides)'
+    ));
+
+    // INTERVALO DE ROTACIÓN
+    $wp_customize->add_setting('banner_hero_que_puedo_hacer_intervalo', array(
+        'default'   => 5,
+        'transport' => 'refresh',
+        'sanitize_callback' => 'absint'
+    ));
+
+    $wp_customize->add_control('banner_hero_que_puedo_hacer_intervalo_control', array(
+        'label'      => __('Intervalo de rotación (segundos)', 'tema-custom'),
+        'section'    => 'banner_hero_que_puedo_hacer_section',
+        'settings'   => 'banner_hero_que_puedo_hacer_intervalo',
+        'type'       => 'number',
+        'input_attrs' => array(
+            'min' => 3,
+            'max' => 10,
+            'step' => 1,
+        ),
+    ));
+
+    // --- SLIDE 1 ---
+    $wp_customize->add_setting('banner_hero_que_puedo_hacer_slide1_imagen', array(
+        'default'   => '',
+        'transport' => 'refresh',
+        'sanitize_callback' => 'absint'
+    ));
+
+    $wp_customize->add_control(new WP_Customize_Media_Control($wp_customize, 'banner_hero_que_puedo_hacer_slide1_imagen_control', array(
+        'label'      => __('Slide 1 - Imagen', 'tema-custom'),
+        'section'    => 'banner_hero_que_puedo_hacer_section',
+        'settings'   => 'banner_hero_que_puedo_hacer_slide1_imagen',
+        'mime_type'  => 'image',
+    )));
+
+    $wp_customize->add_setting('banner_hero_que_puedo_hacer_slide1_texto', array(
+        'default'   => 'Únete a la causa por la justicia',
+        'transport' => 'refresh',
+        'sanitize_callback' => 'sanitize_textarea_field'
+    ));
+
+    $wp_customize->add_control('banner_hero_que_puedo_hacer_slide1_texto_control', array(
+        'label'      => __('Slide 1 - Texto', 'tema-custom'),
+        'section'    => 'banner_hero_que_puedo_hacer_section',
+        'settings'   => 'banner_hero_que_puedo_hacer_slide1_texto',
+        'type'       => 'textarea',
+    ));
+
+    // --- SLIDE 2 ---
+    $wp_customize->add_setting('banner_hero_que_puedo_hacer_slide2_imagen', array(
+        'default'   => '',
+        'transport' => 'refresh',
+        'sanitize_callback' => 'absint'
+    ));
+
+    $wp_customize->add_control(new WP_Customize_Media_Control($wp_customize, 'banner_hero_que_puedo_hacer_slide2_imagen_control', array(
+        'label'      => __('Slide 2 - Imagen', 'tema-custom'),
+        'section'    => 'banner_hero_que_puedo_hacer_section',
+        'settings'   => 'banner_hero_que_puedo_hacer_slide2_imagen',
+        'mime_type'  => 'image',
+    )));
+
+    $wp_customize->add_setting('banner_hero_que_puedo_hacer_slide2_texto', array(
+        'default'   => 'Tu apoyo hace la diferencia',
+        'transport' => 'refresh',
+        'sanitize_callback' => 'sanitize_textarea_field'
+    ));
+
+    $wp_customize->add_control('banner_hero_que_puedo_hacer_slide2_texto_control', array(
+        'label'      => __('Slide 2 - Texto', 'tema-custom'),
+        'section'    => 'banner_hero_que_puedo_hacer_section',
+        'settings'   => 'banner_hero_que_puedo_hacer_slide2_texto',
+        'type'       => 'textarea',
+    ));
+
+    // --- SLIDE 3 ---
+    $wp_customize->add_setting('banner_hero_que_puedo_hacer_slide3_imagen', array(
+        'default'   => '',
+        'transport' => 'refresh',
+        'sanitize_callback' => 'absint'
+    ));
+
+    $wp_customize->add_control(new WP_Customize_Media_Control($wp_customize, 'banner_hero_que_puedo_hacer_slide3_imagen_control', array(
+        'label'      => __('Slide 3 - Imagen', 'tema-custom'),
+        'section'    => 'banner_hero_que_puedo_hacer_section',
+        'settings'   => 'banner_hero_que_puedo_hacer_slide3_imagen',
+        'mime_type'  => 'image',
+    )));
+
+    $wp_customize->add_setting('banner_hero_que_puedo_hacer_slide3_texto', array(
+        'default'   => 'Participa activamente en la búsqueda de verdad',
+        'transport' => 'refresh',
+        'sanitize_callback' => 'sanitize_textarea_field'
+    ));
+
+    $wp_customize->add_control('banner_hero_que_puedo_hacer_slide3_texto_control', array(
+        'label'      => __('Slide 3 - Texto', 'tema-custom'),
+        'section'    => 'banner_hero_que_puedo_hacer_section',
+        'settings'   => 'banner_hero_que_puedo_hacer_slide3_texto',
+        'type'       => 'textarea',
+    ));
+
+    // ===================================
+    // SECCIÓN: Si tod@s nos unimos (Qué Puedo Hacer)
+    // ===================================
+    $wp_customize->add_section('si_todos_nos_unimos_section', array(
+        'title'      => __('Qué Puedo Hacer - Si tod@s nos unimos', 'tema-custom'),
+        'priority'   => 80,
+        'description' => 'Personaliza la sección "Si tod@s nos unimos"'
+    ));
+
+    // Título Parte 1 (Negro)
+    $wp_customize->add_setting('si_todos_titulo_parte1', array(
+        'default'   => '¡Si tod@s nos unimos,',
+        'transport' => 'refresh',
+        'sanitize_callback' => 'sanitize_text_field'
+    ));
+
+    $wp_customize->add_control('si_todos_titulo_parte1_control', array(
+        'label'      => __('Título - Parte 1 (Negro)', 'tema-custom'),
+        'section'    => 'si_todos_nos_unimos_section',
+        'settings'   => 'si_todos_titulo_parte1',
+        'type'       => 'text',
+    ));
+
+    // Título Parte 2 (Café)
+    $wp_customize->add_setting('si_todos_titulo_parte2', array(
+        'default'   => 'tod@s conoceremos la verdad!',
+        'transport' => 'refresh',
+        'sanitize_callback' => 'sanitize_text_field'
+    ));
+
+    $wp_customize->add_control('si_todos_titulo_parte2_control', array(
+        'label'      => __('Título - Parte 2 (Café)', 'tema-custom'),
+        'section'    => 'si_todos_nos_unimos_section',
+        'settings'   => 'si_todos_titulo_parte2',
+        'type'       => 'text',
+    ));
+
+    // Párrafo 1
+    $wp_customize->add_setting('si_todos_parrafo1', array(
+        'default'   => 'Bajo la política de la "seguridad democrática" miles de personas fueron ejecutadas extrajudicialmente y presentadas como baja en combate (mal llamados falsos positivos) por el Ejército colombiano.',
+        'transport' => 'refresh',
+        'sanitize_callback' => 'wp_kses_post'
+    ));
+
+    $wp_customize->add_control('si_todos_parrafo1_control', array(
+        'label'      => __('Párrafo 1', 'tema-custom'),
+        'section'    => 'si_todos_nos_unimos_section',
+        'settings'   => 'si_todos_parrafo1',
+        'type'       => 'textarea',
+    ));
+
+    // Párrafo 2
+    $wp_customize->add_setting('si_todos_parrafo2', array(
+        'default'   => 'Las familias de miles de víctimas de estas ejecuciones extrajudiciales esperan respuesta de la querella interpuesta en 2023 en Argentina. Sin embargo, en año y medio, no ha habido avances significativos ni apertura formal de la investigación contra el expresidente Uribe Vélez.',
+        'transport' => 'refresh',
+        'sanitize_callback' => 'wp_kses_post'
+    ));
+
+    $wp_customize->add_control('si_todos_parrafo2_control', array(
+        'label'      => __('Párrafo 2', 'tema-custom'),
+        'section'    => 'si_todos_nos_unimos_section',
+        'settings'   => 'si_todos_parrafo2',
+        'type'       => 'textarea',
+    ));
+
+    // ===================================
+    // SECCIÓN: Firma esta petición (Qué Puedo Hacer)
+    // ===================================
+    $wp_customize->add_section('firma_peticion_section', array(
+        'title'      => __('Qué Puedo Hacer - Firma esta petición', 'tema-custom'),
+        'priority'   => 85,
+        'description' => 'Personaliza la sección "Firma esta petición"'
+    ));
+
+    // Título Principal
+    $wp_customize->add_setting('firma_peticion_titulo', array(
+        'default'   => 'Firma esta petición',
+        'transport' => 'refresh',
+        'sanitize_callback' => 'sanitize_text_field'
+    ));
+
+    $wp_customize->add_control('firma_peticion_titulo_control', array(
+        'label'      => __('Título Principal', 'tema-custom'),
+        'section'    => 'firma_peticion_section',
+        'settings'   => 'firma_peticion_titulo',
+        'type'       => 'text',
+    ));
+
+    // Texto 1
+    $wp_customize->add_setting('firma_peticion_texto1', array(
+        'default'   => 'Las víctimas exigen el avance de las investigaciones y tú puedes apoyar firmando la petición de Change',
+        'transport' => 'refresh',
+        'sanitize_callback' => 'wp_kses_post'
+    ));
+
+    $wp_customize->add_control('firma_peticion_texto1_control', array(
+        'label'      => __('Texto 1', 'tema-custom'),
+        'section'    => 'firma_peticion_section',
+        'settings'   => 'firma_peticion_texto1',
+        'type'       => 'textarea',
+    ));
+
+    // Texto 2
+    $wp_customize->add_setting('firma_peticion_texto2', array(
+        'default'   => 'Buscamos conseguir al menos 6402 firmas antes de noviembre para llevarlas ante la justicia Argentina.',
+        'transport' => 'refresh',
+        'sanitize_callback' => 'wp_kses_post'
+    ));
+
+    $wp_customize->add_control('firma_peticion_texto2_control', array(
+        'label'      => __('Texto 2', 'tema-custom'),
+        'section'    => 'firma_peticion_section',
+        'settings'   => 'firma_peticion_texto2',
+        'type'       => 'textarea',
+    ));
+
+    // Instrucciones (lista numerada)
+    $wp_customize->add_setting('firma_peticion_instrucciones', array(
+        'default'   => '1. Abre el enlace en el botón.<br>2. Escribe tu nombre, apellido y un correo válido.<br>3. Comparte con tus amigxs que también quieren verdad y justicia.',
+        'transport' => 'refresh',
+        'sanitize_callback' => 'wp_kses_post'
+    ));
+
+    $wp_customize->add_control('firma_peticion_instrucciones_control', array(
+        'label'      => __('Instrucciones', 'tema-custom'),
+        'section'    => 'firma_peticion_section',
+        'settings'   => 'firma_peticion_instrucciones',
+        'type'       => 'textarea',
+        'description' => 'Usa &lt;br&gt; para saltos de línea'
+    ));
+
+    // Texto recordatorio
+    $wp_customize->add_setting('firma_peticion_recordatorio', array(
+        'default'   => 'Recuerda: No necesitas documento de identificación y puedes desmarcar la opción para que tu firma no sea visible públicamente.',
+        'transport' => 'refresh',
+        'sanitize_callback' => 'wp_kses_post'
+    ));
+
+    $wp_customize->add_control('firma_peticion_recordatorio_control', array(
+        'label'      => __('Texto Recordatorio', 'tema-custom'),
+        'section'    => 'firma_peticion_section',
+        'settings'   => 'firma_peticion_recordatorio',
+        'type'       => 'textarea',
+    ));
+
+    // Texto del Botón
+    $wp_customize->add_setting('firma_peticion_boton_texto', array(
+        'default'   => 'Firmar petición',
+        'transport' => 'refresh',
+        'sanitize_callback' => 'sanitize_text_field'
+    ));
+
+    $wp_customize->add_control('firma_peticion_boton_texto_control', array(
+        'label'      => __('Texto del Botón', 'tema-custom'),
+        'section'    => 'firma_peticion_section',
+        'settings'   => 'firma_peticion_boton_texto',
+        'type'       => 'text',
+    ));
+
+    // URL del Botón
+    $wp_customize->add_setting('firma_peticion_boton_url', array(
+        'default'   => 'https://www.change.org/',
+        'transport' => 'refresh',
+        'sanitize_callback' => 'esc_url_raw'
+    ));
+
+    $wp_customize->add_control('firma_peticion_boton_url_control', array(
+        'label'      => __('URL del Botón (Change.org)', 'tema-custom'),
+        'section'    => 'firma_peticion_section',
+        'settings'   => 'firma_peticion_boton_url',
+        'type'       => 'url',
+    ));
+
+    // ===================================
+    // SECCIÓN: Comparte (Qué Puedo Hacer)
+    // ===================================
+    $wp_customize->add_section('comparte_section', array(
+        'title'      => __('Qué Puedo Hacer - Comparte', 'tema-custom'),
+        'priority'   => 86,
+        'description' => 'Personaliza la sección "Comparte"'
+    ));
+
+    // Título "COMPARTE"
+    $wp_customize->add_setting('comparte_titulo', array(
+        'default'   => 'COMPARTE',
+        'transport' => 'refresh',
+        'sanitize_callback' => 'sanitize_text_field'
+    ));
+
+    $wp_customize->add_control('comparte_titulo_control', array(
+        'label'      => __('Título Principal', 'tema-custom'),
+        'section'    => 'comparte_section',
+        'settings'   => 'comparte_titulo',
+        'type'       => 'text',
+    ));
+
+    // Texto descriptivo
+    $wp_customize->add_setting('comparte_texto_descripcion', array(
+        'default'   => 'Dale espacio a la verdad y la justicia en tus redes sociales',
+        'transport' => 'refresh',
+        'sanitize_callback' => 'wp_kses_post'
+    ));
+
+    $wp_customize->add_control('comparte_texto_descripcion_control', array(
+        'label'      => __('Texto Descriptivo', 'tema-custom'),
+        'section'    => 'comparte_section',
+        'settings'   => 'comparte_texto_descripcion',
+        'type'       => 'textarea',
+    ));
+
+    // Texto secundario
+    $wp_customize->add_setting('comparte_texto_secundario', array(
+        'default'   => 'Tu familia, amigos, colegas también pueden apoyar para que conozcamos la verdad y se haga justicia.',
+        'transport' => 'refresh',
+        'sanitize_callback' => 'wp_kses_post'
+    ));
+
+    $wp_customize->add_control('comparte_texto_secundario_control', array(
+        'label'      => __('Texto Secundario', 'tema-custom'),
+        'section'    => 'comparte_section',
+        'settings'   => 'comparte_texto_secundario',
+        'type'       => 'textarea',
+    ));
+
+    // Imagen izquierda (ilustración/foto)
+    $wp_customize->add_setting('comparte_imagen_izquierda', array(
+        'default'   => '',
+        'transport' => 'refresh',
+        'sanitize_callback' => 'absint'
+    ));
+
+    $wp_customize->add_control(new WP_Customize_Media_Control($wp_customize, 'comparte_imagen_izquierda_control', array(
+        'label'      => __('Imagen Izquierda', 'tema-custom'),
+        'section'    => 'comparte_section',
+        'settings'   => 'comparte_imagen_izquierda',
+        'mime_type'  => 'image',
+    )));
+
+    // Lista de instrucciones (columna derecha)
+    $wp_customize->add_setting('comparte_instrucciones', array(
+        'default'   => '1. Comparte en tus historias o por mensaje directo en tus redes sociales.<br>2. Sigue el hashtag y comparte las publicaciones en tus historias.<br>3. Participa de los eventos en tu ciudad.',
+        'transport' => 'refresh',
+        'sanitize_callback' => 'wp_kses_post'
+    ));
+
+    $wp_customize->add_control('comparte_instrucciones_control', array(
+        'label'      => __('Instrucciones (Lista)', 'tema-custom'),
+        'section'    => 'comparte_section',
+        'settings'   => 'comparte_instrucciones',
+        'type'       => 'textarea',
+        'description' => 'Usa &lt;br&gt; para saltos de línea'
+    ));
+
+    // ===================================
+    // SUBSECCIÓN: Préstale tu ventana
+    // ===================================
+
+    // Título "Préstale tu ventana..."
+    $wp_customize->add_setting('prestale_ventana_titulo', array(
+        'default'   => 'PRÉSTALE TU VENTANA A LA VERDAD Y LA JUSTICIA',
+        'transport' => 'refresh',
+        'sanitize_callback' => 'sanitize_text_field'
+    ));
+
+    $wp_customize->add_control('prestale_ventana_titulo_control', array(
+        'label'      => __('Título "Préstale tu ventana"', 'tema-custom'),
+        'section'    => 'comparte_section',
+        'settings'   => 'prestale_ventana_titulo',
+        'type'       => 'text',
+    ));
+
+    // Subtítulo "Descarga y comparte"
+    $wp_customize->add_setting('prestale_ventana_subtitulo', array(
+        'default'   => 'Descarga y comparte',
+        'transport' => 'refresh',
+        'sanitize_callback' => 'sanitize_text_field'
+    ));
+
+    $wp_customize->add_control('prestale_ventana_subtitulo_control', array(
+        'label'      => __('Subtítulo', 'tema-custom'),
+        'section'    => 'comparte_section',
+        'settings'   => 'prestale_ventana_subtitulo',
+        'type'       => 'text',
+    ));
+
+    // Card 1: Imagen
+    $wp_customize->add_setting('prestale_card1_imagen', array(
+        'default'   => '',
+        'transport' => 'refresh',
+        'sanitize_callback' => 'absint'
+    ));
+
+    $wp_customize->add_control(new WP_Customize_Media_Control($wp_customize, 'prestale_card1_imagen_control', array(
+        'label'      => __('Card 1 - Imagen', 'tema-custom'),
+        'section'    => 'comparte_section',
+        'settings'   => 'prestale_card1_imagen',
+        'mime_type'  => 'image',
+    )));
+
+    // Card 1: Texto
+    $wp_customize->add_setting('prestale_card1_texto', array(
+        'default'   => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio mattis...',
+        'transport' => 'refresh',
+        'sanitize_callback' => 'wp_kses_post'
+    ));
+
+    $wp_customize->add_control('prestale_card1_texto_control', array(
+        'label'      => __('Card 1 - Texto', 'tema-custom'),
+        'section'    => 'comparte_section',
+        'settings'   => 'prestale_card1_texto',
+        'type'       => 'textarea',
+    ));
+
+    // Card 1: Texto del botón
+    $wp_customize->add_setting('prestale_card1_boton_texto', array(
+        'default'   => 'Descarga el afiche',
+        'transport' => 'refresh',
+        'sanitize_callback' => 'sanitize_text_field'
+    ));
+
+    $wp_customize->add_control('prestale_card1_boton_texto_control', array(
+        'label'      => __('Card 1 - Texto del Botón', 'tema-custom'),
+        'section'    => 'comparte_section',
+        'settings'   => 'prestale_card1_boton_texto',
+        'type'       => 'text',
+    ));
+
+    // Card 1: Archivo PDF/Imagen para descargar
+    $wp_customize->add_setting('prestale_card1_archivo', array(
+        'default'   => '',
+        'transport' => 'refresh',
+        'sanitize_callback' => 'absint'
+    ));
+
+    $wp_customize->add_control(new WP_Customize_Media_Control($wp_customize, 'prestale_card1_archivo_control', array(
+        'label'      => __('Card 1 - Archivo para Descargar', 'tema-custom'),
+        'section'    => 'comparte_section',
+        'settings'   => 'prestale_card1_archivo',
+        'mime_type'  => 'application/pdf,image',
+    )));
+
+    // Card 2: Imagen
+    $wp_customize->add_setting('prestale_card2_imagen', array(
+        'default'   => '',
+        'transport' => 'refresh',
+        'sanitize_callback' => 'absint'
+    ));
+
+    $wp_customize->add_control(new WP_Customize_Media_Control($wp_customize, 'prestale_card2_imagen_control', array(
+        'label'      => __('Card 2 - Imagen', 'tema-custom'),
+        'section'    => 'comparte_section',
+        'settings'   => 'prestale_card2_imagen',
+        'mime_type'  => 'image',
+    )));
+
+    // Card 2: Texto
+    $wp_customize->add_setting('prestale_card2_texto', array(
+        'default'   => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio mattis...',
+        'transport' => 'refresh',
+        'sanitize_callback' => 'wp_kses_post'
+    ));
+
+    $wp_customize->add_control('prestale_card2_texto_control', array(
+        'label'      => __('Card 2 - Texto', 'tema-custom'),
+        'section'    => 'comparte_section',
+        'settings'   => 'prestale_card2_texto',
+        'type'       => 'textarea',
+    ));
+
+    // Card 2: Texto del botón
+    $wp_customize->add_setting('prestale_card2_boton_texto', array(
+        'default'   => 'Descarga la infografía',
+        'transport' => 'refresh',
+        'sanitize_callback' => 'sanitize_text_field'
+    ));
+
+    $wp_customize->add_control('prestale_card2_boton_texto_control', array(
+        'label'      => __('Card 2 - Texto del Botón', 'tema-custom'),
+        'section'    => 'comparte_section',
+        'settings'   => 'prestale_card2_boton_texto',
+        'type'       => 'text',
+    ));
+
+    // Card 2: Archivo PDF/Imagen para descargar
+    $wp_customize->add_setting('prestale_card2_archivo', array(
+        'default'   => '',
+        'transport' => 'refresh',
+        'sanitize_callback' => 'absint'
+    ));
+
+    $wp_customize->add_control(new WP_Customize_Media_Control($wp_customize, 'prestale_card2_archivo_control', array(
+        'label'      => __('Card 2 - Archivo para Descargar', 'tema-custom'),
+        'section'    => 'comparte_section',
+        'settings'   => 'prestale_card2_archivo',
+        'mime_type'  => 'application/pdf,image',
+    )));
+
+    // ===================================
+    // SECCIÓN: Apoya (Qué Puedo Hacer)
+    // ===================================
+    $wp_customize->add_section('apoya_section', array(
+        'title'      => __('Qué Puedo Hacer - Apoya', 'tema-custom'),
+        'priority'   => 87,
+        'description' => 'Personaliza la sección "Apoya"'
+    ));
+
+    // Título Principal
+    $wp_customize->add_setting('apoya_titulo', array(
+        'default'   => 'APOYA',
+        'transport' => 'refresh',
+        'sanitize_callback' => 'sanitize_text_field'
+    ));
+
+    $wp_customize->add_control('apoya_titulo_control', array(
+        'label'      => __('Título Principal', 'tema-custom'),
+        'section'    => 'apoya_section',
+        'settings'   => 'apoya_titulo',
+        'type'       => 'text',
+    ));
+
+    // ===================================
+    // Card 1: Sociedad Civil
+    // ===================================
+
+    // Card 1: Imagen
+    $wp_customize->add_setting('apoya_card1_imagen', array(
+        'default'   => '',
+        'transport' => 'refresh',
+        'sanitize_callback' => 'absint'
+    ));
+
+    $wp_customize->add_control(new WP_Customize_Media_Control($wp_customize, 'apoya_card1_imagen_control', array(
+        'label'      => __('Card 1 - Imagen', 'tema-custom'),
+        'section'    => 'apoya_section',
+        'settings'   => 'apoya_card1_imagen',
+        'mime_type'  => 'image',
+    )));
+
+    // Card 1: Título
+    $wp_customize->add_setting('apoya_card1_titulo', array(
+        'default'   => '¿Eres una organización de la sociedad civil?',
+        'transport' => 'refresh',
+        'sanitize_callback' => 'sanitize_text_field'
+    ));
+
+    $wp_customize->add_control('apoya_card1_titulo_control', array(
+        'label'      => __('Card 1 - Título', 'tema-custom'),
+        'section'    => 'apoya_section',
+        'settings'   => 'apoya_card1_titulo',
+        'type'       => 'text',
+    ));
+
+    // Card 1: Texto
+    $wp_customize->add_setting('apoya_card1_texto', array(
+        'default'   => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio mattis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.',
+        'transport' => 'refresh',
+        'sanitize_callback' => 'wp_kses_post'
+    ));
+
+    $wp_customize->add_control('apoya_card1_texto_control', array(
+        'label'      => __('Card 1 - Texto', 'tema-custom'),
+        'section'    => 'apoya_section',
+        'settings'   => 'apoya_card1_texto',
+        'type'       => 'textarea',
+    ));
+
+    // Card 1: Texto del Botón
+    $wp_customize->add_setting('apoya_card1_boton_texto', array(
+        'default'   => 'Descarga kit de incidencia',
+        'transport' => 'refresh',
+        'sanitize_callback' => 'sanitize_text_field'
+    ));
+
+    $wp_customize->add_control('apoya_card1_boton_texto_control', array(
+        'label'      => __('Card 1 - Texto del Botón', 'tema-custom'),
+        'section'    => 'apoya_section',
+        'settings'   => 'apoya_card1_boton_texto',
+        'type'       => 'text',
+    ));
+
+    // Card 1: Archivo para Descargar
+    $wp_customize->add_setting('apoya_card1_archivo', array(
+        'default'   => '',
+        'transport' => 'refresh',
+        'sanitize_callback' => 'absint'
+    ));
+
+    $wp_customize->add_control(new WP_Customize_Media_Control($wp_customize, 'apoya_card1_archivo_control', array(
+        'label'      => __('Card 1 - Archivo para Descargar', 'tema-custom'),
+        'section'    => 'apoya_section',
+        'settings'   => 'apoya_card1_archivo',
+        'mime_type'  => 'application/pdf,application/zip',
+    )));
+
+    // ===================================
+    // Card 2: Organización Internacional
+    // ===================================
+
+    // Card 2: Imagen
+    $wp_customize->add_setting('apoya_card2_imagen', array(
+        'default'   => '',
+        'transport' => 'refresh',
+        'sanitize_callback' => 'absint'
+    ));
+
+    $wp_customize->add_control(new WP_Customize_Media_Control($wp_customize, 'apoya_card2_imagen_control', array(
+        'label'      => __('Card 2 - Imagen', 'tema-custom'),
+        'section'    => 'apoya_section',
+        'settings'   => 'apoya_card2_imagen',
+        'mime_type'  => 'image',
+    )));
+
+    // Card 2: Título
+    $wp_customize->add_setting('apoya_card2_titulo', array(
+        'default'   => '¿Eres una organización internacional?',
+        'transport' => 'refresh',
+        'sanitize_callback' => 'sanitize_text_field'
+    ));
+
+    $wp_customize->add_control('apoya_card2_titulo_control', array(
+        'label'      => __('Card 2 - Título', 'tema-custom'),
+        'section'    => 'apoya_section',
+        'settings'   => 'apoya_card2_titulo',
+        'type'       => 'text',
+    ));
+
+    // Card 2: Texto
+    $wp_customize->add_setting('apoya_card2_texto', array(
+        'default'   => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio mattis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.',
+        'transport' => 'refresh',
+        'sanitize_callback' => 'wp_kses_post'
+    ));
+
+    $wp_customize->add_control('apoya_card2_texto_control', array(
+        'label'      => __('Card 2 - Texto', 'tema-custom'),
+        'section'    => 'apoya_section',
+        'settings'   => 'apoya_card2_texto',
+        'type'       => 'textarea',
+    ));
+
+    // Card 2: Texto del Botón
+    $wp_customize->add_setting('apoya_card2_boton_texto', array(
+        'default'   => 'Descarga kit de apoyo internacional',
+        'transport' => 'refresh',
+        'sanitize_callback' => 'sanitize_text_field'
+    ));
+
+    $wp_customize->add_control('apoya_card2_boton_texto_control', array(
+        'label'      => __('Card 2 - Texto del Botón', 'tema-custom'),
+        'section'    => 'apoya_section',
+        'settings'   => 'apoya_card2_boton_texto',
+        'type'       => 'text',
+    ));
+
+    // Card 2: Archivo para Descargar
+    $wp_customize->add_setting('apoya_card2_archivo', array(
+        'default'   => '',
+        'transport' => 'refresh',
+        'sanitize_callback' => 'absint'
+    ));
+
+    $wp_customize->add_control(new WP_Customize_Media_Control($wp_customize, 'apoya_card2_archivo_control', array(
+        'label'      => __('Card 2 - Archivo para Descargar', 'tema-custom'),
+        'section'    => 'apoya_section',
+        'settings'   => 'apoya_card2_archivo',
+        'mime_type'  => 'application/pdf,application/zip',
+    )));
 }
 add_action('customize_register', 'justicia_customize_register');
 
@@ -1925,4 +2602,251 @@ function procesar_estadisticas_csv($archivo_path)
     error_log('📊 Países únicos: ' . implode(', ', array_keys($paises_unicos)));
 
     return $resultado;
+}
+
+
+/* ============================================
+   AJAX: Cargar Más Noticias
+   ============================================ */
+
+// Endpoint para usuarios autenticados
+add_action('wp_ajax_cargar_mas_noticias', 'ajax_cargar_mas_noticias');
+
+// Endpoint para usuarios NO autenticados
+add_action('wp_ajax_nopriv_cargar_mas_noticias', 'ajax_cargar_mas_noticias');
+
+function ajax_cargar_mas_noticias()
+{
+    // Verificar nonce de seguridad
+    check_ajax_referer('cargar_noticias_nonce', 'nonce');
+
+    // Obtener parámetros
+    $offset = isset($_POST['offset']) ? intval($_POST['offset']) : 0;
+    $por_carga = isset($_POST['por_carga']) ? intval($_POST['por_carga']) : 6;
+    $contador_inicio = isset($_POST['contador']) ? intval($_POST['contador']) : 1;
+
+    // Query de noticias
+    $args = array(
+        'post_type' => 'post',
+        'posts_per_page' => $por_carga,
+        'category_name' => 'noticias',
+        'orderby' => 'date',
+        'order' => 'DESC',
+        'post_status' => 'publish',
+        'offset' => $offset
+    );
+
+    $noticias_query = new WP_Query($args);
+    $imagen_fallback = get_template_directory_uri() . '/assets/images/img-slider2.png';
+
+    $html_desktop = '';
+    $html_mobile = '';
+    $counter = $contador_inicio;
+
+    if ($noticias_query->have_posts()) {
+        while ($noticias_query->have_posts()) : $noticias_query->the_post();
+            $permalink = get_permalink();
+            $fecha = get_the_date('d/m/Y');
+
+            // Obtener extracto limpio
+            $contenido = get_post_field('post_content', get_the_ID());
+            $contenido = preg_replace('/<h1[^>]*>.*?<\/h1>/is', '', $contenido);
+            $contenido = wp_strip_all_tags($contenido);
+            $contenido = preg_replace('/\s+/', ' ', $contenido);
+            $excerpt = trim($contenido);
+
+            if (strlen($excerpt) > 335) {
+                $excerpt = substr($excerpt, 0, 332) . '...';
+            }
+
+            $imagen_url = get_the_post_thumbnail_url(get_the_ID(), 'medium');
+            if (!$imagen_url) {
+                $imagen_url = $imagen_fallback;
+            }
+
+            // HTML Desktop
+            $html_desktop .= '
+            <div class="flex flex-col justify-center items-center gap-[24px] w-[375px] px-[30px] py-[60px] bg-[#F8F8F8] hover:shadow-xl transition-shadow duration-300">
+                <div class="w-full h-[254px] overflow-hidden rounded-md">
+                    <img src="' . esc_url($imagen_url) . '"
+                        alt="Noticia ' . $counter . '"
+                        class="w-full h-full object-cover hover:scale-105 transition-transform duration-300">
+                </div>
+                <div class="flex flex-col justify-center items-start gap-[16px] w-full text-left">
+                    <h3 class="font-[Montserrat] font-bold leading-[100%] text-[42px] text-black">
+                        Noticia <span class="text-[#F8A60E]">' . $counter . '</span>
+                    </h3>
+                    <p class="w-full text-black font-[Montserrat] text-[16px] font-medium leading-[24px]">
+                        ' . esc_html($excerpt) . '
+                    </p>
+                    <p class="text-gray-500 font-[Montserrat] text-[14px] font-medium">
+                        ' . esc_html($fecha) . '
+                    </p>
+                    <a href="' . esc_url($permalink) . '"
+                        class="flex w-[315px] px-[32px] py-[12px] justify-center items-center gap-[10px] rounded-[5px] bg-[#EAA40C] text-black font-[Montserrat] text-[16px] font-bold hover:bg-[#d89400] transition-colors duration-300">
+                        Leer más
+                    </a>
+                </div>
+            </div>';
+
+            // HTML Mobile
+            $html_mobile .= '
+            <div class="w-full flex flex-col items-center">
+                <div class="w-full h-[306px] overflow-hidden">
+                    <img src="' . esc_url($imagen_url) . '"
+                        alt="Noticia ' . $counter . '"
+                        class="w-full h-full object-cover">
+                </div>
+                <div class="flex flex-col justify-center items-start gap-[24px] w-[90%] max-w-[375px] px-[30px] py-[60px] bg-[#F8F8F8] hover:shadow-xl transition-shadow duration-300 mt-[-60px] rounded-b-md">
+                    <h3 class="font-[Montserrat] font-bold leading-[100%] text-[32px] text-black text-left">
+                        Noticia <span class="text-[#F8A60E]">' . $counter . '</span>
+                    </h3>
+                    <p class="text-black font-[Montserrat] text-[16px] font-medium leading-[24px] text-left">
+                        ' . esc_html($excerpt) . '
+                    </p>
+                    <p class="text-gray-500 font-[Montserrat] text-[14px] font-medium text-left">
+                        ' . esc_html($fecha) . '
+                    </p>
+                    <a href="' . esc_url($permalink) . '"
+                        class="flex w-full max-w-[315px] px-[32px] py-[12px] justify-center items-center gap-[10px] rounded-[5px] bg-[#EAA40C] text-black font-[Montserrat] text-[16px] font-bold hover:bg-[#d89400] transition-colors duration-300">
+                        Leer más
+                    </a>
+                </div>
+            </div>';
+
+            $counter++;
+        endwhile;
+    }
+
+    wp_reset_postdata();
+
+    // Responder con JSON
+    wp_send_json_success(array(
+        'html_desktop' => $html_desktop,
+        'html_mobile' => $html_mobile,
+        'nuevo_offset' => $offset + $por_carga,
+        'nuevo_contador' => $counter,
+        'tiene_mas' => $noticias_query->found_posts > 0
+    ));
+}
+
+// Agregar nonce a JavaScript
+add_action('wp_enqueue_scripts', 'agregar_nonce_noticias');
+function agregar_nonce_noticias()
+{
+    wp_localize_script('custom-js', 'noticiasAjax', array(
+        'ajax_url' => admin_url('admin-ajax.php'),
+        'nonce' => wp_create_nonce('cargar_noticias_nonce')
+    ));
+}
+
+
+
+/* ============================================
+   AJAX: Cargar Más Actividades
+   ============================================ */
+
+// Endpoint para usuarios autenticados
+add_action('wp_ajax_cargar_mas_actividades', 'ajax_cargar_mas_actividades');
+
+// Endpoint para usuarios NO autenticados
+add_action('wp_ajax_nopriv_cargar_mas_actividades', 'ajax_cargar_mas_actividades');
+
+function ajax_cargar_mas_actividades()
+{
+    // Verificar nonce de seguridad
+    check_ajax_referer('cargar_actividades_nonce', 'nonce');
+
+    // Obtener parámetros
+    $offset = isset($_POST['offset']) ? intval($_POST['offset']) : 0;
+    $por_carga = isset($_POST['por_carga']) ? intval($_POST['por_carga']) : 6;
+    $contador_inicio = isset($_POST['contador']) ? intval($_POST['contador']) : 1;
+
+    // Query de actividades
+    $args = array(
+        'post_type' => 'post',
+        'posts_per_page' => $por_carga,
+        'category_name' => 'actividades',
+        'orderby' => 'modified',
+        'order' => 'DESC',
+        'post_status' => 'publish',
+        'offset' => $offset
+    );
+
+    $actividades_query = new WP_Query($args);
+    $imagen_fallback = get_template_directory_uri() . '/assets/images/img-slider2.png';
+
+    $html_desktop = '';
+    $html_mobile = '';
+    $counter = $contador_inicio;
+
+    if ($actividades_query->have_posts()) {
+        while ($actividades_query->have_posts()) : $actividades_query->the_post();
+            $permalink = get_permalink();
+            $fecha = get_the_date('d/m/Y');
+
+            $imagen_url = get_the_post_thumbnail_url(get_the_ID(), 'large');
+            if (!$imagen_url) {
+                $imagen_url = $imagen_fallback;
+            }
+
+            // HTML Desktop
+            $html_desktop .= '
+            <a href="' . esc_url($permalink) . '"
+                class="relative w-full h-[455px] bg-cover bg-center hover:shadow-xl transition-all duration-300 hover:scale-105 overflow-hidden group cursor-pointer"
+                style="background-image: url(\'' . esc_url($imagen_url) . '\');">
+                <div class="absolute inset-0 bg-black opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
+                <div class="relative z-10 p-[24px] flex flex-col justify-start items-start">
+                    <div class="backdrop-blur-md rounded-lg p-[16px] inline-block">
+                        <h3 class="font-[Montserrat] font-bold leading-[100%] text-[32px] text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+                            Actividad ' . $counter . '
+                        </h3>
+                        <p class="text-white font-[Montserrat] text-[14px] font-medium mt-[8px] drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+                            ' . esc_html($fecha) . '
+                        </p>
+                    </div>
+                </div>
+            </a>';
+
+            // HTML Mobile
+            $html_mobile .= '
+            <a href="' . esc_url($permalink) . '"
+                class="relative w-full h-[306px] bg-cover bg-center hover:shadow-xl transition-all duration-300 overflow-hidden"
+                style="background-image: url(\'' . esc_url($imagen_url) . '\');">
+                <div class="relative z-10 p-[24px] flex flex-col justify-start items-start">
+                    <div class="backdrop-blur-md rounded-lg p-[16px] inline-block">
+                        <h3 class="font-[Montserrat] font-bold leading-[100%] text-[28px] text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+                            Actividad ' . $counter . '
+                        </h3>
+                        <p class="text-white font-[Montserrat] text-[14px] font-medium mt-[8px] drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+                            ' . esc_html($fecha) . '
+                        </p>
+                    </div>
+                </div>
+            </a>';
+
+            $counter++;
+        endwhile;
+    }
+
+    wp_reset_postdata();
+
+    // Responder con JSON
+    wp_send_json_success(array(
+        'html_desktop' => $html_desktop,
+        'html_mobile' => $html_mobile,
+        'nuevo_offset' => $offset + $por_carga,
+        'nuevo_contador' => $counter,
+        'tiene_mas' => $actividades_query->found_posts > 0
+    ));
+}
+
+// Agregar nonce para actividades
+add_action('wp_enqueue_scripts', 'agregar_nonce_actividades');
+function agregar_nonce_actividades()
+{
+    wp_localize_script('custom-js', 'actividadesAjax', array(
+        'ajax_url' => admin_url('admin-ajax.php'),
+        'nonce' => wp_create_nonce('cargar_actividades_nonce')
+    ));
 }

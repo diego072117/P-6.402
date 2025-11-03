@@ -73,17 +73,21 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
-// Carrusel noticias
+/* ============================================
+   CARRUSEL: Slider de Noticias
+   ============================================ */
 document.addEventListener("DOMContentLoaded", () => {
-  const sliderWrapper = document.getElementById("slider-wrapper");
-  const sliderContainer = document.getElementById("slider-container");
-  const dotsContainer = document.getElementById("slider-dots");
-  const arrowLeft = document.getElementById("arrow-left");
-  const arrowRight = document.getElementById("arrow-right");
+  const sliderWrapper = document.getElementById("slider-wrapper-noticias");
+  const sliderContainer = document.getElementById("slider-container-noticias");
+  const dotsContainer = document.getElementById("slider-dots-noticias");
+  const arrowLeft = document.getElementById("arrow-left-noticias");
+  const arrowRight = document.getElementById("arrow-right-noticias");
 
   if (!sliderContainer || !sliderWrapper) return;
 
-  let originals = Array.from(sliderContainer.querySelectorAll(".slide"));
+  let originals = Array.from(
+    sliderContainer.querySelectorAll(".slide-noticia")
+  );
   const totalSlides = originals.length;
 
   if (totalSlides === 0) return;
@@ -114,7 +118,9 @@ document.addEventListener("DOMContentLoaded", () => {
     sliderContainer.insertBefore(clone, sliderContainer.firstChild);
   }
 
-  let slides = Array.from(sliderContainer.querySelectorAll(".slide, .clone"));
+  let slides = Array.from(
+    sliderContainer.querySelectorAll(".slide-noticia, .clone")
+  );
   let index = clonesToAdd; // Empezar en el primer slide real
   let transitioning = false;
 
@@ -359,74 +365,73 @@ document.addEventListener("DOMContentLoaded", () => {
 /* ============================================
    BANNER HERO ANIMADO
    ============================================ */
-document.addEventListener("DOMContentLoaded", function() {
-  const banners = document.querySelectorAll('.banner-hero-container');
-  
-  banners.forEach(function(banner) {
-    const slides = banner.querySelectorAll('.banner-hero-slide');
-    const dots = banner.querySelectorAll('.banner-hero-dot');
-    const progressBar = banner.querySelector('.banner-hero-progress-bar');
+document.addEventListener("DOMContentLoaded", function () {
+  const banners = document.querySelectorAll(".banner-hero-container");
+
+  banners.forEach(function (banner) {
+    const slides = banner.querySelectorAll(".banner-hero-slide");
+    const dots = banner.querySelectorAll(".banner-hero-dot");
+    const progressBar = banner.querySelector(".banner-hero-progress-bar");
     const totalSlides = slides.length;
-    
+
     if (totalSlides === 0) {
-      console.warn('Banner Hero: No hay slides');
+      console.warn("Banner Hero: No hay slides");
       return;
     }
-    
+
     let currentSlide = 0;
     let autoplayInterval;
     let progressInterval;
     let progress = 0;
-    
-    const intervalo = parseInt(banner.getAttribute('data-intervalo')) || 5000;
-    
+
+    const intervalo = parseInt(banner.getAttribute("data-intervalo")) || 5000;
+
     function goToSlide(index) {
-      
       // Remover clase active de todos
-      slides.forEach(function(slide) {
-        slide.classList.remove('active');
+      slides.forEach(function (slide) {
+        slide.classList.remove("active");
       });
-      dots.forEach(function(dot) {
-        dot.classList.remove('active');
+      dots.forEach(function (dot) {
+        dot.classList.remove("active");
       });
-      
+
       // Agregar clase active al slide y dot actual
-      slides[index].classList.add('active');
-      dots[index].classList.add('active');
-      
+      slides[index].classList.add("active");
+      dots[index].classList.add("active");
+
       currentSlide = index;
-      
+
       // Resetear barra de progreso
       progress = 0;
       if (progressBar) {
-        progressBar.style.height = '0%';
+        progressBar.style.height = "0%";
       }
     }
-    
+
     function updateProgress() {
       const increment = 100 / (intervalo / 50);
       progress += increment;
-      
+
       if (progress >= 100) {
         progress = 100;
       }
-      
+
       if (progressBar) {
-        progressBar.style.height = progress + '%';
+        progressBar.style.height = progress + "%";
       }
     }
-    
+
     function nextSlide() {
       const next = (currentSlide + 1) % totalSlides;
       goToSlide(next);
     }
-    
+
     function startAutoplay() {
       stopAutoplay();
       autoplayInterval = setInterval(nextSlide, intervalo);
       progressInterval = setInterval(updateProgress, 50);
     }
-    
+
     function stopAutoplay() {
       if (autoplayInterval) {
         clearInterval(autoplayInterval);
@@ -435,35 +440,38 @@ document.addEventListener("DOMContentLoaded", function() {
         clearInterval(progressInterval);
       }
     }
-    
-    dots.forEach(function(dot, index) {
-      dot.addEventListener('click', function() {
+
+    dots.forEach(function (dot, index) {
+      dot.addEventListener("click", function () {
         goToSlide(index);
         startAutoplay();
       });
     });
-    
+
     startAutoplay();
-    
-    document.addEventListener('visibilitychange', function() {
+
+    document.addEventListener("visibilitychange", function () {
       if (document.hidden) {
-        console.log('Pestaña oculta - pausando');
+        console.log("Pestaña oculta - pausando");
         stopAutoplay();
       } else {
-        console.log('Pestaña visible - reanudando');
+        console.log("Pestaña visible - reanudando");
         startAutoplay();
       }
     });
   });
 });
 
-
 /* ============================================
    CARRUSEL POR QUÉ SE DEMANDA A URIBE (Mobile)
    ============================================ */
 document.addEventListener("DOMContentLoaded", () => {
-  const porQueUribeWrapper = document.getElementById("por-que-uribe-slider-wrapper");
-  const porQueUribeContainer = document.getElementById("por-que-uribe-slider-container");
+  const porQueUribeWrapper = document.getElementById(
+    "por-que-uribe-slider-wrapper"
+  );
+  const porQueUribeContainer = document.getElementById(
+    "por-que-uribe-slider-container"
+  );
   const porQueUribeDots = document.getElementById("por-que-uribe-slider-dots");
 
   if (!porQueUribeWrapper || !porQueUribeContainer) return;
@@ -574,13 +582,14 @@ document.addEventListener("DOMContentLoaded", () => {
   moveToIndex(false);
 });
 
-
 /* ============================================
    CARRUSEL VÍCTIMAS QUE DEMANDAN (Mobile)
    ============================================ */
 document.addEventListener("DOMContentLoaded", () => {
   const victimasWrapper = document.getElementById("victimas-slider-wrapper");
-  const victimasContainer = document.getElementById("victimas-slider-container");
+  const victimasContainer = document.getElementById(
+    "victimas-slider-container"
+  );
   const victimasDots = document.getElementById("victimas-slider-dots");
 
   if (!victimasWrapper || !victimasContainer) return;
@@ -691,3 +700,221 @@ document.addEventListener("DOMContentLoaded", () => {
   moveToIndex(false);
 });
 
+/* ============================================
+   AJAX: Cargar Más Noticias
+   ============================================ */
+document.addEventListener("DOMContentLoaded", function () {
+  const btnCargarMas = document.getElementById("cargar-mas-noticias");
+
+  if (!btnCargarMas) return;
+
+  const gridDesktop = document.getElementById("noticias-grid-desktop");
+  const gridMobile = document.getElementById("noticias-grid-mobile");
+  const btnText = btnCargarMas.querySelector(".btn-text");
+  const btnLoading = btnCargarMas.querySelector(".btn-loading");
+
+  btnCargarMas.addEventListener("click", function () {
+    const offset = parseInt(this.getAttribute("data-offset"));
+    const porCarga = parseInt(this.getAttribute("data-por-carga"));
+    const total = parseInt(this.getAttribute("data-total"));
+    const contador = parseInt(this.getAttribute("data-contador"));
+
+    // Deshabilitar botón durante la carga
+    btnCargarMas.disabled = true;
+    btnText.classList.add("hidden");
+    btnLoading.classList.remove("hidden");
+
+    // Hacer petición AJAX
+    fetch(noticiasAjax.ajax_url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: new URLSearchParams({
+        action: "cargar_mas_noticias",
+        nonce: noticiasAjax.nonce,
+        offset: offset,
+        por_carga: porCarga,
+        contador: contador,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.success) {
+          // Añadir nuevas noticias al DOM
+          if (gridDesktop && data.data.html_desktop) {
+            gridDesktop.insertAdjacentHTML("beforeend", data.data.html_desktop);
+          }
+          if (gridMobile && data.data.html_mobile) {
+            gridMobile.insertAdjacentHTML("beforeend", data.data.html_mobile);
+          }
+
+          // Actualizar atributos del botón
+          btnCargarMas.setAttribute("data-offset", data.data.nuevo_offset);
+          btnCargarMas.setAttribute("data-contador", data.data.nuevo_contador);
+
+          // Verificar si hay más noticias
+          if (data.data.nuevo_offset >= total || !data.data.tiene_mas) {
+            btnText.textContent = "No hay más noticias";
+            btnCargarMas.disabled = true;
+          } else {
+            btnCargarMas.disabled = false;
+          }
+
+          // Restaurar texto del botón
+          btnText.classList.remove("hidden");
+          btnLoading.classList.add("hidden");
+        } else {
+          console.error("Error al cargar noticias");
+          btnCargarMas.disabled = false;
+          btnText.classList.remove("hidden");
+          btnLoading.classList.add("hidden");
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        btnCargarMas.disabled = false;
+        btnText.classList.remove("hidden");
+        btnLoading.classList.add("hidden");
+      });
+  });
+});
+
+/* ============================================
+   AJAX: Cargar Más Actividades
+   ============================================ */
+document.addEventListener("DOMContentLoaded", function () {
+  const btnCargarMas = document.getElementById("cargar-mas-actividades");
+
+  if (!btnCargarMas) return;
+
+  const gridDesktop = document.getElementById("actividades-grid-desktop");
+  const gridMobile = document.getElementById("actividades-grid-mobile");
+  const btnText = btnCargarMas.querySelector(".btn-text");
+  const btnLoading = btnCargarMas.querySelector(".btn-loading");
+
+  btnCargarMas.addEventListener("click", function () {
+    const offset = parseInt(this.getAttribute("data-offset"));
+    const porCarga = parseInt(this.getAttribute("data-por-carga"));
+    const total = parseInt(this.getAttribute("data-total"));
+    const contador = parseInt(this.getAttribute("data-contador"));
+
+    // Deshabilitar botón durante la carga
+    btnCargarMas.disabled = true;
+    btnText.classList.add("hidden");
+    btnLoading.classList.remove("hidden");
+
+    // Hacer petición AJAX
+    fetch(actividadesAjax.ajax_url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: new URLSearchParams({
+        action: "cargar_mas_actividades",
+        nonce: actividadesAjax.nonce,
+        offset: offset,
+        por_carga: porCarga,
+        contador: contador,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.success) {
+          // Añadir nuevas actividades al DOM
+          if (gridDesktop && data.data.html_desktop) {
+            gridDesktop.insertAdjacentHTML("beforeend", data.data.html_desktop);
+          }
+          if (gridMobile && data.data.html_mobile) {
+            gridMobile.insertAdjacentHTML("beforeend", data.data.html_mobile);
+          }
+
+          // Actualizar atributos del botón
+          btnCargarMas.setAttribute("data-offset", data.data.nuevo_offset);
+          btnCargarMas.setAttribute("data-contador", data.data.nuevo_contador);
+
+          // Verificar si hay más actividades
+          if (data.data.nuevo_offset >= total || !data.data.tiene_mas) {
+            btnText.textContent = "No hay más actividades";
+            btnCargarMas.disabled = true;
+          } else {
+            btnCargarMas.disabled = false;
+          }
+
+          // Restaurar texto del botón
+          btnText.classList.remove("hidden");
+          btnLoading.classList.add("hidden");
+        } else {
+          console.error("Error al cargar actividades");
+          btnCargarMas.disabled = false;
+          btnText.classList.remove("hidden");
+          btnLoading.classList.add("hidden");
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        btnCargarMas.disabled = false;
+        btnText.classList.remove("hidden");
+        btnLoading.classList.add("hidden");
+      });
+  });
+});
+
+/* ============================================
+   Modal de Galería - Actividades
+   ============================================ */
+document.addEventListener("DOMContentLoaded", function () {
+  let galleryImages = [];
+  let currentImageIndex = 0;
+
+  // Inicializar galería cuando existan imágenes
+  if (typeof window.galleryImagesData !== "undefined") {
+    galleryImages = window.galleryImagesData;
+  }
+
+  window.openGalleryModal = function (index) {
+    currentImageIndex = index;
+    updateModalImage();
+    document.getElementById("gallery-modal").classList.remove("hidden");
+    document.body.style.overflow = "hidden";
+  };
+
+  window.closeGalleryModal = function (event) {
+    if (event) event.stopPropagation();
+    document.getElementById("gallery-modal").classList.add("hidden");
+    document.body.style.overflow = "";
+  };
+
+  function updateModalImage() {
+    const modalImage = document.getElementById("modal-image");
+    const currentNumber = document.getElementById("current-image-number");
+
+    if (modalImage && currentNumber && galleryImages.length > 0) {
+      modalImage.src = galleryImages[currentImageIndex];
+      currentNumber.textContent = currentImageIndex + 1;
+    }
+  }
+
+  window.nextImage = function (event) {
+    if (event) event.stopPropagation();
+    currentImageIndex = (currentImageIndex + 1) % galleryImages.length;
+    updateModalImage();
+  };
+
+  window.prevImage = function (event) {
+    if (event) event.stopPropagation();
+    currentImageIndex =
+      (currentImageIndex - 1 + galleryImages.length) % galleryImages.length;
+    updateModalImage();
+  };
+
+  // Navegación con teclado
+  document.addEventListener("keydown", function (e) {
+    const modal = document.getElementById("gallery-modal");
+    if (modal && !modal.classList.contains("hidden")) {
+      if (e.key === "Escape") window.closeGalleryModal();
+      if (e.key === "ArrowRight") window.nextImage();
+      if (e.key === "ArrowLeft") window.prevImage();
+    }
+  });
+});

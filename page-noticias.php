@@ -35,10 +35,12 @@ get_template_part('template-parts/banner-hero', null, array(
 ?>
 
 <!-- Contenedor con scroll vertical -->
-<div class="w-full h-[800px] lg:h-full overflow-y-auto pr-[10px]" style="scrollbar-width: thin; scrollbar-color: #A13E18 #f0f0f0;">
+<div class="w-full h-[800px] lg:h-[1800px] overflow-y-auto pr-[10px]" style="scrollbar-width: thin; scrollbar-color: #A13E18 #f0f0f0;">
     <?php
     get_template_part('template-parts/noticias-grid', null, array(
-        'numero_noticias' => -1  // -1 = todas las noticias
+        'numero_noticias' => 6,    
+        'paginado' => true,          
+        'noticias_por_carga' => 6     
     ));
     ?>
 </div>

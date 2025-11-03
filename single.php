@@ -1,38 +1,24 @@
-<?php get_header(); ?>
+<?php
 
-<main>
-    <div class="container">
-        <?php
-        if (have_posts()) :
-            while (have_posts()) : the_post();
-                ?>
-                <article>
-                    <h1><?php the_title(); ?></h1>
-                    
-                    <div class="post-meta">
-                        <span>Publicado el: <?php echo get_the_date(); ?></span>
-                        <span>Por: <?php the_author(); ?></span>
-                    </div>
-                    
-                    <?php if (has_post_thumbnail()) : ?>
-                        <div class="featured-image">
-                            <?php the_post_thumbnail('large'); ?>
-                        </div>
-                    <?php endif; ?>
-                    
-                    <div class="post-content">
-                        <?php the_content(); ?>
-                    </div>
-                    
-                    <div class="post-categories">
-                        <?php the_category(', '); ?>
-                    </div>
-                </article>
-                <?php
-            endwhile;
-        endif;
-        ?>
-    </div>
-</main>
+/**
+ * Template para singles
+ */
 
-<?php get_footer(); ?>
+get_header();
+
+// Detectar si es noticia o actividad
+if (has_category('noticias')) {
+    get_template_part('template-parts/single', 'noticias');
+} elseif (has_category('actividades')) {
+    get_template_part('template-parts/single', 'actividades');
+} else {
+    // Single genérico
+    get_template_part('template-parts/single', 'default');
+}
+?>
+
+<?php
+$GLOBALS['footer_margin_top_mobile'] = '0px';
+$GLOBALS['footer_margin_top_desktop'] = '100px';
+get_footer();
+?>
