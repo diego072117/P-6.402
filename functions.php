@@ -43,6 +43,7 @@ add_action('after_setup_theme', 'tema_custom_setup');
 
 require get_template_directory() . '/inc/class-tailwind-nav-walker.php';
 
+
 /**
  * ============================================
  * CUSTOMIZER - BANNER HOME (NATIVO)
@@ -615,7 +616,7 @@ function justicia_customize_register($wp_customize)
     // SECCIÓN: Banner Hero (Componente Reutilizable)
     // ===================================
     $wp_customize->add_section('banner_hero_section', array(
-        'title'      => __('Banner Hero Animado', 'tema-custom'),
+        'title'      => __('Banner Hero Animado - Conocenos', 'tema-custom'),
         'priority'   => 55,
         'description' => 'Configura el banner animado con 3 slides (usado en Conócenos y otras páginas)'
     ));
@@ -2231,6 +2232,99 @@ function justicia_customize_register($wp_customize)
         'settings'   => 'apoya_card2_archivo',
         'mime_type'  => 'application/pdf,application/zip',
     )));
+
+    // ===================================
+    // SECCIÓN: Contáctanos
+    // ===================================
+    $wp_customize->add_section('contactanos_section', array(
+        'title'      => __('Contáctanos', 'tema-custom'),
+        'priority'   => 90,
+        'description' => 'Personaliza la página de Contáctanos'
+    ));
+
+    // Título Principal
+    $wp_customize->add_setting('contacto_titulo', array(
+        'default'   => 'CONTÁCTANOS',
+        'transport' => 'refresh',
+        'sanitize_callback' => 'sanitize_text_field'
+    ));
+
+    $wp_customize->add_control('contacto_titulo_control', array(
+        'label'      => __('Título Principal', 'tema-custom'),
+        'section'    => 'contactanos_section',
+        'settings'   => 'contacto_titulo',
+        'type'       => 'text',
+    ));
+
+    // Texto 1
+    $wp_customize->add_setting('contacto_texto_1', array(
+        'default'   => '¿Tienes más ideas para apoyar o preguntas?',
+        'transport' => 'refresh',
+        'sanitize_callback' => 'sanitize_text_field'
+    ));
+
+    $wp_customize->add_control('contacto_texto_1_control', array(
+        'label'      => __('Texto 1', 'tema-custom'),
+        'section'    => 'contactanos_section',
+        'settings'   => 'contacto_texto_1',
+        'type'       => 'text',
+    ));
+
+    // Texto 2
+    $wp_customize->add_setting('contacto_texto_2', array(
+        'default'   => '¿Eres periodista o necesitas más información?',
+        'transport' => 'refresh',
+        'sanitize_callback' => 'sanitize_text_field'
+    ));
+
+    $wp_customize->add_control('contacto_texto_2_control', array(
+        'label'      => __('Texto 2', 'tema-custom'),
+        'section'    => 'contactanos_section',
+        'settings'   => 'contacto_texto_2',
+        'type'       => 'text',
+    ));
+
+    // Texto 3
+    $wp_customize->add_setting('contacto_texto_3', array(
+        'default'   => '¡La búsqueda de verdad y justicia es de todos!',
+        'transport' => 'refresh',
+        'sanitize_callback' => 'sanitize_text_field'
+    ));
+
+    $wp_customize->add_control('contacto_texto_3_control', array(
+        'label'      => __('Texto 3', 'tema-custom'),
+        'section'    => 'contactanos_section',
+        'settings'   => 'contacto_texto_3',
+        'type'       => 'text',
+    ));
+
+    // Texto Inferior (encima del email)
+    $wp_customize->add_setting('contacto_texto_inferior', array(
+        'default'   => 'También puedes escribirnos directamente a:',
+        'transport' => 'refresh',
+        'sanitize_callback' => 'sanitize_text_field'
+    ));
+
+    $wp_customize->add_control('contacto_texto_inferior_control', array(
+        'label'      => __('Texto Inferior (antes del email)', 'tema-custom'),
+        'section'    => 'contactanos_section',
+        'settings'   => 'contacto_texto_inferior',
+        'type'       => 'text',
+    ));
+
+    // Email de Contacto
+    $wp_customize->add_setting('contacto_email', array(
+        'default'   => 'justiciaparalas6402@gmail.com',
+        'transport' => 'refresh',
+        'sanitize_callback' => 'sanitize_email'
+    ));
+
+    $wp_customize->add_control('contacto_email_control', array(
+        'label'      => __('Email de Contacto', 'tema-custom'),
+        'section'    => 'contactanos_section',
+        'settings'   => 'contacto_email',
+        'type'       => 'email',
+    ));
 }
 add_action('customize_register', 'justicia_customize_register');
 
@@ -2850,3 +2944,4 @@ function agregar_nonce_actividades()
         'nonce' => wp_create_nonce('cargar_actividades_nonce')
     ));
 }
+

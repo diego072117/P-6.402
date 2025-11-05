@@ -108,11 +108,11 @@ get_template_part('template-parts/banner-hero', null, array(
     <div class="flex flex-col items-start gap-[32px] w-full max-w-[1152px]">
 
         <!-- Título -->
-        <h2 class="font-display text-left leading-[115%]">
-            <span class="text-[32px] lg:text-[48px] text-negro font-bold">
+        <h2 class="font-lava text-left leading-[115%]">
+            <span class="text-[32px] lg:text-[48px] text-negro">
                 <?php echo esc_html($si_todos_titulo_parte1); ?>
             </span>
-            <span class="text-[32px] lg:text-[48px] text-[#A13E18] font-bold">
+            <span class="text-[32px] lg:text-[48px] text-[#A13E18]">
                 <?php echo esc_html($si_todos_titulo_parte2); ?>
             </span>
         </h2>
@@ -139,7 +139,7 @@ get_template_part('template-parts/banner-hero', null, array(
 </section>
 
 <!-- Sección Firma esta petición -->
-<section class="mt-[60px] lg:mt-[120px] bg-[#F8F8F8] lg:bg-white flex justify-center px-[30px] lg:px-0 py-[40px] lg:py-0">
+<section id="firma" class="mt-[60px] lg:mt-[120px] bg-[#F8F8F8] lg:bg-white flex justify-center px-[30px] lg:px-0 py-[40px] lg:py-0">
     <div class="inline-flex flex-col items-center gap-[24px] w-full max-w-[788px]">
 
         <!-- Título Principal -->
@@ -204,7 +204,7 @@ get_template_part('template-parts/banner-hero', null, array(
     <div class="flex w-full max-w-[1152px] flex-col gap-[40px]">
 
         <!-- Título Principal -->
-        <h2 class="text-[#A13E18] font-display text-[48px] leading-[115%] text-left font-bold"
+        <h2 class="text-[#A13E18] font-lava text-[48px] leading-[115%] text-left"
             style="font-feature-settings: 'liga' off, 'clig' off;">
             <?php echo esc_html($comparte_titulo); ?>
         </h2>
@@ -252,7 +252,7 @@ get_template_part('template-parts/banner-hero', null, array(
             <div class="bg-[#F8F8F8] px-[30px] py-[40px] flex flex-col items-center gap-[24px]">
 
                 <!-- Título "Préstale tu ventana..." -->
-                <h3 class="w-full text-[#A13E18] text-center font-display text-[48px] font-bold leading-[115%]"
+                <h3 class="w-full text-[#A13E18] text-center font-lava text-[48px] leading-[115%]"
                     style="font-feature-settings: 'liga' off, 'clig' off;">
                     <?php echo esc_html($prestale_ventana_titulo); ?>
                 </h3>
@@ -346,11 +346,11 @@ get_template_part('template-parts/banner-hero', null, array(
 </section>
 
 <!-- Sección Apoya -->
-<section id="apoyo" class="mt-[60px] lg:mt-[120px] bg-white flex justify-center px-[30px] lg:px-0">
+<section id="apoya" class="mt-[60px] lg:mt-[120px] bg-white flex justify-center px-[30px] lg:px-0">
     <div class="flex w-full max-w-[1152px] flex-col items-start gap-[32px]">
 
         <!-- Título Principal -->
-        <h2 class="h-[48px] self-stretch text-[#A13E18] font-display text-[48px] font-bold leading-[115%] text-left"
+        <h2 class="h-[48px] self-stretch text-[#A13E18] font-lava text-[48px] leading-[115%] text-left"
             style="font-feature-settings: 'liga' off, 'clig' off;">
             <?php echo esc_html($apoya_titulo); ?>
         </h2>

@@ -14,7 +14,7 @@ get_header();
 
         <!-- Título Desktop -->
         <div class="hidden lg:block w-full mb-[40px] px-[30px] lg:px-0">
-            <h2 class="font-display text-[48px] font-bold leading-tight uppercase text-left">
+            <h2 class="font-lava text-[48px] leading-tight uppercase text-left">
                 <span class="text-negro">NUESTRAS </span>
                 <span class="text-[#A13E18]">ACTIVIDADES</span>
             </h2>
@@ -22,7 +22,7 @@ get_header();
 
         <!-- Título Mobile -->
         <div class="lg:hidden w-full mb-[40px] px-[30px] lg:px-0">
-            <h2 class="font-display text-[48px] font-bold leading-[40px] uppercase text-left">
+            <h2 class="font-lava text-[48px] leading-[40px] uppercase text-left">
                 <span class="block text-negro">NUESTRAS</span>
                 <span class="block text-[#A13E18]">ACTIVIDADES</span>
             </h2>

@@ -204,8 +204,8 @@ get_template_part('template-parts/banner-hero', null, array(
         <div class="order-2 lg:order-1 flex flex-col items-start gap-[32px] flex-1 bg-[#ECECEC] px-[30px] py-[40px] lg:px-[65px] lg:py-[72px]"
             style="box-shadow: 0 -8px 20px 0 rgba(144, 144, 144, 0.02);">
 
-            <h2 class="hidden lg:block font-display text-[48px] leading-[115%] text-left"
-                style="font-feature-settings: 'liga' off, 'clig' off; font-weight: 700;">
+            <h2 class="hidden lg:block font-lava text-[48px] leading-[115%] text-left"
+                style="font-feature-settings: 'liga' off, 'clig' off;">
                 <span class="block text-negro">
                     <?php echo esc_html($argentina_titulo_parte1); ?>
                 </span>
@@ -215,7 +215,7 @@ get_template_part('template-parts/banner-hero', null, array(
             </h2>
 
             <div class="lg:hidden w-full max-w-[335px]">
-                <h2 class="font-display text-left" style="font-weight: 700;">
+                <h2 class="font-lava text-left">
                     <span class="block text-[42px] leading-[100%] text-negro" style="font-feature-settings: 'liga' off, 'clig' off;">
                         <?php echo esc_html($argentina_titulo_parte1); ?>
                     </span>
@@ -242,7 +242,7 @@ get_template_part('template-parts/banner-hero', null, array(
 </section>
 
 <!-- Sección Por Qué NO en Colombia -->
-<section class="mt-[60px] lg:mt-[120px] bg-white flex justify-center px-[30px] lg:px-0">
+<section id="por_que_no_en_colombia" class="mt-[60px] lg:mt-[120px] bg-white flex justify-center px-[30px] lg:px-0">
     <div class="flex flex-col w-full lg:w-[1153px] gap-0">
 
         <!-- PRIMER BLOQUE: Imagen izquierda + Texto derecha -->
@@ -260,19 +260,18 @@ get_template_part('template-parts/banner-hero', null, array(
             <div class="order-1 lg:order-2 flex flex-col items-start gap-[32px] flex-1 bg-white px-[30px] py-[40px] lg:px-[65px] lg:py-[72px]">
 
                 <!-- Título Desktop -->
-                <h2 class="hidden lg:block font-display text-[48px] leading-[115%] text-left"
-                    style="font-feature-settings: 'liga' off, 'clig' off; font-weight: 700;">
-                    <span class="block text-negro">
+                <h2 class="hidden lg:block font-lava text-[48px] leading-[115%] text-left">
+                    <span class="block text-negro" style="font-feature-settings: 'liga' off, 'clig' off;">
                         <?php echo esc_html($colombia_titulo_parte1); ?>
                     </span>
-                    <span class="block text-[#A13E18]">
+                    <span class="block text-[#A13E18]" style="font-feature-settings: 'liga' off, 'clig' off;">
                         <?php echo esc_html($colombia_titulo_parte2); ?>
                     </span>
                 </h2>
 
                 <!-- Título Mobile -->
                 <div class="lg:hidden w-full max-w-[335px]">
-                    <h2 class="font-display text-left" style="font-weight: 700;">
+                    <h2 class="font-lava text-left">
                         <span class="block text-[42px] leading-[100%] text-negro" style="font-feature-settings: 'liga' off, 'clig' off;">
                             <?php echo esc_html($colombia_titulo_parte1); ?>
                         </span>
@@ -333,7 +332,7 @@ get_template_part('template-parts/banner-hero', null, array(
 </section>
 
 <!-- Sección Qué son las Ejecuciones Extrajudiciales -->
-<section class="mt-[60px] lg:mt-[120px] bg-white flex justify-center px-0 overflow-hidden">
+<section id="ejecucuciones_extrajudiciales" class="mt-[60px] lg:mt-[120px] bg-white flex justify-center px-0 overflow-hidden">
     <div class="relative w-full h-auto lg:h-[375px] flex items-center justify-center"
         style="background-image: url('<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/bg-paper-cono.png'); background-size: cover; background-position: center; background-repeat: no-repeat;">
 
@@ -351,9 +350,9 @@ get_template_part('template-parts/banner-hero', null, array(
             <div class="flex flex-col items-center lg:items-start flex-1 gap-[24px] lg:gap-[32px]">
 
                 <!-- Título -->
-                <h2 class="font-display text-left lg:text-center text-white text-[24px] lg:text-[48px] leading-tight font-bold uppercase">
+                <h2 class="font-lava text-left lg:text-center text-white text-[24px] lg:text-[48px] leading-tight uppercase">
                     <?php echo esc_html($ejecuciones_titulo_parte1); ?>
-                    <span class="text-[#EAA40C] block lg:inline font-bold">
+                    <span class="text-[#EAA40C] block lg:inline">
                         <?php echo esc_html($ejecuciones_titulo_parte2); ?>
                     </span>
                 </h2>
@@ -395,12 +394,12 @@ get_template_part('template-parts/banner-hero', null, array(
 </section>
 
 <!-- Sección Por Qué Se Demanda a Uribe -->
-<section class="mt-[60px] lg:mt-[120px] bg-white flex flex-col items-center lg:px-0">
+<section id="por_que_se_demanda_uribe" class="mt-[60px] lg:mt-[120px] bg-white flex flex-col items-center lg:px-0">
 
     <!-- Título -->
     <h2
-        class="font-display text-[28px] sm:text-[32px] lg:text-[48px] font-bold uppercase 
-         text-left mb-[30px] lg:mb-[60px] w-full max-w-[1152px] px-[20px] lg:px-0">
+        class="font-lava text-[28px] sm:text-[32px] lg:text-[48px] uppercase 
+         text-left mb-[30px] lg:mb-[60px] w-full max-w-[1152px] px-[20px] lg:px-20px">
         <span class="text-negro block lg:inline">
             <?php echo esc_html(explode('A URIBE', $por_que_uribe_titulo)[0]); ?>
         </span>
@@ -512,10 +511,10 @@ get_template_part('template-parts/banner-hero', null, array(
 </section>
 
 <!-- Sección Quiénes Somos -->
-<section class="mt-[60px] lg:mt-[120px] bg-white flex flex-col items-center px-[30px] lg:px-0">
+<section id="quienes_somos" class="mt-[60px] lg:mt-[120px] bg-white flex flex-col items-center px-[30px] lg:px-0">
 
     <!-- TÍTULO MOBILE -->
-    <h2 class="block font-display text-[32px] leading-[100%] text-center font-bold uppercase mb-[30px] lg:hidden">
+    <h2 class="block font-lava text-[32px] leading-[100%] text-center uppercase mb-[30px] lg:hidden">
         <span class="text-negro">QUIÉNES </span>
         <span class="text-[#A13E18]">SOMOS?</span>
     </h2>
@@ -536,7 +535,7 @@ get_template_part('template-parts/banner-hero', null, array(
         <div class="order-3 lg:order-2 flex flex-col w-full lg:w-[633px] bg-[#ECECEC] p-[30px] lg:p-[72px] items-start gap-[24px] flex-shrink-0 shadow-[0_4px_20px_rgba(0,0,0,0.05)] z-[2] lg:-ml-[130px] mt-[-30px] lg:mt-[0px]">
 
             <!-- TÍTULO DESKTOP -->
-            <h2 class="hidden lg:block font-display text-[48px] leading-[115%] text-left font-bold uppercase">
+            <h2 class="hidden lg:block font-lava text-[48px] leading-[115%] text-left uppercase">
                 <span class="text-negro">QUIÉNES </span>
                 <span class="text-[#A13E18]">SOMOS?</span>
             </h2>
@@ -560,11 +559,11 @@ get_template_part('template-parts/banner-hero', null, array(
 </section>
 
 <!-- Sección Las Víctimas Que Demandan -->
-<section class="mt-[60px] lg:mt-[120px] bg-white flex justify-center px-[30px] lg:px-0">
+<section id="victimas_demandan_que" class="mt-[60px] lg:mt-[120px] bg-white flex justify-center px-[30px] lg:px-0">
     <div class="flex flex-col items-center w-full max-w-[1153px] gap-[24px]">
 
         <!-- Título -->
-        <h2 class="font-display text-[32px] lg:text-[48px] font-bold text-center uppercase leading-tight">
+        <h2 class="font-lava text-[32px] lg:text-[48px] text-center uppercase leading-tight">
             <span class="text-negro"><?php echo esc_html($victimas_titulo1); ?> </span>
             <span class="text-[#A13E18]"><?php echo esc_html($victimas_titulo2); ?></span>
         </h2>

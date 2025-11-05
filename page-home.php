@@ -66,7 +66,7 @@ get_header();
 
     <!-- Título Mobile DINÁMICO -->
     <div class="lg:hidden w-full max-w-[287px] sm:max-w-[287px] md:max-w-[500px] mb-8">
-        <h2 class="leading-[40px] font-display font-bold tracking-tight uppercase text-left">
+        <h2 class="leading-[40px] font-lava tracking-tight uppercase text-left">
             <span class="block text-[48px] text-negro" style="font-feature-settings: 'liga' off, 'clig' off;">
                 <?php echo esc_html($conoce_titulo_parte1); ?>
             </span>
@@ -96,7 +96,7 @@ get_header();
         ">
 
         <!-- Título principal (solo visible en desktop) DINÁMICO -->
-        <h2 class="hidden lg:block leading-[55.2px] font-display font-bold tracking-tight uppercase">
+        <h2 class="hidden lg:block leading-[55.2px] font-lava tracking-tight uppercase">
             <span class="block text-[48px] text-negro" style="font-feature-settings: 'liga' off, 'clig' off;">
                 <?php echo esc_html($conoce_titulo_parte1); ?>
             </span>
@@ -149,7 +149,7 @@ get_template_part('template-parts/noticias-slider', null, array(
     <div class="flex w-full lg:w-[1153px] flex-col items-start gap-8">
 
         <!-- Título -->
-        <h2 class="leading-[40px] lg:leading-[48px] font-display font-bold tracking-tight uppercase text-left w-full">
+        <h2 class="leading-[40px] lg:leading-[48px] font-lava tracking-tight uppercase text-left w-full">
             <span class="block lg:inline text-[36px] lg:text-[48px] text-negro" style="font-feature-settings: 'liga' off, 'clig' off;">HISTORIAS DE </span>
             <span class="block lg:inline text-[36px] lg:text-[48px] text-[#A13E18]" style="font-feature-settings: 'liga' off, 'clig' off;">LAS VÍCTIMAS</span>
         </h2>

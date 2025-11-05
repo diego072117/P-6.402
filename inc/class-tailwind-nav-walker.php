@@ -58,6 +58,45 @@ class Tailwind_Nav_Walker extends Walker_Nav_Menu
         // Comprueba si este ítem tiene hijos (WordPress añade esta clase automáticamente)
         $has_children = in_array('menu-item-has-children', $classes);
 
+        // ========== NUEVA LÓGICA DE DETECCIÓN DE ELEMENTOS ACTIVOS ==========
+        $is_current = false;
+        
+        // Obtener la URL actual completa (con ancla si existe)
+        $current_url = home_url($_SERVER['REQUEST_URI']);
+        
+        // Obtener la URL del item del menú
+        $item_url = $item->url;
+        
+        // Comparación exacta de URLs (incluyendo anclas)
+        if ($current_url === $item_url) {
+            $is_current = true;
+        } 
+        // Si el item tiene ancla, necesitamos una comparación más específica
+        elseif (strpos($item_url, '#') !== false) {
+            // Extraer la página base del item (sin ancla)
+            $item_base = preg_replace('/#.*$/', '', $item_url);
+            $current_base = preg_replace('/#.*$/', '', $current_url);
+            
+            // Solo marcar como activo si estamos en la misma página base
+            if ($item_base === $current_base) {
+                // Si la URL actual NO tiene ancla y este es un item de nivel 0 (padre), marcarlo
+                if (strpos($current_url, '#') === false && $depth === 0) {
+                    $is_current = true;
+                }
+                // Si tiene ancla, debe coincidir exactamente
+                elseif (strpos($current_url, '#') !== false && $current_url === $item_url) {
+                    $is_current = true;
+                }
+            }
+        } 
+        // Para URLs sin ancla, verificar si es la página actual (solo padres)
+        else {
+            if ($item->object_id == get_queried_object_id() && $depth === 0) {
+                $is_current = true;
+            }
+        }
+        // ========== FIN DE NUEVA LÓGICA ==========
+
         // Añadir nuestras clases personalizadas de Tailwind
         $classes[] = 'relative';
 
@@ -66,8 +105,8 @@ class Tailwind_Nav_Walker extends Walker_Nav_Menu
             $classes[] = 'group-hover:z-50';
         }
 
-        // Clase para resaltar el item actual
-        if ($item->current || $item->current_item_ancestor) {
+        // Clase para resaltar el item actual - USAR NUEVA LÓGICA
+        if ($is_current) {
             $classes[] = 'current-menu-item';
         }
 
@@ -109,7 +148,8 @@ class Tailwind_Nav_Walker extends Walker_Nav_Menu
             }
         }
 
-        if ($item->current || $item->current_item_ancestor) {
+        // USAR NUEVA LÓGICA PARA COLOR ACTIVO
+        if ($is_current) {
             $a_classes .= ' text-[#A13E18]';
         } else {
             $a_classes .= ' text-negro';

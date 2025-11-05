@@ -1,3 +1,14 @@
+html {
+  scroll-behavior: smooth;
+}
+
+@font-face {
+  font-family: "Lava Arabic";
+  src: url("../fonts/LavaArabicRegular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
 
 /* ============================================
    BANNER HERO ANIMADO (EFECTO MEJORADO)
@@ -127,7 +138,7 @@
   top: 0;
   left: 50%;
   transform: translateX(-50%);
-  width:200px !important;
+  width: 200px !important;
   height: 100% !important;
   max-width: none !important;
   border: none;

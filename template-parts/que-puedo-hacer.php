@@ -36,15 +36,15 @@ function formatear_numero($numero)
         <div class="flex flex-col items-center lg:items-start gap-[24px] w-full">
 
             <!-- Título DINÁMICO -->
-            <h2 class="flex flex-col lg:flex-row leading-[48px] font-display font-bold tracking-tight uppercase w-full text-left">
+            <h2 class="flex flex-col lg:flex-row leading-[48px] font-lava tracking-tight uppercase w-full text-left">
                 <span
                     class="text-[36px] lg:text-[48px] text-[#000000] lg:mr-[8px]"
-                    style="font-feature-settings: 'liga' off, 'clig' off; font-style: normal; font-weight: 700; line-height: 100%;">
+                    style="font-feature-settings: 'liga' off, 'clig' off; font-style: normal; line-height: 100%;">
                     <?php echo esc_html($que_hacer_titulo_p1); ?>
                 </span>
                 <span
                     class="text-[36px] lg:text-[48px] text-[#A13E18]"
-                    style="font-feature-settings: 'liga' off, 'clig' off; font-style: normal; font-weight: 700; line-height: 100%;">
+                    style="font-feature-settings: 'liga' off, 'clig' off; font-style: normal; line-height: 100%;">
                     <?php echo esc_html($que_hacer_titulo_p2); ?>
                 </span>
             </h2>

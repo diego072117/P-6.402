@@ -36,6 +36,7 @@ safelist: [
   theme: {
     extend: {
       fontFamily: {
+        'lava': ['Lava Arabic', 'sans-serif'],
         sans: ["Montserrat", "sans-serif"],
         display: ['"Bebas Neue"', "sans-serif"],
       },

@@ -13,22 +13,18 @@
 
 <body <?php body_class(); ?>>
 
-    <header class="bg-blanco-gris relative z-50 shadow-md"> <?php // Añadido z-50 y shadow-md para que el header esté por encima del contenido y tenga una sombra sutil 
-                                                            ?>
+    <header class="bg-blanco-gris relative z-50 shadow-md">
         <div class="flex items-center px-4 lg:px-[120px] py-6 gap-2.5">
             <div class="flex-shrink-0">
 
-                <?php // HU-001: Si no es la página de inicio, el logo es un enlace. Si ya está en Home, no es un enlace. 
-                ?>
                 <?php if (! is_front_page()) : ?>
-                    <a href="<?php echo esc_url(home_url('/')); ?>">
+                    <a href="<?php echo esc_url(home_url('/home')); ?>">
                         <img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/logo.svg"
                             alt="<?php bloginfo('name'); ?>"
                             class="h-[73.69px] w-[60px]">
                     </a>
                 <?php else : ?>
-                    <span class="block"> <?php // Usamos un <span> en lugar de <a> en el Home 
-                                            ?>
+                    <span class="block">
                         <img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/logo.svg"
                             alt="<?php bloginfo('name'); ?>"
                             class="h-[73.69px] w-[60px]">
@@ -58,7 +54,7 @@
             <div class="hidden lg:flex lg:h-12 lg:px-8 justify-center items-center gap-[10px] rounded-[5px] border border-[#404040]">
                 <span class="text-[#404040] text-center font-sans text-[16px] font-medium leading-[24px]">Buscar</span>
                 <form role="search" method="get" action="<?php echo esc_url(home_url('/')); ?>" class="flex items-center gap-[10px]">
-                    <label for="search-desktop" class="sr-only">Buscar</label> <?php // Añadido por accesibilidad 
+                    <label for="search-desktop" class="sr-only">Buscar</label> <?php
                                                                                 ?>
                     <input type="search" id="search-desktop" name="s" value="<?php echo get_search_query(); ?>" placeholder="" class="w-[175px] h-[25px] rounded-[4px] bg-[#D9D9D9] border-0">
                     <button type="submit">
@@ -119,8 +115,7 @@
                         <label for="search-mobile" class="text-[#404040] font-sans text-[14px] font-medium">Buscar</label>
                         <input type="search" id="search-mobile" name="s" value="<?php echo get_search_query(); ?>" placeholder="" class="flex-1 h-[25px] rounded-[4px] bg-[#D9D9D9] border-0">
                         <button type="submit" aria-label="Ejecutar búsqueda">
-                            <img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/search.svg" alt="" class="w-5 h-5"> <?php // alt vacío porque el botón tiene aria-label 
-                                                                                                                                                ?>
+                            <img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/search.svg" alt="" class="w-5 h-5">
                         </button>
                     </form>
                 </div>
