@@ -2945,3 +2945,216 @@ function agregar_nonce_actividades()
     ));
 }
 
+// ===================================
+// SISTEMA DE CONTACTO SIN PLUGINS
+// ===================================
+
+// 1. Crear tabla en la base de datos al activar el tema
+function crear_tabla_contactos() {
+    global $wpdb;
+    $tabla_nombre = $wpdb->prefix . 'contactos';
+    $charset_collate = $wpdb->get_charset_collate();
+
+    $sql = "CREATE TABLE IF NOT EXISTS $tabla_nombre (
+        id mediumint(9) NOT NULL AUTO_INCREMENT,
+        nombre varchar(255) NOT NULL,
+        email varchar(255) NOT NULL,
+        mensaje text NOT NULL,
+        fecha datetime DEFAULT CURRENT_TIMESTAMP NOT NULL,
+        PRIMARY KEY (id)
+    ) $charset_collate;";
+
+    require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+    dbDelta($sql);
+    
+    // Registrar en opciones que se intentó crear
+    update_option('contactos_tabla_creada', current_time('mysql'));
+}
+add_action('after_switch_theme', 'crear_tabla_contactos');
+
+// Agregar acción para crear tabla manualmente desde admin
+function crear_tabla_contactos_manual() {
+    if (isset($_GET['crear_tabla_contactos']) && current_user_can('manage_options')) {
+        crear_tabla_contactos();
+        wp_redirect(admin_url('admin.php?page=mensajes-contacto&tabla_creada=1'));
+        exit;
+    }
+}
+add_action('admin_init', 'crear_tabla_contactos_manual');
+
+// 2. Procesar el formulario de contacto
+function procesar_formulario_contacto() {
+    // Verificar que sea una petición POST
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        return;
+    }
+
+    // Verificar que sea nuestro formulario
+    if (!isset($_POST['contacto_form_submit'])) {
+        return;
+    }
+
+    // Verificar nonce de seguridad
+    if (!isset($_POST['contacto_nonce']) || !wp_verify_nonce($_POST['contacto_nonce'], 'contacto_form_action')) {
+        wp_die('Error de seguridad. Por favor, intenta de nuevo.');
+    }
+
+    // Sanitizar y validar datos
+    $nombre = sanitize_text_field($_POST['nombre']);
+    $email = sanitize_email($_POST['email']);
+    $mensaje = sanitize_textarea_field($_POST['mensaje']);
+
+    // Validar que no estén vacíos
+    if (empty($nombre) || empty($email) || empty($mensaje)) {
+        wp_redirect(add_query_arg('contacto', 'error', get_permalink()));
+        exit;
+    }
+
+    // Validar email
+    if (!is_email($email)) {
+        wp_redirect(add_query_arg('contacto', 'email_invalido', get_permalink()));
+        exit;
+    }
+
+    // Guardar en la base de datos
+    global $wpdb;
+    $tabla_nombre = $wpdb->prefix . 'contactos';
+
+    $resultado = $wpdb->insert(
+        $tabla_nombre,
+        array(
+            'nombre' => $nombre,
+            'email' => $email,
+            'mensaje' => $mensaje,
+            'fecha' => current_time('mysql')
+        ),
+        array('%s', '%s', '%s', '%s')
+    );
+
+    // Redirigir con mensaje de éxito o error
+    if ($resultado !== false) {
+        wp_redirect(add_query_arg('contacto', 'exito', get_permalink()));
+    } else {
+        // Log del error para debugging
+        error_log('Error al insertar contacto: ' . $wpdb->last_error);
+        wp_redirect(add_query_arg('contacto', 'error_db', get_permalink()));
+    }
+    exit;
+}
+add_action('wp_loaded', 'procesar_formulario_contacto');
+
+// 3. Agregar página en el menú de administración
+function agregar_menu_contactos() {
+    add_menu_page(
+        'Mensajes de Contacto',
+        'Contactos',
+        'manage_options',
+        'mensajes-contacto',
+        'mostrar_mensajes_contacto',
+        'dashicons-email-alt',
+        26
+    );
+}
+add_action('admin_menu', 'agregar_menu_contactos');
+
+// 4. Mostrar los mensajes en el panel de administración
+function mostrar_mensajes_contacto() {
+    global $wpdb;
+    $tabla_nombre = $wpdb->prefix . 'contactos';
+
+    // Verificar si la tabla existe
+    $tabla_existe = $wpdb->get_var("SHOW TABLES LIKE '$tabla_nombre'") == $tabla_nombre;
+
+    // Mensaje si se acaba de crear la tabla
+    //if (isset($_GET['tabla_creada'])) {
+      //  echo '<div class="notice notice-success is-dismissible"><p>✓ Tabla creada exitosamente.</p></div>';
+    //}
+
+    // Si la tabla no existe, mostrar botón para crearla
+    if (!$tabla_existe) {
+        ?>
+        <div class="wrap">
+            <h1>Mensajes de Contacto</h1>
+            <div class="notice notice-error">
+                <p><strong>La tabla de contactos no existe en la base de datos.</strong></p>
+                <p>Esto puede suceder si el tema se activó incorrectamente.</p>
+                <p>
+                    <a href="<?php echo admin_url('admin.php?page=mensajes-contacto&crear_tabla_contactos=1'); ?>" 
+                       class="button button-primary">
+                        Crear Tabla Ahora
+                    </a>
+                </p>
+            </div>
+        </div>
+        <?php
+        return;
+    }
+
+    // Procesar acciones (eliminar)
+    if (isset($_GET['accion']) && isset($_GET['id']) && isset($_GET['_wpnonce'])) {
+        $id = intval($_GET['id']);
+        
+        if ($_GET['accion'] === 'eliminar' && wp_verify_nonce($_GET['_wpnonce'], 'eliminar_' . $id)) {
+            $wpdb->delete($tabla_nombre, array('id' => $id), array('%d'));
+            echo '<div class="notice notice-success is-dismissible"><p>✓ Mensaje eliminado.</p></div>';
+        }
+    }
+
+    // Obtener mensajes
+    $mensajes = $wpdb->get_results("SELECT * FROM $tabla_nombre ORDER BY fecha DESC");
+    $total = count($mensajes);
+
+    ?>
+    <div class="wrap">
+        <h1 class="wp-heading-inline">Mensajes de Contacto</h1>
+        <hr class="wp-header-end">
+
+        <div class="notice notice-info" style="margin-top: 20px;">
+            <p><strong>Total de mensajes:</strong> <?php echo $total; ?></p>
+        </div>
+
+        <?php if ($mensajes) : ?>
+            <table class="wp-list-table widefat fixed striped" style="margin-top: 20px;">
+                <thead>
+                    <tr>
+                        <th style="width: 50px;">ID</th>
+                        <th style="width: 200px;">Nombre</th>
+                        <th style="width: 250px;">Email</th>
+                        <th>Mensaje</th>
+                        <th style="width: 150px;">Fecha</th>
+                        <th style="width: 100px;">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($mensajes as $mensaje) : ?>
+                        <tr>
+                            <td><strong><?php echo $mensaje->id; ?></strong></td>
+                            <td><?php echo esc_html($mensaje->nombre); ?></td>
+                            <td>
+                                <a href="mailto:<?php echo esc_attr($mensaje->email); ?>">
+                                    <?php echo esc_html($mensaje->email); ?>
+                                </a>
+                            </td>
+                            <td style="word-wrap: break-word;">
+                                <?php echo esc_html($mensaje->mensaje); ?>
+                            </td>
+                            <td><?php echo date('d/m/Y H:i', strtotime($mensaje->fecha)); ?></td>
+                            <td>
+                                <a href="<?php echo wp_nonce_url(admin_url('admin.php?page=mensajes-contacto&accion=eliminar&id=' . $mensaje->id), 'eliminar_' . $mensaje->id); ?>" 
+                                   class="button button-small" 
+                                   onclick="return confirm('¿Estás seguro de eliminar este mensaje?');">
+                                   Eliminar
+                                </a>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        <?php else : ?>
+            <div class="notice notice-warning" style="margin-top: 20px;">
+                <p>No hay mensajes de contacto aún.</p>
+            </div>
+        <?php endif; ?>
+    </div>
+    <?php
+}

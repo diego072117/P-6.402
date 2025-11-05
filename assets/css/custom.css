@@ -179,3 +179,87 @@ html {
     transform: rotate(360deg);
   }
 }
+
+/* ========================================
+   TOAST NOTIFICATIONS - FORMULARIO CONTACTO
+   ======================================== */
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -100%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+  to {
+    opacity: 0;
+    transform: translate(-50%, -100%);
+  }
+}
+
+.animate-slide-down {
+  animation: slideDown 0.5s ease-out forwards;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.5s ease-out forwards;
+}
+
+#toast-notification {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  transition: all 0.5s ease-in-out;
+}
+
+/* ========================================
+   ANIMACIÓN BARRA DE PROGRESO - CONTADOR FIRMAS
+   ======================================== */
+
+/* Barra de progreso inicia en 0 */
+.progress-bar-animated {
+  width: 0 !important;
+  transition: width 2s ease-out;
+}
+
+/* Punto de control inicia en 0 */
+.control-point-animated {
+  left: 0 !important;
+  transition: left 2s ease-out;
+}
+
+/* Clase que se agrega después de cargar */
+.progress-loaded .progress-bar-animated {
+  width: var(--progress-width) !important;
+}
+
+.progress-loaded .control-point-animated {
+  left: var(--progress-width) !important;
+}
+
+/* Animación de números contador */
+@keyframes countUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.counter-number {
+  animation: countUp 0.8s ease-out;
+}

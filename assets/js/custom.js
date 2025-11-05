@@ -918,3 +918,94 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 });
+
+/* ========================================
+   TOAST NOTIFICATIONS - FORMULARIO CONTACTO
+   ======================================== */
+
+// Auto-cerrar toast después de 3 segundos
+document.addEventListener("DOMContentLoaded", function () {
+  const toast = document.getElementById("toast-notification");
+  if (toast) {
+    setTimeout(function () {
+      cerrarToast();
+    }, 3000);
+  }
+});
+
+function cerrarToast() {
+  const toast = document.getElementById("toast-notification");
+  if (toast) {
+    const alert = toast.querySelector('[role="alert"]');
+    if (alert) {
+      alert.classList.remove("animate-slide-down");
+      alert.classList.add("animate-slide-up");
+    }
+
+    setTimeout(function () {
+      // Limpiar URL sin recargar la página
+      const url = new URL(window.location);
+      url.searchParams.delete("contacto");
+      window.history.replaceState({}, "", url);
+      toast.remove();
+    }, 500);
+  }
+}
+
+/* ========================================
+   ANIMACIÓN BARRA DE PROGRESO - CONTADOR FIRMAS
+   ======================================== */
+
+document.addEventListener("DOMContentLoaded", function () {
+  // Buscar el contenedor de la barra de progreso
+  const progressContainer = document.querySelector(".progress-container");
+
+  if (progressContainer) {
+    const progressBar = progressContainer.querySelector(
+      ".progress-bar-animated"
+    );
+    const controlPoint = progressContainer.querySelector(
+      ".control-point-animated"
+    );
+    const targetPercentage = progressContainer.getAttribute("data-percentage");
+
+    // Esperar un pequeño delay para que se vea la animación
+    setTimeout(function () {
+      // Agregar clase para iniciar animación
+      progressContainer.classList.add("progress-loaded");
+
+      // Aplicar el porcentaje objetivo
+      progressContainer.style.setProperty(
+        "--progress-width",
+        targetPercentage + "%"
+      );
+    }, 300); // Delay de 300ms antes de iniciar la animación
+  }
+
+  // Animación contador de números (opcional - efecto extra)
+  animateCounterNumbers();
+});
+
+// Función para animar los números del contador (opcional)
+function animateCounterNumbers() {
+  const counterElements = document.querySelectorAll(".animate-counter");
+
+  counterElements.forEach(function (element) {
+    const target = parseInt(element.getAttribute("data-target"));
+    const duration = 4500; // 2 segundos
+    const increment = target / (duration / 16); // 60fps
+    let current = 0;
+
+    const updateCounter = function () {
+      current += increment;
+      if (current < target) {
+        element.textContent = Math.floor(current).toLocaleString("es-CO");
+        requestAnimationFrame(updateCounter);
+      } else {
+        element.textContent = target.toLocaleString("es-CO");
+      }
+    };
+
+    updateCounter();
+  });
+}

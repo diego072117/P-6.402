@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Template part: Hero Banner Principal
  * 
@@ -23,8 +24,8 @@ $banner_url_boton = get_theme_mod('banner_url_boton', 'https://www.change.org/')
 $datos_contador = obtener_datos_contador_firmas();
 
 // Definir el estilo de fondo condicionalmente
-$background_style = $mostrar_fondo 
-    ? "background-image: url('" . esc_url(get_template_directory_uri()) . "/assets/images/image1.png');" 
+$background_style = $mostrar_fondo
+    ? "background-image: url('" . esc_url(get_template_directory_uri()) . "/assets/images/image1.png');"
     : "";
 ?>
 
@@ -60,29 +61,32 @@ $background_style = $mostrar_fondo
                             backdrop-blur-[2px] shadow-sm"
                     style="background: rgba(150, 150, 150, 0.3); background-blend-mode: multiply;">
 
-                    <!-- Ya somos [DINÁMICO] -->
+                    <!-- Ya somos -->
                     <div class="flex flex-row gap-[8px] md:gap-[12px] lg:gap-[12px] xl:gap-[15px] self-stretch">
                         <span class="text-black font-sans text-[19.45px] md:text-[28px] lg:text-[30px] xl:text-[36px] not-italic font-medium"
                             style="line-height: 12.967px; font-feature-settings: 'liga' off, 'clig' off;">
                             Ya somos
                         </span>
-                        <span class="text-black font-sans text-[34.57px] md:text-[50px] lg:text-[54px] xl:text-[64px] not-italic font-bold"
-                            style="line-height: 12.967px;">
-                            <?php echo esc_html(number_format($datos_contador['actuales'], 0, ',', '.')); ?>
+                        <span class="text-black font-sans text-[34.57px] md:text-[50px] lg:text-[54px] xl:text-[64px] not-italic font-bold counter-number animate-counter"
+                            style="line-height: 12.967px;"
+                            data-target="<?php echo esc_attr($datos_contador['actuales']); ?>">
+                            0
                         </span>
                     </div>
 
-                    <!-- Barra de progreso DINÁMICA -->
-                    <div class="relative flex items-center self-stretch h-[8px] md:h-[12px] lg:h-[12px] xl:h-[14.807px] rounded-[9.254px] bg-[#D1D9E2]">
+                    <!-- Barra de progreso -->
+                    <div class="relative flex items-center self-stretch h-[8px] md:h-[12px] lg:h-[12px] xl:h-[14.807px] rounded-[9.254px] bg-[#D1D9E2] progress-container"
+                        data-percentage="<?php echo esc_attr($datos_contador['porcentaje']); ?>">
+
                         <!-- Línea de progreso -->
-                        <div class="absolute left-0 h-[8px] md:h-[12px] lg:h-[12px] xl:h-[14.807px] bg-[#A13E18] transition-all duration-1000 ease-out"
-                            style="width: <?php echo esc_attr($datos_contador['porcentaje']); ?>%; border-radius: 9.254px 0 0 9.254px;"></div>
+                        <div class="absolute left-0 h-[8px] md:h-[12px] lg:h-[12px] xl:h-[14.807px] bg-[#A13E18] progress-bar-animated"
+                            style="border-radius: 9.254px 0 0 9.254px;"></div>
 
                         <!-- Punto de control -->
                         <img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/ControlPoint.svg"
                             alt="Control Point"
-                            class="absolute w-[20px] md:w-[30px] lg:w-[32px] xl:w-[37.02px] h-[20px] md:h-[30px] lg:h-[32px] xl:h-[37.02px] z-10 transition-all duration-1000 ease-out"
-                            style="left: <?php echo esc_attr($datos_contador['porcentaje']); ?>%; transform: translateX(-50%);" />
+                            class="absolute w-[20px] md:w-[30px] lg:w-[32px] xl:w-[37.02px] h-[20px] md:h-[30px] lg:h-[32px] xl:h-[37.02px] z-10 control-point-animated"
+                            style="transform: translateX(-50%);" />
                     </div>
 
                     <!-- Ayúdanos a llegar a [META DINÁMICA] -->
