@@ -248,18 +248,11 @@ html {
   left: var(--progress-width) !important;
 }
 
-/* Animación de números contador */
-@keyframes countUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+/* Evitar que la animación se repita */
+.progress-animated {
+  /* Clase marcadora - no necesita estilos */
 }
 
-.counter-number {
-  animation: countUp 0.8s ease-out;
+.counter-animated {
+  /* Clase marcadora para contadores ya animados */
 }

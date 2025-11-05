@@ -957,42 +957,70 @@ function cerrarToast() {
    ======================================== */
 
 document.addEventListener("DOMContentLoaded", function () {
-  // Buscar el contenedor de la barra de progreso
-  const progressContainer = document.querySelector(".progress-container");
+  // Buscar todos los contenedores de barra de progreso
+  const progressContainers = document.querySelectorAll(".progress-container");
 
-  if (progressContainer) {
-    const progressBar = progressContainer.querySelector(
-      ".progress-bar-animated"
-    );
-    const controlPoint = progressContainer.querySelector(
-      ".control-point-animated"
-    );
-    const targetPercentage = progressContainer.getAttribute("data-percentage");
+  if (progressContainers.length === 0) return;
 
-    // Esperar un pequeño delay para que se vea la animación
-    setTimeout(function () {
-      // Agregar clase para iniciar animación
-      progressContainer.classList.add("progress-loaded");
+  // Crear Intersection Observer para detectar cuando el elemento es visible
+  const observerOptions = {
+    root: null,
+    rootMargin: "0px",
+    threshold: 0.3, // Se activa cuando el 30% del elemento es visible
+  };
 
-      // Aplicar el porcentaje objetivo
-      progressContainer.style.setProperty(
-        "--progress-width",
-        targetPercentage + "%"
-      );
-    }, 300); // Delay de 300ms antes de iniciar la animación
-  }
+  const observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      // Si el elemento es visible y no ha sido animado aún
+      if (
+        entry.isIntersecting &&
+        !entry.target.classList.contains("progress-animated")
+      ) {
+        const progressContainer = entry.target;
+        const targetPercentage = progressContainer.getAttribute("data-percentage");
 
-  // Animación contador de números (opcional - efecto extra)
-  animateCounterNumbers();
+        // Marcar como animado para no repetir
+        progressContainer.classList.add("progress-animated");
+
+        // Esperar un pequeño delay para que se vea la animación
+        setTimeout(function () {
+          // Agregar clase para iniciar animación
+          progressContainer.classList.add("progress-loaded");
+
+          // Aplicar el porcentaje objetivo
+          progressContainer.style.setProperty(
+            "--progress-width",
+            targetPercentage + "%"
+          );
+        }, 300); // Delay de 300ms antes de iniciar la animación
+
+        // Animar los números del contador
+        animateCounterNumbers();
+
+        // Dejar de observar este elemento
+        observer.unobserve(progressContainer);
+      }
+    });
+  }, observerOptions);
+
+  // Observar todos los contenedores de progreso
+  progressContainers.forEach(function (container) {
+    observer.observe(container);
+  });
 });
 
-// Función para animar los números del contador (opcional)
+// Función para animar los números del contador
 function animateCounterNumbers() {
   const counterElements = document.querySelectorAll(".animate-counter");
 
   counterElements.forEach(function (element) {
+    // Solo animar si no ha sido animado antes
+    if (element.classList.contains("counter-animated")) return;
+    
+    element.classList.add("counter-animated");
+    
     const target = parseInt(element.getAttribute("data-target"));
-    const duration = 4500; // 2 segundos
+    const duration = 2000; // 2 segundos
     const increment = target / (duration / 16); // 60fps
     let current = 0;
 

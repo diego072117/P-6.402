@@ -210,7 +210,7 @@ $contacto_texto_inferior = get_theme_mod('contacto_texto_inferior', 'También pu
 </div>
 
 <!-- Hero Banner Mobile -->
-<div class="block lg:hidden w-full mt-[60px]">
+<div class="block lg:hidden w-full lg:mt-[60px]">
     <?php get_template_part('template-parts/banner-hero-contador', null, ['mostrar_fondo' => true]); ?>
 </div>
 
