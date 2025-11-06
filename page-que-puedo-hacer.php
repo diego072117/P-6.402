@@ -93,6 +93,17 @@ $apoya_card2_boton_texto = get_theme_mod('apoya_card2_boton_texto', 'Descarga ki
 $apoya_card2_archivo_id = get_theme_mod('apoya_card2_archivo', '');
 $apoya_card2_archivo_url = $apoya_card2_archivo_id ? wp_get_attachment_url($apoya_card2_archivo_id) : '#';
 
+// Leer valores del Customizer para Sección "En Redes"
+$redes_titulo = get_theme_mod('redes_titulo', 'EN REDES');
+$redes_texto = get_theme_mod('redes_texto', 'Sigue la conversación y comparte tus mensajes en redes sociales con el hashtag');
+$redes_hashtag = get_theme_mod('redes_hashtag', '#JusticiaParaLas6402');
+$redes_facebook_texto = get_theme_mod('redes_facebook_texto', 'Facebook');
+$redes_facebook_url = get_theme_mod('redes_facebook_url', 'https://www.facebook.com/');
+$redes_instagram_texto = get_theme_mod('redes_instagram_texto', 'Instagram');
+$redes_instagram_url = get_theme_mod('redes_instagram_url', 'https://www.instagram.com/');
+$redes_twitter_texto = get_theme_mod('redes_twitter_texto', 'X (Twitter)');
+$redes_twitter_url = get_theme_mod('redes_twitter_url', 'https://twitter.com/');
+
 ?>
 
 <!-- Banner Hero Animado - Qué Puedo Hacer -->
@@ -431,6 +442,55 @@ get_template_part('template-parts/banner-hero', null, array(
                     <?php echo esc_html($apoya_card2_boton_texto); ?>
                 </a>
             </div>
+
+        </div>
+
+    </div>
+</section>
+
+<!-- Sección En Redes -->
+<section id="redes" class="mt-[60px] lg:mt-[120px] bg-white flex justify-center px-[30px] lg:px-0">
+    <div class="flex w-full max-w-[762px] flex-col items-center gap-[24px]">
+
+        <!-- Título -->
+        <h2 class="flex h-[37px] flex-col justify-center self-stretch text-[#A13E18] text-center font-lava text-[48px] leading-[115%]"
+            style="font-feature-settings: 'liga' off, 'clig' off;">
+            <?php echo esc_html($redes_titulo); ?>
+        </h2>
+
+        <!-- Texto Descriptivo -->
+        <p class="h-[48px] self-stretch text-negro text-left font-[Montserrat] text-[18px] font-medium leading-[24px]"
+            style="font-feature-settings: 'liga' off, 'clig' off;">
+            <?php echo esc_html($redes_texto); ?>
+            <span class="font-bold"><?php echo esc_html($redes_hashtag); ?></span>
+        </p>
+
+        <!-- Contenedor de Botones -->
+        <div class="flex flex-col lg:flex-row items-center lg:items-start gap-[24px] mt-3">
+
+            <!-- Botón Facebook -->
+            <a href="<?php echo esc_url($redes_facebook_url); ?>"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="flex w-[145px] px-[32px] py-[16px] justify-center items-center gap-[10px] rounded-[6px] bg-[#A13E18] text-white font-[Montserrat] text-[16px] hover:bg-[#8a3315] transition-colors duration-300">
+                <?php echo esc_html($redes_facebook_texto); ?>
+            </a>
+
+            <!-- Botón Instagram -->
+            <a href="<?php echo esc_url($redes_instagram_url); ?>"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="flex w-[145px] px-[32px] py-[16px] justify-center items-center gap-[10px] rounded-[6px] bg-[#A13E18] text-white font-[Montserrat] text-[16px] hover:bg-[#8a3315] transition-colors duration-300">
+                <?php echo esc_html($redes_instagram_texto); ?>
+            </a>
+
+            <!-- Botón X (Twitter) -->
+            <a href="<?php echo esc_url($redes_twitter_url); ?>"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="flex w-[145px] px-[32px] py-[16px] justify-center items-center gap-[10px] rounded-[6px] bg-[#A13E18] text-white font-[Montserrat] text-[16px] hover:bg-[#8a3315] transition-colors duration-300">
+                <?php echo esc_html($redes_twitter_texto); ?>
+            </a>
 
         </div>
 

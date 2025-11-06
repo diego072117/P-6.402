@@ -352,174 +352,6 @@ function justicia_customize_register($wp_customize)
         'description' => 'Enlace al que redirige el botón'
     ));
 
-    // ===================================
-    // SECCIÓN: Historias de las Víctimas
-    // ===================================
-    $wp_customize->add_section('historias_victimas_section', array(
-        'title'      => __('Historias de las Víctimas', 'tema-custom'),
-        'priority'   => 45,
-        'description' => 'Configura las 3 historias destacadas con sus PDFs individuales'
-    ));
-
-    // -----------------------------------
-    // HISTORIA 1
-    // -----------------------------------
-    $wp_customize->add_setting('historia1_nombre', array(
-        'default'   => 'María López Pérez',
-        'transport' => 'refresh',
-        'sanitize_callback' => 'sanitize_text_field'
-    ));
-    $wp_customize->add_control('historia1_nombre_control', array(
-        'label'      => __('Historia 1 - Nombre', 'tema-custom'),
-        'section'    => 'historias_victimas_section',
-        'settings'   => 'historia1_nombre',
-        'type'       => 'text',
-    ));
-
-    $wp_customize->add_setting('historia1_descripcion', array(
-        'default'   => 'Madre de Juan López, víctima de ejecución extrajudicial en 2008. Busca justicia desde hace 15 años.',
-        'transport' => 'refresh',
-        'sanitize_callback' => 'sanitize_textarea_field'
-    ));
-    $wp_customize->add_control('historia1_descripcion_control', array(
-        'label'      => __('Historia 1 - Descripción', 'tema-custom'),
-        'section'    => 'historias_victimas_section',
-        'settings'   => 'historia1_descripcion',
-        'type'       => 'textarea',
-    ));
-
-    $wp_customize->add_setting('historia1_imagen', array(
-        'default'   => '',
-        'transport' => 'refresh',
-        'sanitize_callback' => 'absint'
-    ));
-    $wp_customize->add_control(new WP_Customize_Media_Control($wp_customize, 'historia1_imagen_control', array(
-        'label'      => __('Historia 1 - Imagen', 'tema-custom'),
-        'section'    => 'historias_victimas_section',
-        'settings'   => 'historia1_imagen',
-        'mime_type'  => 'image',
-        'description' => 'Imagen circular de la víctima',
-    )));
-
-    $wp_customize->add_setting('historia1_pdf', array(
-        'default'   => '',
-        'transport' => 'refresh',
-        'sanitize_callback' => 'absint'
-    ));
-    $wp_customize->add_control(new WP_Customize_Media_Control($wp_customize, 'historia1_pdf_control', array(
-        'label'      => __('Historia 1 - PDF', 'tema-custom'),
-        'section'    => 'historias_victimas_section',
-        'settings'   => 'historia1_pdf',
-        'mime_type'  => 'application/pdf',
-        'description' => 'PDF de esta historia específica',
-    )));
-
-    // -----------------------------------
-    // HISTORIA 2
-    // -----------------------------------
-    $wp_customize->add_setting('historia2_nombre', array(
-        'default'   => 'José Martínez García',
-        'transport' => 'refresh',
-        'sanitize_callback' => 'sanitize_text_field'
-    ));
-    $wp_customize->add_control('historia2_nombre_control', array(
-        'label'      => __('Historia 2 - Nombre', 'tema-custom'),
-        'section'    => 'historias_victimas_section',
-        'settings'   => 'historia2_nombre',
-        'type'       => 'text',
-    ));
-
-    $wp_customize->add_setting('historia2_descripcion', array(
-        'default'   => 'Padre que busca verdad y justicia después de 15 años. Su hijo fue presentado como falso positivo.',
-        'transport' => 'refresh',
-        'sanitize_callback' => 'sanitize_textarea_field'
-    ));
-    $wp_customize->add_control('historia2_descripcion_control', array(
-        'label'      => __('Historia 2 - Descripción', 'tema-custom'),
-        'section'    => 'historias_victimas_section',
-        'settings'   => 'historia2_descripcion',
-        'type'       => 'textarea',
-    ));
-
-    $wp_customize->add_setting('historia2_imagen', array(
-        'default'   => '',
-        'transport' => 'refresh',
-        'sanitize_callback' => 'absint'
-    ));
-    $wp_customize->add_control(new WP_Customize_Media_Control($wp_customize, 'historia2_imagen_control', array(
-        'label'      => __('Historia 2 - Imagen', 'tema-custom'),
-        'section'    => 'historias_victimas_section',
-        'settings'   => 'historia2_imagen',
-        'mime_type'  => 'image',
-        'description' => 'Imagen circular de la víctima',
-    )));
-
-    $wp_customize->add_setting('historia2_pdf', array(
-        'default'   => '',
-        'transport' => 'refresh',
-        'sanitize_callback' => 'absint'
-    ));
-    $wp_customize->add_control(new WP_Customize_Media_Control($wp_customize, 'historia2_pdf_control', array(
-        'label'      => __('Historia 2 - PDF', 'tema-custom'),
-        'section'    => 'historias_victimas_section',
-        'settings'   => 'historia2_pdf',
-        'mime_type'  => 'application/pdf',
-        'description' => 'PDF de esta historia específica',
-    )));
-
-    // -----------------------------------
-    // HISTORIA 3
-    // -----------------------------------
-    $wp_customize->add_setting('historia3_nombre', array(
-        'default'   => 'Ana García Rodríguez',
-        'transport' => 'refresh',
-        'sanitize_callback' => 'sanitize_text_field'
-    ));
-    $wp_customize->add_control('historia3_nombre_control', array(
-        'label'      => __('Historia 3 - Nombre', 'tema-custom'),
-        'section'    => 'historias_victimas_section',
-        'settings'   => 'historia3_nombre',
-        'type'       => 'text',
-    ));
-
-    $wp_customize->add_setting('historia3_descripcion', array(
-        'default'   => 'Madre de víctima que no se rinde en su búsqueda de justicia. Busca esclarecer la verdad.',
-        'transport' => 'refresh',
-        'sanitize_callback' => 'sanitize_textarea_field'
-    ));
-    $wp_customize->add_control('historia3_descripcion_control', array(
-        'label'      => __('Historia 3 - Descripción', 'tema-custom'),
-        'section'    => 'historias_victimas_section',
-        'settings'   => 'historia3_descripcion',
-        'type'       => 'textarea',
-    ));
-
-    $wp_customize->add_setting('historia3_imagen', array(
-        'default'   => '',
-        'transport' => 'refresh',
-        'sanitize_callback' => 'absint'
-    ));
-    $wp_customize->add_control(new WP_Customize_Media_Control($wp_customize, 'historia3_imagen_control', array(
-        'label'      => __('Historia 3 - Imagen', 'tema-custom'),
-        'section'    => 'historias_victimas_section',
-        'settings'   => 'historia3_imagen',
-        'mime_type'  => 'image',
-        'description' => 'Imagen circular de la víctima',
-    )));
-
-    $wp_customize->add_setting('historia3_pdf', array(
-        'default'   => '',
-        'transport' => 'refresh',
-        'sanitize_callback' => 'absint'
-    ));
-    $wp_customize->add_control(new WP_Customize_Media_Control($wp_customize, 'historia3_pdf_control', array(
-        'label'      => __('Historia 3 - PDF', 'tema-custom'),
-        'section'    => 'historias_victimas_section',
-        'settings'   => 'historia3_pdf',
-        'mime_type'  => 'application/pdf',
-        'description' => 'PDF de esta historia específica',
-    )));
-
     // -----------------------------------
     // URL de la sección en Conócenos
     // -----------------------------------
@@ -2325,6 +2157,186 @@ function justicia_customize_register($wp_customize)
         'settings'   => 'contacto_email',
         'type'       => 'email',
     ));
+
+    // ===================================
+    // SECCIÓN: Redes Sociales
+    // ===================================
+    $wp_customize->add_section('redes_sociales_section', array(
+        'title'      => __('Qué puedo hacer - Redes', 'tema-custom'),
+        'priority'   => 70,
+        'description' => 'Sección "En Redes" - Comparte en redes sociales'
+    ));
+
+    // -----------------------------------
+    // Título
+    // -----------------------------------
+    $wp_customize->add_setting('redes_titulo', array(
+        'default'   => 'EN REDES',
+        'transport' => 'refresh',
+        'sanitize_callback' => 'sanitize_text_field'
+    ));
+
+    $wp_customize->add_control('redes_titulo_control', array(
+        'label'      => __('Título', 'tema-custom'),
+        'section'    => 'redes_sociales_section',
+        'settings'   => 'redes_titulo',
+        'type'       => 'text'
+    ));
+
+    // -----------------------------------
+    // Texto Descriptivo
+    // -----------------------------------
+    $wp_customize->add_setting('redes_texto', array(
+        'default'   => 'Sigue la conversación y comparte tus mensajes en redes sociales con el hashtag',
+        'transport' => 'refresh',
+        'sanitize_callback' => 'sanitize_text_field'
+    ));
+
+    $wp_customize->add_control('redes_texto_control', array(
+        'label'      => __('Texto Descriptivo', 'tema-custom'),
+        'section'    => 'redes_sociales_section',
+        'settings'   => 'redes_texto',
+        'type'       => 'textarea'
+    ));
+
+    // -----------------------------------
+    // Hashtag
+    // -----------------------------------
+    $wp_customize->add_setting('redes_hashtag', array(
+        'default'   => '#JusticiaParaLas6402',
+        'transport' => 'refresh',
+        'sanitize_callback' => 'sanitize_text_field'
+    ));
+
+    $wp_customize->add_control('redes_hashtag_control', array(
+        'label'      => __('Hashtag', 'tema-custom'),
+        'section'    => 'redes_sociales_section',
+        'settings'   => 'redes_hashtag',
+        'type'       => 'text',
+        'description' => 'Incluye el símbolo #'
+    ));
+
+    // -----------------------------------
+    // Botón Facebook - Texto
+    // -----------------------------------
+    $wp_customize->add_setting('redes_facebook_texto', array(
+        'default'   => 'Facebook',
+        'transport' => 'refresh',
+        'sanitize_callback' => 'sanitize_text_field'
+    ));
+
+    $wp_customize->add_control('redes_facebook_texto_control', array(
+        'label'      => __('Botón Facebook - Texto', 'tema-custom'),
+        'section'    => 'redes_sociales_section',
+        'settings'   => 'redes_facebook_texto',
+        'type'       => 'text'
+    ));
+
+    // -----------------------------------
+    // Botón Facebook - URL
+    // -----------------------------------
+    $wp_customize->add_setting('redes_facebook_url', array(
+        'default'   => 'https://www.facebook.com/',
+        'transport' => 'refresh',
+        'sanitize_callback' => 'esc_url_raw'
+    ));
+
+    $wp_customize->add_control('redes_facebook_url_control', array(
+        'label'      => __('Botón Facebook - URL', 'tema-custom'),
+        'section'    => 'redes_sociales_section',
+        'settings'   => 'redes_facebook_url',
+        'type'       => 'url'
+    ));
+
+    // -----------------------------------
+    // Botón Instagram - Texto
+    // -----------------------------------
+    $wp_customize->add_setting('redes_instagram_texto', array(
+        'default'   => 'Instagram',
+        'transport' => 'refresh',
+        'sanitize_callback' => 'sanitize_text_field'
+    ));
+
+    $wp_customize->add_control('redes_instagram_texto_control', array(
+        'label'      => __('Botón Instagram - Texto', 'tema-custom'),
+        'section'    => 'redes_sociales_section',
+        'settings'   => 'redes_instagram_texto',
+        'type'       => 'text'
+    ));
+
+    // -----------------------------------
+    // Botón Instagram - URL
+    // -----------------------------------
+    $wp_customize->add_setting('redes_instagram_url', array(
+        'default'   => 'https://www.instagram.com/',
+        'transport' => 'refresh',
+        'sanitize_callback' => 'esc_url_raw'
+    ));
+
+    $wp_customize->add_control('redes_instagram_url_control', array(
+        'label'      => __('Botón Instagram - URL', 'tema-custom'),
+        'section'    => 'redes_sociales_section',
+        'settings'   => 'redes_instagram_url',
+        'type'       => 'url'
+    ));
+
+    // -----------------------------------
+    // Botón X (Twitter) - Texto
+    // -----------------------------------
+    $wp_customize->add_setting('redes_twitter_texto', array(
+        'default'   => 'X (Twitter)',
+        'transport' => 'refresh',
+        'sanitize_callback' => 'sanitize_text_field'
+    ));
+
+    $wp_customize->add_control('redes_twitter_texto_control', array(
+        'label'      => __('Botón X (Twitter) - Texto', 'tema-custom'),
+        'section'    => 'redes_sociales_section',
+        'settings'   => 'redes_twitter_texto',
+        'type'       => 'text'
+    ));
+
+    // -----------------------------------
+    // Botón X (Twitter) - URL
+    // -----------------------------------
+    $wp_customize->add_setting('redes_twitter_url', array(
+        'default'   => 'https://twitter.com/',
+        'transport' => 'refresh',
+        'sanitize_callback' => 'esc_url_raw'
+    ));
+
+    $wp_customize->add_control('redes_twitter_url_control', array(
+        'label'      => __('Botón X (Twitter) - URL', 'tema-custom'),
+        'section'    => 'redes_sociales_section',
+        'settings'   => 'redes_twitter_url',
+        'type'       => 'url'
+    ));
+
+    // ===================================
+    // SECCIÓN: Home - Historia Víctimas
+    // ===================================
+    $wp_customize->add_section('home_historia_victimas_section', array(
+        'title'      => __('Home - Historia Víctimas', 'tema-custom'),
+        'priority'   => 75,
+        'description' => 'URL de redirección para la sección de historias de víctimas'
+    ));
+
+    // -----------------------------------
+    // URL de la Sección Historias
+    // -----------------------------------
+    $wp_customize->add_setting('historias_url_seccion', array(
+        'default'   => '/conocenos/#victimas_demandan_que',
+        'transport' => 'refresh',
+        'sanitize_callback' => 'sanitize_text_field'
+    ));
+
+    $wp_customize->add_control('historias_url_seccion_control', array(
+        'label'      => __('URL Sección Historias', 'tema-custom'),
+        'section'    => 'home_historia_victimas_section',
+        'settings'   => 'historias_url_seccion',
+        'type'       => 'text',
+        'description' => 'URL de redirección para "Ver todas las historias". Ejemplo: /conocenos/#victimas_demandan_que'
+    ));
 }
 add_action('customize_register', 'justicia_customize_register');
 
@@ -2950,7 +2962,8 @@ function agregar_nonce_actividades()
 // ===================================
 
 // 1. Crear tabla en la base de datos al activar el tema
-function crear_tabla_contactos() {
+function crear_tabla_contactos()
+{
     global $wpdb;
     $tabla_nombre = $wpdb->prefix . 'contactos';
     $charset_collate = $wpdb->get_charset_collate();
@@ -2966,14 +2979,15 @@ function crear_tabla_contactos() {
 
     require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
     dbDelta($sql);
-    
+
     // Registrar en opciones que se intentó crear
     update_option('contactos_tabla_creada', current_time('mysql'));
 }
 add_action('after_switch_theme', 'crear_tabla_contactos');
 
 // Agregar acción para crear tabla manualmente desde admin
-function crear_tabla_contactos_manual() {
+function crear_tabla_contactos_manual()
+{
     if (isset($_GET['crear_tabla_contactos']) && current_user_can('manage_options')) {
         crear_tabla_contactos();
         wp_redirect(admin_url('admin.php?page=mensajes-contacto&tabla_creada=1'));
@@ -2983,7 +2997,8 @@ function crear_tabla_contactos_manual() {
 add_action('admin_init', 'crear_tabla_contactos_manual');
 
 // 2. Procesar el formulario de contacto
-function procesar_formulario_contacto() {
+function procesar_formulario_contacto()
+{
     // Verificar que sea una petición POST
     if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
         return;
@@ -3044,7 +3059,8 @@ function procesar_formulario_contacto() {
 add_action('wp_loaded', 'procesar_formulario_contacto');
 
 // 3. Agregar página en el menú de administración
-function agregar_menu_contactos() {
+function agregar_menu_contactos()
+{
     add_menu_page(
         'Mensajes de Contacto',
         'Contactos',
@@ -3058,7 +3074,8 @@ function agregar_menu_contactos() {
 add_action('admin_menu', 'agregar_menu_contactos');
 
 // 4. Mostrar los mensajes en el panel de administración
-function mostrar_mensajes_contacto() {
+function mostrar_mensajes_contacto()
+{
     global $wpdb;
     $tabla_nombre = $wpdb->prefix . 'contactos';
 
@@ -3067,33 +3084,33 @@ function mostrar_mensajes_contacto() {
 
     // Mensaje si se acaba de crear la tabla
     //if (isset($_GET['tabla_creada'])) {
-      //  echo '<div class="notice notice-success is-dismissible"><p>✓ Tabla creada exitosamente.</p></div>';
+    //  echo '<div class="notice notice-success is-dismissible"><p>✓ Tabla creada exitosamente.</p></div>';
     //}
 
     // Si la tabla no existe, mostrar botón para crearla
     if (!$tabla_existe) {
-        ?>
+?>
         <div class="wrap">
             <h1>Mensajes de Contacto</h1>
             <div class="notice notice-error">
                 <p><strong>La tabla de contactos no existe en la base de datos.</strong></p>
                 <p>Esto puede suceder si el tema se activó incorrectamente.</p>
                 <p>
-                    <a href="<?php echo admin_url('admin.php?page=mensajes-contacto&crear_tabla_contactos=1'); ?>" 
-                       class="button button-primary">
+                    <a href="<?php echo admin_url('admin.php?page=mensajes-contacto&crear_tabla_contactos=1'); ?>"
+                        class="button button-primary">
                         Crear Tabla Ahora
                     </a>
                 </p>
             </div>
         </div>
-        <?php
+    <?php
         return;
     }
 
     // Procesar acciones (eliminar)
     if (isset($_GET['accion']) && isset($_GET['id']) && isset($_GET['_wpnonce'])) {
         $id = intval($_GET['id']);
-        
+
         if ($_GET['accion'] === 'eliminar' && wp_verify_nonce($_GET['_wpnonce'], 'eliminar_' . $id)) {
             $wpdb->delete($tabla_nombre, array('id' => $id), array('%d'));
             echo '<div class="notice notice-success is-dismissible"><p>✓ Mensaje eliminado.</p></div>';
@@ -3140,10 +3157,10 @@ function mostrar_mensajes_contacto() {
                             </td>
                             <td><?php echo date('d/m/Y H:i', strtotime($mensaje->fecha)); ?></td>
                             <td>
-                                <a href="<?php echo wp_nonce_url(admin_url('admin.php?page=mensajes-contacto&accion=eliminar&id=' . $mensaje->id), 'eliminar_' . $mensaje->id); ?>" 
-                                   class="button button-small" 
-                                   onclick="return confirm('¿Estás seguro de eliminar este mensaje?');">
-                                   Eliminar
+                                <a href="<?php echo wp_nonce_url(admin_url('admin.php?page=mensajes-contacto&accion=eliminar&id=' . $mensaje->id), 'eliminar_' . $mensaje->id); ?>"
+                                    class="button button-small"
+                                    onclick="return confirm('¿Estás seguro de eliminar este mensaje?');">
+                                    Eliminar
                                 </a>
                             </td>
                         </tr>
@@ -3156,5 +3173,5 @@ function mostrar_mensajes_contacto() {
             </div>
         <?php endif; ?>
     </div>
-    <?php
+<?php
 }

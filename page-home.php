@@ -1,6 +1,5 @@
 <?php
 
-
 /**
  * Obtener datos del Customizer para "Conoce Más"
  */
@@ -10,7 +9,7 @@ $conoce_descripcion = get_theme_mod('conoce_descripcion', 'Cansadas de esperar a
 $conoce_url_boton = get_theme_mod('conoce_url_boton', '#conocenos');
 
 /**
- * Obtener extracto limpio (sin H1s)
+ * Obtener extracto limpio (sin H1s y sin nombres de archivos)
  */
 function obtener_extracto_limpio($post_id)
 {
@@ -19,41 +18,72 @@ function obtener_extracto_limpio($post_id)
     // Remover todos los H1s del contenido
     $contenido = preg_replace('/<h1[^>]*>.*?<\/h1>/is', '', $contenido);
 
+    // Remover bloques de archivos de WordPress (gallery-item, attachment, etc)
+    $contenido = preg_replace('/<div[^>]*class="[^"]*wp-block-file[^"]*"[^>]*>.*?<\/div>/is', '', $contenido);
+    $contenido = preg_replace('/<figure[^>]*class="[^"]*wp-block-file[^"]*"[^>]*>.*?<\/figure>/is', '', $contenido);
+
+    // Remover enlaces de archivos adjuntos
+    $contenido = preg_replace('/<a[^>]*href="[^"]*\.(pdf|xlsx?|docx?|zip|rar)[^"]*"[^>]*>.*?<\/a>/is', '', $contenido);
+
     // Limpiar HTML y obtener texto plano
     $contenido = wp_strip_all_tags($contenido);
 
-    // Limpiar espacios múltiples
+    // Remover cualquier nombre de archivo que quede (con o sin extensión visible)
+    $contenido = preg_replace('/[\w\-]+\.(pdf|xlsx?|docx?|zip|rar|jpg|png|gif|mp4|mp3)/i', '', $contenido);
+
+    // Remover patrones de nombres de archivo sin extensión visible
+    $contenido = preg_replace('/[\w\-]+-HU-\d+(\s*\(\d+\))?/i', '', $contenido);
+    $contenido = preg_replace('/Historias-de-usuario-[\d\.]+/i', '', $contenido);
+
+    // Remover enlaces de descarga y textos relacionados
+    $contenido = preg_replace('/(descargar|download|archivo|file|adjunto|attachment)\s*:?\s*/i', '', $contenido);
+
+    // Limpiar espacios múltiples, comas y puntos solos
     $contenido = preg_replace('/\s+/', ' ', $contenido);
+    $contenido = preg_replace('/\s*[,\.]\s*$/', '', $contenido);
     $contenido = trim($contenido);
 
     return $contenido;
 }
 
 /**
- * Obtener datos del Customizer para Historias
+ * Obtener el archivo adjunto del post (busca archivos PDF, XLSX, DOCX, etc.)
  */
-$historias = array(
-    array(
-        'nombre' => get_theme_mod('historia1_nombre', 'María López Pérez'),
-        'descripcion' => get_theme_mod('historia1_descripcion', 'Madre de Juan López, víctima de ejecución extrajudicial.'),
-        'imagen_id' => get_theme_mod('historia1_imagen', ''),
-        'pdf_id' => get_theme_mod('historia1_pdf', ''),
-    ),
-    array(
-        'nombre' => get_theme_mod('historia2_nombre', 'José Martínez García'),
-        'descripcion' => get_theme_mod('historia2_descripcion', 'Padre que busca verdad y justicia.'),
-        'imagen_id' => get_theme_mod('historia2_imagen', ''),
-        'pdf_id' => get_theme_mod('historia2_pdf', ''),
-    ),
-    array(
-        'nombre' => get_theme_mod('historia3_nombre', 'Ana García Rodríguez'),
-        'descripcion' => get_theme_mod('historia3_descripcion', 'Madre que no se rinde en su búsqueda.'),
-        'imagen_id' => get_theme_mod('historia3_imagen', ''),
-        'pdf_id' => get_theme_mod('historia3_pdf', ''),
-    ),
+function obtener_archivo_historia($post_id)
+{
+    // Obtener todos los attachments del post
+    $attachments = get_attached_media('', $post_id);
+
+    // Tipos de archivo permitidos
+    $tipos_permitidos = array('pdf', 'xlsx', 'xls', 'docx', 'doc');
+
+    foreach ($attachments as $attachment) {
+        $file_type = wp_check_filetype($attachment->guid);
+        $extension = $file_type['ext'];
+
+        if (in_array($extension, $tipos_permitidos)) {
+            return wp_get_attachment_url($attachment->ID);
+        }
+    }
+
+    return false;
+}
+
+/**
+ * Query para obtener los posts de víctimas
+ */
+$args_victimas = array(
+    'post_type'      => 'post',
+    'posts_per_page' => 3,
+    'category_name'  => 'victimas',
+    'orderby'        => 'date',
+    'order'          => 'DESC',
+    'post_status'    => 'publish'
 );
 
-$historias_url_seccion = get_theme_mod('historias_url_seccion', '/conocenos#historias-victimas');
+$query_victimas = new WP_Query($args_victimas);
+
+$historias_url_seccion = get_theme_mod('historias_url_seccion', '/conocenos/#victimas_demandan_que');
 
 get_header();
 ?>
@@ -154,27 +184,104 @@ get_template_part('template-parts/noticias-slider', null, array(
             <span class="block lg:inline text-[36px] lg:text-[48px] text-[#A13E18]" style="font-feature-settings: 'liga' off, 'clig' off;">LAS VÍCTIMAS</span>
         </h2>
 
-        <!-- Wrapper del carrusel (mobile) / Grid (desktop) -->
-        <div class="w-full">
+        <?php if ($query_victimas->have_posts()) : ?>
 
-            <!-- Mobile: Carrusel -->
-            <div id="historias-slider-wrapper" class="overflow-hidden w-full lg:hidden">
-                <div id="historias-slider-container" class="flex gap-0 transition-transform duration-500 ease-in-out">
+            <!-- Wrapper del carrusel (mobile) / Grid (desktop) -->
+            <div class="w-full">
 
-                    <?php foreach ($historias as $historia) :
-                        $imagen_url = $historia['imagen_id'] ? wp_get_attachment_image_url($historia['imagen_id'], 'thumbnail') : '';
-                        $pdf_url = $historia['pdf_id'] ? wp_get_attachment_url($historia['pdf_id']) : '#';
+                <!-- Mobile: Carrusel -->
+                <div id="historias-slider-wrapper" class="overflow-hidden w-full lg:hidden">
+                    <div id="historias-slider-container" class="flex gap-0 transition-transform duration-500 ease-in-out">
+
+                        <?php while ($query_victimas->have_posts()) : $query_victimas->the_post();
+                            $imagen_url = get_the_post_thumbnail_url(get_the_ID(), 'thumbnail');
+                            $extracto = obtener_extracto_limpio(get_the_ID());
+
+                            // Limitar el extracto a 150 caracteres
+                            if (strlen($extracto) > 150) {
+                                $extracto = substr($extracto, 0, 150) . '...';
+                            }
+
+                            // Obtener el archivo adjunto del post
+                            $archivo_url = obtener_archivo_historia(get_the_ID());
+
+                            // Si no hay archivo adjunto, usar el permalink
+                            $boton_url = $archivo_url ? $archivo_url : get_permalink();
+                            $es_descarga = $archivo_url ? true : false;
+                        ?>
+
+                            <!-- Card Historia Mobile -->
+                            <div class="historias-slide flex min-w-full w-full flex-col justify-between items-start bg-[#F5F5F5] rounded-lg p-[32px] h-[455px]">
+                                <div class="flex flex-col items-start gap-[24px] self-stretch">
+
+                                    <!-- Imagen circular -->
+                                    <?php if ($imagen_url) : ?>
+                                        <div class="w-[54px] h-[54px] rounded-full overflow-hidden bg-gray-300">
+                                            <img src="<?php echo esc_url($imagen_url); ?>"
+                                                alt="<?php echo esc_attr(get_the_title()); ?>"
+                                                class="w-full h-full object-cover">
+                                        </div>
+                                    <?php else : ?>
+                                        <div class="w-[54px] h-[54px] rounded-full bg-gray-400"></div>
+                                    <?php endif; ?>
+
+                                    <!-- Nombre -->
+                                    <h3 class="text-negro font-[Montserrat] text-[24px] font-bold leading-[28px]">
+                                        <?php the_title(); ?>
+                                    </h3>
+
+                                    <!-- Descripción -->
+                                    <p class="text-negro font-[Montserrat] text-[18px] font-medium leading-[24px]">
+                                        <?php echo esc_html($extracto); ?>
+                                    </p>
+                                </div>
+
+                                <!-- Botón Ver historia -->
+                                <a href="<?php echo esc_url($boton_url); ?>"
+                                    <?php echo $es_descarga ? 'download' : ''; ?>
+                                    class="flex w-full h-[56px] px-8 py-3 justify-center items-center gap-[10px] rounded-[5px] bg-[#EAA40C] text-negro font-[Montserrat] font-bold hover:bg-[#d28f00] transition">
+                                    <?php echo $es_descarga ? 'Descargar' : 'Ver historia'; ?>
+                                </a>
+                            </div>
+
+                        <?php endwhile; ?>
+
+                    </div>
+                </div>
+
+                <!-- Desktop: Grid de 3 cards -->
+                <div class="hidden lg:flex gap-6 w-full">
+
+                    <?php
+                    // Reset query para desktop
+                    $query_victimas->rewind_posts();
+
+                    while ($query_victimas->have_posts()) : $query_victimas->the_post();
+                        $imagen_url = get_the_post_thumbnail_url(get_the_ID(), 'thumbnail');
+                        $extracto = obtener_extracto_limpio(get_the_ID());
+
+                        // Limitar el extracto a 150 caracteres
+                        if (strlen($extracto) > 150) {
+                            $extracto = substr($extracto, 0, 150) . '...';
+                        }
+
+                        // Obtener el archivo adjunto del post
+                        $archivo_url = obtener_archivo_historia(get_the_ID());
+
+                        // Si no hay archivo adjunto, usar el permalink
+                        $boton_url = $archivo_url ? $archivo_url : get_permalink();
+                        $es_descarga = $archivo_url ? true : false;
                     ?>
 
-                        <!-- Card Historia Mobile -->
-                        <div class="historias-slide flex min-w-full w-full flex-col justify-between items-start bg-[#F5F5F5] rounded-lg p-[32px] h-[455px]">
+                        <!-- Card Historia Desktop -->
+                        <div class="flex w-[352px] h-[455px] p-[32px] flex-col justify-between items-start bg-[#F5F5F5] rounded-lg">
                             <div class="flex flex-col items-start gap-[24px] self-stretch">
 
                                 <!-- Imagen circular -->
                                 <?php if ($imagen_url) : ?>
                                     <div class="w-[54px] h-[54px] rounded-full overflow-hidden bg-gray-300">
                                         <img src="<?php echo esc_url($imagen_url); ?>"
-                                            alt="<?php echo esc_attr($historia['nombre']); ?>"
+                                            alt="<?php echo esc_attr(get_the_title()); ?>"
                                             class="w-full h-full object-cover">
                                     </div>
                                 <?php else : ?>
@@ -183,85 +290,47 @@ get_template_part('template-parts/noticias-slider', null, array(
 
                                 <!-- Nombre -->
                                 <h3 class="text-negro font-[Montserrat] text-[24px] font-bold leading-[28px]">
-                                    <?php echo esc_html($historia['nombre']); ?>
+                                    <?php the_title(); ?>
                                 </h3>
 
                                 <!-- Descripción -->
                                 <p class="text-negro font-[Montserrat] text-[18px] font-medium leading-[24px]">
-                                    <?php echo esc_html($historia['descripcion']); ?>
+                                    <?php echo esc_html($extracto); ?>
                                 </p>
                             </div>
 
-                            <!-- Botón Ver historia (Descarga PDF individual) -->
-                            <a href="<?php echo esc_url($pdf_url); ?>"
-                                download
-                                class="flex w-full h-[56px] px-8 py-3 justify-center items-center gap-[10px] rounded-[5px] bg-[#EAA40C] text-negro font-[Montserrat] font-bold hover:bg-[#d28f00] transition">
-                                Ver historia
+                            <!-- Botón Leer historia -->
+                            <a href="<?php echo esc_url($boton_url); ?>"
+                                <?php echo $es_descarga ? 'download' : ''; ?>
+                                class="flex w-[288px] h-[56px] px-8 py-3 justify-center items-center gap-[10px] rounded-[5px] bg-[#EAA40C] text-negro font-[Montserrat] font-bold hover:bg-[#d28f00] transition">
+                                Lee más historias
                             </a>
                         </div>
 
-                    <?php endforeach; ?>
+                    <?php endwhile; ?>
 
                 </div>
             </div>
 
-            <!-- Desktop: Grid de 3 cards -->
-            <div class="hidden lg:flex gap-6 w-full">
+            <!-- Indicadores (solo mobile) -->
+            <div id="historias-slider-dots" class="flex justify-center items-center gap-2 w-full lg:hidden"></div>
 
-                <?php foreach ($historias as $historia) :
-                    $imagen_url = $historia['imagen_id'] ? wp_get_attachment_image_url($historia['imagen_id'], 'thumbnail') : '';
-                    $pdf_url = $historia['pdf_id'] ? wp_get_attachment_url($historia['pdf_id']) : '#';
-                ?>
-
-                    <!-- Card Historia Desktop -->
-                    <div class="flex w-[352px] h-[455px] p-[32px] flex-col justify-between items-start bg-[#F5F5F5] rounded-lg">
-                        <div class="flex flex-col items-start gap-[24px] self-stretch">
-
-                            <!-- Imagen circular -->
-                            <?php if ($imagen_url) : ?>
-                                <div class="w-[54px] h-[54px] rounded-full overflow-hidden bg-gray-300">
-                                    <img src="<?php echo esc_url($imagen_url); ?>"
-                                        alt="<?php echo esc_attr($historia['nombre']); ?>"
-                                        class="w-full h-full object-cover">
-                                </div>
-                            <?php else : ?>
-                                <div class="w-[54px] h-[54px] rounded-full bg-gray-400"></div>
-                            <?php endif; ?>
-
-                            <!-- Nombre -->
-                            <h3 class="text-negro font-[Montserrat] text-[24px] font-bold leading-[28px]">
-                                <?php echo esc_html($historia['nombre']); ?>
-                            </h3>
-
-                            <!-- Descripción -->
-                            <p class="text-negro font-[Montserrat] text-[18px] font-medium leading-[24px]">
-                                <?php echo esc_html($historia['descripcion']); ?>
-                            </p>
-                        </div>
-
-                        <!-- Botón Leer historia (Descarga PDF individual) -->
-                        <a href="<?php echo esc_url($pdf_url); ?>"
-                            download
-                            class="flex w-[288px] h-[56px] px-8 py-3 justify-center items-center gap-[10px] rounded-[5px] bg-[#EAA40C] text-negro font-[Montserrat] font-bold hover:bg-[#d28f00] transition">
-                            Leer historia
-                        </a>
-                    </div>
-
-                <?php endforeach; ?>
-
+            <!-- Botón "Lee más historias" -->
+            <div class="flex justify-center w-full">
+                <a href="<?php echo esc_url($historias_url_seccion); ?>"
+                    class="flex w-full lg:w-auto px-8 py-3 justify-center items-center gap-[10px] rounded-[5px] bg-[#A13E18] text-white font-[Montserrat] font-bold hover:bg-[#7d2f08] transition">
+                    Lee más historias
+                </a>
             </div>
-        </div>
 
-        <!-- Indicadores (solo mobile) -->
-        <div id="historias-slider-dots" class="flex justify-center items-center gap-2 w-full lg:hidden"></div>
+        <?php else : ?>
+            <!-- Mensaje cuando no hay víctimas -->
+            <p class="text-negro font-[Montserrat] text-[18px] font-medium leading-[24px]">
+                No hay historias de víctimas disponibles en este momento.
+            </p>
+        <?php endif; ?>
 
-        <!-- Botón "Lee más historias" (Va a la sección en Conócenos) -->
-        <div class="flex justify-center w-full">
-            <a href="<?php echo esc_url($historias_url_seccion); ?>"
-                class="flex w-full lg:w-auto px-8 py-3 justify-center items-center gap-[10px] rounded-[5px] bg-[#A13E18] text-white font-[Montserrat] font-bold hover:bg-[#7d2f08] transition">
-                Lee más historias
-            </a>
-        </div>
+        <?php wp_reset_postdata(); ?>
 
     </div>
 </section>
