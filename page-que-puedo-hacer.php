@@ -366,15 +366,15 @@ get_template_part('template-parts/banner-hero', null, array(
             <?php echo esc_html($apoya_titulo); ?>
         </h2>
 
-        <!-- Contenedor de Cards -->
-        <div class="flex flex-col lg:flex-row items-center gap-[20px] self-stretch w-full">
+        <!-- Contenedor de Cards - CAMBIO AQUÍ: items-center por items-stretch -->
+        <div class="flex flex-col lg:flex-row items-stretch gap-[20px] self-stretch w-full">
 
-            <!-- Card 1: Sociedad Civil -->
-            <div class="flex w-full lg:w-[566px] p-[40px] lg:p-[74px] flex-col justify-center items-start gap-[32px] lg:gap-[52px] bg-[#ECECEC] rounded-lg"
+            <!-- Card 1: Sociedad Civil - AGREGADO: h-full -->
+            <div class="flex w-full lg:w-[566px] h-full p-[40px] lg:p-[74px] flex-col justify-start items-start gap-[32px] lg:gap-[52px] bg-[#ECECEC] rounded-lg"
                 style="box-shadow: 0 -8px 20px 0 rgba(144, 144, 144, 0.02);">
 
                 <!-- Imagen Card 1 -->
-                <div class="h-[254px] lg:h-[274px] w-full">
+                <div class="h-[254px] lg:h-[274px] w-full flex-shrink-0">
                     <?php if ($apoya_card1_imagen_url) : ?>
                         <img src="<?php echo esc_url($apoya_card1_imagen_url); ?>"
                             alt="<?php echo esc_attr($apoya_card1_titulo); ?>"
@@ -392,26 +392,26 @@ get_template_part('template-parts/banner-hero', null, array(
                     <?php echo esc_html($apoya_card1_titulo); ?>
                 </h3>
 
-                <!-- Texto Card 1 -->
-                <p class="self-stretch text-negro text-left font-[Montserrat] text-[16px] lg:text-[18px] font-medium leading-[24px]"
+                <!-- Texto Card 1 - AGREGADO: flex-grow para ocupar espacio disponible -->
+                <p class="self-stretch flex-grow text-negro text-left font-[Montserrat] text-[16px] lg:text-[18px] font-medium leading-[24px]"
                     style="font-feature-settings: 'liga' off, 'clig' off;">
                     <?php echo wp_kses_post($apoya_card1_texto); ?>
                 </p>
 
-                <!-- Botón Descargar Card 1 -->
+                <!-- Botón Descargar Card 1 - AGREGADO: mt-auto para empujar al final -->
                 <a href="<?php echo esc_url($apoya_card1_archivo_url); ?>"
                     download
-                    class="flex w-full lg:w-[290px] px-[32px] py-[16px] justify-center items-center gap-[10px] rounded-[6px] bg-[#A13E18] text-white font-[Montserrat] text-[16px] font-bold hover:bg-[#8a3315] transition-colors duration-300">
+                    class="flex w-full lg:w-[290px] px-[32px] py-[16px] justify-center items-center gap-[10px] rounded-[6px] bg-[#A13E18] text-white font-[Montserrat] text-[16px] font-bold hover:bg-[#8a3315] transition-colors duration-300 mt-auto">
                     <?php echo esc_html($apoya_card1_boton_texto); ?>
                 </a>
             </div>
 
-            <!-- Card 2: Organización Internacional -->
-            <div class="flex w-full lg:w-[566px] p-[40px] lg:p-[74px] flex-col justify-center items-start gap-[32px] lg:gap-[52px] bg-[#ECECEC] rounded-lg"
+            <!-- Card 2: Organización Internacional - AGREGADO: h-full -->
+            <div class="flex w-full lg:w-[566px] h-full p-[40px] lg:p-[74px] flex-col justify-start items-start gap-[32px] lg:gap-[52px] bg-[#ECECEC] rounded-lg"
                 style="box-shadow: 0 -8px 20px 0 rgba(144, 144, 144, 0.02);">
 
                 <!-- Imagen Card 2 -->
-                <div class="h-[254px] lg:h-[274px] w-full">
+                <div class="h-[254px] lg:h-[274px] w-full flex-shrink-0">
                     <?php if ($apoya_card2_imagen_url) : ?>
                         <img src="<?php echo esc_url($apoya_card2_imagen_url); ?>"
                             alt="<?php echo esc_attr($apoya_card2_titulo); ?>"
@@ -429,16 +429,16 @@ get_template_part('template-parts/banner-hero', null, array(
                     <?php echo esc_html($apoya_card2_titulo); ?>
                 </h3>
 
-                <!-- Texto Card 2 -->
-                <p class="self-stretch text-negro text-left font-[Montserrat] text-[16px] lg:text-[18px] font-medium leading-[24px]"
+                <!-- Texto Card 2 - AGREGADO: flex-grow para ocupar espacio disponible -->
+                <p class="self-stretch flex-grow text-negro text-left font-[Montserrat] text-[16px] lg:text-[18px] font-medium leading-[24px]"
                     style="font-feature-settings: 'liga' off, 'clig' off;">
                     <?php echo wp_kses_post($apoya_card2_texto); ?>
                 </p>
 
-                <!-- Botón Descargar Card 2 -->
+                <!-- Botón Descargar Card 2 - AGREGADO: mt-auto para empujar al final -->
                 <a href="<?php echo esc_url($apoya_card2_archivo_url); ?>"
                     download
-                    class="flex w-full lg:w-[370px] px-[32px] py-[16px] justify-center items-center gap-[10px] rounded-[6px] bg-[#A13E18] text-white font-[Montserrat] text-[16px] font-bold hover:bg-[#8a3315] transition-colors duration-300">
+                    class="flex w-full lg:w-[370px] px-[32px] py-[16px] justify-center items-center gap-[10px] rounded-[6px] bg-[#A13E18] text-white font-[Montserrat] text-[16px] font-bold hover:bg-[#8a3315] transition-colors duration-300 mt-auto">
                     <?php echo esc_html($apoya_card2_boton_texto); ?>
                 </a>
             </div>

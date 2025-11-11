@@ -114,6 +114,18 @@ if (!function_exists('obtener_titulos_noticia')) {
                         // Extraer los dos H1s del contenido
                         $titulos = obtener_titulos_noticia(get_the_ID());
 
+                        // Limitar títulos a 30 caracteres en total
+                        $titulo1 = !empty($titulos['titulo1']) ? $titulos['titulo1'] : '';
+                        $titulo2 = !empty($titulos['titulo2']) ? $titulos['titulo2'] : '';
+                        $longitud_total = mb_strlen($titulo1 . ' ' . $titulo2);
+
+                        if ($longitud_total > 30) {
+                            $limite_titulo1 = min(mb_strlen($titulo1), 15);
+                            $titulo1 = mb_substr($titulo1, 0, $limite_titulo1);
+                            $resto = 30 - $limite_titulo1;
+                            $titulo2 = mb_substr($titulo2, 0, $resto) . '...';
+                        }
+
                         // Si no hay imagen destacada, usar placeholder
                         if (!$post_imagen) {
                             $post_imagen = get_template_directory_uri() . '/assets/images/img-slider2.png';
@@ -127,21 +139,21 @@ if (!function_exists('obtener_titulos_noticia')) {
                             <a href="<?php echo esc_url($post_url); ?>" class="block w-full h-[254px] self-stretch">
                                 <img
                                     src="<?php echo esc_url($post_imagen); ?>"
-                                    alt="<?php echo esc_attr($titulos['titulo1'] . ' ' . $titulos['titulo2']); ?>"
+                                    alt="<?php echo esc_attr($titulo1 . ' ' . $titulo2); ?>"
                                     class="w-full h-full object-cover rounded-md" />
                             </a>
 
                             <!-- Títulos extraídos del contenido -->
                             <h3 class="self-stretch text-left leading-[48px] font-display font-bold tracking-tight uppercase">
-                                <?php if (!empty($titulos['titulo1'])) : ?>
+                                <?php if (!empty($titulo1)) : ?>
                                     <span class="block text-[48px] text-[#000000]">
-                                        <?php echo esc_html($titulos['titulo1']); ?>
+                                        <?php echo esc_html($titulo1); ?>
                                     </span>
                                 <?php endif; ?>
 
-                                <?php if (!empty($titulos['titulo2'])) : ?>
+                                <?php if (!empty($titulo2)) : ?>
                                     <span class="block text-[48px] text-[#EAA40C]">
-                                        <?php echo esc_html($titulos['titulo2']); ?>
+                                        <?php echo esc_html($titulo2); ?>
                                     </span>
                                 <?php endif; ?>
                             </h3>
