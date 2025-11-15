@@ -29,6 +29,19 @@ $actividades_query = new WP_Query($args_query);
 // Imagen fallback
 $imagen_fallback = get_template_directory_uri() . '/assets/images/img-slider2.png';
 
+/**
+ * Función helper para limitar título
+ */
+if (!function_exists('limitar_titulo_actividad')) {
+    function limitar_titulo_actividad($titulo, $limite = 50)
+    {
+        if (mb_strlen($titulo) > $limite) {
+            return mb_substr($titulo, 0, $limite) . '...';
+        }
+        return $titulo;
+    }
+}
+
 // Contar total de actividades disponibles
 $total_query = new WP_Query(array(
     'post_type' => 'post',
@@ -50,12 +63,12 @@ wp_reset_postdata();
             <!-- Grid Desktop: 3 columnas -->
             <div id="actividades-grid-desktop" class="hidden lg:grid lg:grid-cols-3 gap-[32px] mb-[40px]">
                 <?php
-                $counter = 1;
                 while ($actividades_query->have_posts()) : $actividades_query->the_post();
 
                     // Obtener datos
                     $permalink = get_permalink();
                     $fecha = get_the_date('d/m/Y');
+                    $titulo = limitar_titulo_actividad(get_the_title(), 20);
 
                     // Obtener imagen destacada o fallback
                     $imagen_url = get_the_post_thumbnail_url(get_the_ID(), 'large');
@@ -75,10 +88,10 @@ wp_reset_postdata();
                         <!-- Contenido superpuesto con blur -->
                         <div class="relative z-10 p-[24px] flex flex-col justify-start items-start">
                             <!-- Contenedor con blur de fondo -->
-                            <div class="backdrop-blur-md rounded-lg p-[16px] inline-block">
-                                <!-- Título con número -->
-                                <h3 class="font-[Montserrat] font-bold leading-[100%] text-[32px] text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
-                                    Actividad <?php echo $counter; ?>
+                            <div class="backdrop-blur-md rounded-lg p-[16px] inline-block max-w-[90%]">
+                                <!-- Título del post -->
+                                <h3 class="font-[Montserrat] font-bold leading-[110%] text-[28px] text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] break-words">
+                                    <?php echo esc_html($titulo); ?>
                                 </h3>
                                 <!-- Fecha -->
                                 <p class="text-white font-[Montserrat] text-[14px] font-medium mt-[8px] drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
@@ -89,7 +102,6 @@ wp_reset_postdata();
                     </a>
 
                 <?php
-                    $counter++;
                 endwhile;
                 ?>
             </div>
@@ -97,12 +109,12 @@ wp_reset_postdata();
             <!-- Mobile: Grid Vertical -->
             <div id="actividades-grid-mobile" class="lg:hidden flex flex-col items-center gap-[40px] mb-[40px]">
                 <?php
-                $counter = 1;
                 $actividades_query->rewind_posts();
                 while ($actividades_query->have_posts()) : $actividades_query->the_post();
 
                     $permalink = get_permalink();
                     $fecha = get_the_date('d/m/Y');
+                    $titulo = limitar_titulo_actividad(get_the_title(), 20);
 
                     $imagen_url = get_the_post_thumbnail_url(get_the_ID(), 'large');
                     if (!$imagen_url) {
@@ -118,10 +130,10 @@ wp_reset_postdata();
                         <!-- Contenido superpuesto con blur -->
                         <div class="relative z-10 p-[24px] flex flex-col justify-start items-start">
                             <!-- Contenedor con blur de fondo -->
-                            <div class="backdrop-blur-md rounded-lg p-[16px] inline-block">
-                                <!-- Título con número -->
-                                <h3 class="font-[Montserrat] font-bold leading-[100%] text-[28px] text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
-                                    Actividad <?php echo $counter; ?>
+                            <div class="backdrop-blur-md rounded-lg p-[16px] inline-block max-w-[90%]">
+                                <!-- Título del post -->
+                                <h3 class="font-[Montserrat] font-bold leading-[110%] text-[24px] text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] break-words">
+                                    <?php echo esc_html($titulo); ?>
                                 </h3>
                                 <!-- Fecha -->
                                 <p class="text-white font-[Montserrat] text-[14px] font-medium mt-[8px] drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
@@ -132,7 +144,6 @@ wp_reset_postdata();
                     </a>
 
                 <?php
-                    $counter++;
                 endwhile;
                 ?>
             </div>
@@ -145,7 +156,6 @@ wp_reset_postdata();
                         data-offset="<?php echo $numero_actividades; ?>"
                         data-por-carga="<?php echo $actividades_por_carga; ?>"
                         data-total="<?php echo $total_actividades; ?>"
-                        data-contador="<?php echo $actividades_query->post_count + 1; ?>"
                         class="px-[48px] py-[14px] bg-[#A13E18] text-white font-[Montserrat] text-[16px] font-bold rounded-[6px] hover:bg-[#8a3315] transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed">
                         <span class="btn-text">Conoce más</span>
                         <span class="btn-loading hidden">Cargando...</span>

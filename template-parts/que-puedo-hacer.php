@@ -115,6 +115,7 @@ function formatear_numero($numero)
 
             <!-- Botón SOLO en desktop, debajo de Ciudades -->
             <a href="<?php echo esc_url($que_hacer_url_boton); ?>"
+                style="margin-left: 80px;" 
                 class="hidden lg:flex mt-[32px] w-[221px] h-[48px] justify-center items-center rounded-[6px] bg-[#A13E18] text-white font-[Montserrat] font-bold hover:bg-[#7d2f08] transition">
                 Apoya con tu firma
             </a>

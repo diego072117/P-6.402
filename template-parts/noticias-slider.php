@@ -10,6 +10,7 @@
  * - texto_boton: Texto del botón al final (ej: 'Más noticias', 'Más actividades')
  * - url_boton: URL del botón (por defecto '/categoria')
  * - texto_vacio: Mensaje cuando no hay posts (ej: 'No hay noticias disponibles')
+ * - show_button: Mostrar botón al final (true por defecto, false para ocultarlo)
  */
 
 // Obtener parámetros
@@ -19,6 +20,7 @@ $orderby = isset($args['orderby']) ? $args['orderby'] : 'modified';
 $texto_boton = isset($args['texto_boton']) ? $args['texto_boton'] : 'Más ' . $categoria;
 $url_boton = isset($args['url_boton']) ? $args['url_boton'] : home_url('/' . $categoria);
 $texto_vacio = isset($args['texto_vacio']) ? $args['texto_vacio'] : 'No hay contenido disponible en este momento.';
+$show_button = isset($args['show_button']) ? $args['show_button'] : true; // Por defecto true
 
 /**
  * Query para obtener los posts
@@ -56,22 +58,15 @@ if (!function_exists('obtener_extracto_limpio_slider')) {
 }
 
 /**
- * Función helper para obtener los dos H1s del contenido
+ * Función helper para limitar título
  */
-if (!function_exists('obtener_titulos_noticia')) {
-    function obtener_titulos_noticia($post_id)
+if (!function_exists('limitar_titulo_slider')) {
+    function limitar_titulo_slider($titulo, $limite = 30)
     {
-        $contenido = get_post_field('post_content', $post_id);
-        $titulos = array('titulo1' => '', 'titulo2' => '');
-
-        preg_match_all('/<h1[^>]*>(.*?)<\/h1>/is', $contenido, $matches);
-
-        if (!empty($matches[1])) {
-            $titulos['titulo1'] = wp_strip_all_tags($matches[1][0] ?? '');
-            $titulos['titulo2'] = wp_strip_all_tags($matches[1][1] ?? '');
+        if (mb_strlen($titulo) > $limite) {
+            return mb_substr($titulo, 0, $limite) . '...';
         }
-
-        return $titulos;
+        return $titulo;
     }
 }
 ?>
@@ -107,24 +102,10 @@ if (!function_exists('obtener_titulos_noticia')) {
 
                         // Obtener datos del post
                         $post_url = get_permalink();
+                        $post_titulo = limitar_titulo_slider(get_the_title(), 30);
                         $post_extracto = obtener_extracto_limpio_slider(get_the_ID());
                         $post_imagen = get_the_post_thumbnail_url(get_the_ID(), 'medium_large');
                         $post_fecha = get_the_date('d M Y');
-
-                        // Extraer los dos H1s del contenido
-                        $titulos = obtener_titulos_noticia(get_the_ID());
-
-                        // Limitar títulos a 30 caracteres en total
-                        $titulo1 = !empty($titulos['titulo1']) ? $titulos['titulo1'] : '';
-                        $titulo2 = !empty($titulos['titulo2']) ? $titulos['titulo2'] : '';
-                        $longitud_total = mb_strlen($titulo1 . ' ' . $titulo2);
-
-                        if ($longitud_total > 30) {
-                            $limite_titulo1 = min(mb_strlen($titulo1), 15);
-                            $titulo1 = mb_substr($titulo1, 0, $limite_titulo1);
-                            $resto = 30 - $limite_titulo1;
-                            $titulo2 = mb_substr($titulo2, 0, $resto) . '...';
-                        }
 
                         // Si no hay imagen destacada, usar placeholder
                         if (!$post_imagen) {
@@ -133,48 +114,46 @@ if (!function_exists('obtener_titulos_noticia')) {
                     ?>
 
                         <!-- Card Noticia -->
-                        <div class="slide-noticia flex min-w-full md:min-w-[375px] w-full md:w-[375px] flex-col justify-start items-center gap-6 flex-shrink-0 bg-[#F8F8F8] rounded-[6px] shadow-sm p-[60px_30px]">
+                        <div class="slide-noticia flex flex-col min-w-full md:min-w-[375px] w-full md:w-[375px] h-full min-h-[700px] px-[30px] py-[60px] bg-[#F8F8F8] rounded-[6px] shadow-sm flex-shrink-0">
 
                             <!-- Imagen (clickeable) -->
-                            <a href="<?php echo esc_url($post_url); ?>" class="block w-full h-[254px] self-stretch">
+                            <a href="<?php echo esc_url($post_url); ?>" class="w-full h-[254px] overflow-hidden rounded-md flex-shrink-0">
                                 <img
                                     src="<?php echo esc_url($post_imagen); ?>"
-                                    alt="<?php echo esc_attr($titulo1 . ' ' . $titulo2); ?>"
-                                    class="w-full h-full object-cover rounded-md" />
+                                    alt="<?php echo esc_attr($post_titulo); ?>"
+                                    class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" />
                             </a>
 
-                            <!-- Títulos extraídos del contenido -->
-                            <h3 class="self-stretch text-left leading-[48px] font-display font-bold tracking-tight uppercase">
-                                <?php if (!empty($titulo1)) : ?>
-                                    <span class="block text-[48px] text-[#000000]">
-                                        <?php echo esc_html($titulo1); ?>
-                                    </span>
-                                <?php endif; ?>
+                            <!-- Contenedor con flexbox para empujar el botón abajo -->
+                            <div class="flex flex-col justify-between flex-1 mt-[24px]">
+                                
+                                <!-- Contenido superior -->
+                                <div class="flex flex-col gap-[16px] w-full">
+                                    <!-- Título -->
+                                    <a href="<?php echo esc_url($post_url); ?>" class="w-full">
+                                        <h3 class="font-[Montserrat] font-bold leading-[110%] text-[28px] text-black hover:text-[#F8A60E] transition-colors duration-300 break-words text-left">
+                                            <?php echo esc_html($post_titulo); ?>
+                                        </h3>
+                                    </a>
 
-                                <?php if (!empty($titulo2)) : ?>
-                                    <span class="block text-[48px] text-[#EAA40C]">
-                                        <?php echo esc_html($titulo2); ?>
-                                    </span>
-                                <?php endif; ?>
-                            </h3>
+                                    <!-- Extracto -->
+                                    <p class="w-full text-[#000000] text-[16px] font-[500] leading-[24px] font-[Montserrat] text-left break-words">
+                                        <?php echo esc_html($post_extracto); ?>
+                                    </p>
 
-                            <!-- Extracto -->
-                            <p class="self-stretch text-[#000000] text-[16px] font-[500] leading-[24px] font-[Montserrat] text-left">
-                                <?php echo esc_html($post_extracto); ?>
-                            </p>
+                                    <!-- Fecha de publicación -->
+                                    <p class="text-gray-500 font-[Montserrat] text-[14px] font-medium">
+                                        <?php echo esc_html($post_fecha); ?>
+                                    </p>
+                                </div>
 
-                            <!-- Fecha de publicación -->
-                            <div class="self-stretch flex justify-start">
-                                <span class="text-[#666] text-[14px] font-[Montserrat] italic">
-                                    <?php echo esc_html($post_fecha); ?>
-                                </span>
+                                <!-- Botón "Leer más" - siempre abajo -->
+                                <a href="<?php echo esc_url($post_url); ?>"
+                                    class="flex w-[315px] px-[32px] py-[12px] justify-center items-center gap-[10px] rounded-[5px] bg-[#EAA40C] text-black font-[Montserrat] text-[16px] font-bold hover:bg-[#d89400] transition-colors duration-300 mt-[16px]">
+                                    Leer más
+                                </a>
                             </div>
 
-                            <!-- Botón "Leer más" -->
-                            <a href="<?php echo esc_url($post_url); ?>"
-                                class="flex w-full md:w-[315px] justify-center items-center gap-[10px] px-[32px] py-[12px] rounded-[5px] bg-[#EAA40C] text-black font-bold transition hover:bg-[#d28f00]">
-                                Leer más
-                            </a>
                         </div>
 
                     <?php endwhile; ?>
@@ -199,13 +178,15 @@ if (!function_exists('obtener_titulos_noticia')) {
         <!-- Indicadores (solo mobile) -->
         <div id="slider-dots-noticias" class="flex justify-center items-center gap-2 mt-6 md:hidden"></div>
 
-        <!-- Botón personalizado -->
-        <div class="flex justify-center w-full mt-8">
-            <a href="<?php echo esc_url($url_boton); ?>"
-                class="flex w-full max-w-[315px] lg:w-auto px-8 py-3 justify-center items-center gap-[10px] rounded-[5px] bg-[#A13E18] text-white font-[Montserrat] font-bold hover:bg-[#7d2f08] transition">
-                <?php echo esc_html($texto_boton); ?>
-            </a>
-        </div>
+        <!-- Botón personalizado - Solo se muestra si show_button es true -->
+        <?php if ($show_button) : ?>
+            <div class="flex justify-center w-full mt-8">
+                <a href="<?php echo esc_url($url_boton); ?>"
+                    class="flex w-full max-w-[315px] lg:w-auto px-8 py-3 justify-center items-center gap-[10px] rounded-[5px] bg-[#A13E18] text-white font-[Montserrat] font-bold hover:bg-[#7d2f08] transition">
+                    <?php echo esc_html($texto_boton); ?>
+                </a>
+            </div>
+        <?php endif; ?>
 
     <?php else : ?>
 

@@ -167,7 +167,8 @@ get_template_part('template-parts/noticias-slider', null, array(
     'orderby' => 'modified',
     'texto_boton' => 'Más noticias',
     'url_boton' => home_url('/noticias'),
-    'texto_vacio' => 'No hay noticias disponibles en este momento.'
+    'texto_vacio' => 'No hay noticias disponibles en este momento.',
+    'show_button' => false
 ));
 ?>
 

@@ -28,7 +28,7 @@ $contacto_texto_inferior = get_theme_mod('contacto_texto_inferior', 'También pu
     ">
 
     <!-- Contenedor Principal -->
-    <div class="container mx-auto h-full px-6 lg:px-[120px] py-12 lg:py-0 flex items-center">
+    <div class="container mx-auto h-full px-6 py-12 lg:py-0 flex items-center">
 
         <!-- Contenedor Secundario -->
         <div class="flex flex-col lg:flex-row w-full max-w-[1152px] mx-auto justify-between items-center gap-12 lg:gap-8">
@@ -63,7 +63,7 @@ $contacto_texto_inferior = get_theme_mod('contacto_texto_inferior', 'También pu
             </div>
 
             <!-- Columna Derecha: Formulario -->
-            <div class="flex w-full lg:w-[641px] flex-col justify-center items-start gap-6 flex-shrink-0">
+            <div class="flex w-full lg:max-w-[641px] flex-col justify-center items-start gap-6">
 
                 <!-- Mensajes de estado como Toast (top-center) -->
                 <?php if (isset($_GET['contacto'])) : ?>
@@ -171,7 +171,7 @@ $contacto_texto_inferior = get_theme_mod('contacto_texto_inferior', 'También pu
                         placeholder="Mensaje"
                         required
                         rows="3"
-                        class="flex h-[96px] w-full px-4 py-3 justify-start items-start resize-none bg-white border border-gray-300 rounded-md text-negro font-montserrat text-[16px] focus:outline-none focus:ring-2 focus:ring-[#A13E18] focus:border-transparent"></textarea>
+                        class="flex min-h-[96px] w-full px-4 py-3 justify-start items-start resize-none bg-white border border-gray-300 rounded-md text-negro font-montserrat text-[16px] focus:outline-none focus:ring-2 focus:ring-[#A13E18] focus:border-transparent"></textarea>
 
                     <!-- Botón Enviar -->
                     <button
@@ -183,13 +183,13 @@ $contacto_texto_inferior = get_theme_mod('contacto_texto_inferior', 'También pu
                 </form>
 
                 <!-- Texto Inferior -->
-                <div class="w-full lg:w-[433px] flex flex-col gap-2">
+                <div class="w-full flex flex-col gap-2">
                     <p class="text-negro font-montserrat text-[16px] font-medium leading-[24px]"
                         style="font-feature-settings: 'liga' off, 'clig' off;">
                         <?php echo esc_html($contacto_texto_inferior); ?>
                     </p>
                     <a href="mailto:<?php echo esc_attr($contacto_email); ?>"
-                        class="text-negro font-montserrat text-[16px] font-medium leading-[24px] hover:text-[#A13E18] transition-colors"
+                        class="text-negro font-montserrat text-[16px] font-medium leading-[24px] hover:text-[#A13E18] transition-colors break-all"
                         style="font-feature-settings: 'liga' off, 'clig' off;">
                         <?php echo esc_html($contacto_email); ?>
                     </a>
