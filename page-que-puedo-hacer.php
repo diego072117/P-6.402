@@ -143,7 +143,7 @@ get_template_part('template-parts/banner-hero', null, array(
         <!-- Botón -->
         <a href="<?php echo esc_url(home_url('/conocenos')); ?>"
             class="flex px-[32px] py-[12px] justify-center items-center gap-[10px] rounded-[5px] bg-[#A13E18] text-white font-[Montserrat] text-[16px] font-bold hover:bg-[#8a3315] transition-colors duration-300">
-            Conócenos
+            Conoce más
         </a>
 
     </div>

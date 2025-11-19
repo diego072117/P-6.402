@@ -157,7 +157,7 @@ wp_reset_postdata();
                         data-por-carga="<?php echo $actividades_por_carga; ?>"
                         data-total="<?php echo $total_actividades; ?>"
                         class="px-[48px] py-[14px] bg-[#A13E18] text-white font-[Montserrat] text-[16px] font-bold rounded-[6px] hover:bg-[#8a3315] transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed">
-                        <span class="btn-text">Conoce más</span>
+                        <span class="btn-text">Mas actividades</span>
                         <span class="btn-loading hidden">Cargando...</span>
                     </button>
                 <?php else : ?>

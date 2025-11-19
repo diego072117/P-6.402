@@ -107,11 +107,11 @@ get_header();
     </div>
 
     <!-- Columna Izquierda - Imagen -->
-    <div class="w-full sm:w-full sm:max-w-none md:max-w-[500px] lg:max-w-[620px] h-[306px] sm:h-[450px] md:h-[550px] lg:h-[650px] flex-shrink-0 lg:-mr-[150px] flex items-center justify-center mb-[-23px] lg:mb-0 self-stretch overflow-hidden">
+    <div class="w-full sm:w-full sm:max-w-none md:max-w-[500px] lg:max-w-[620px] h-[306px] sm:h-[450px] md:h-[550px] lg:h-[650px] flex-shrink-0 lg:-mr-[140px] flex items-center justify-center mb-[-23px] lg:mb-0 self-stretch overflow-hidden">
         <img
             src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/bg-image2-nw.png"
             alt="<?php echo esc_attr($conoce_titulo_parte1 . ' ' . $conoce_titulo_parte2); ?>"
-            class="w-full h-full object-contain scale-120 sm:scale-100 lg:scale-120"
+            class="w-full h-full object-contain scale-100"
             style="box-shadow: 0 -8px 20px 0 rgba(144, 144, 144, 0.02);">
     </div>
 
@@ -304,7 +304,7 @@ get_template_part('template-parts/noticias-slider', null, array(
                             <a href="<?php echo esc_url($boton_url); ?>"
                                 <?php echo $es_descarga ? 'download' : ''; ?>
                                 class="flex w-[288px] h-[56px] px-8 py-3 justify-center items-center gap-[10px] rounded-[5px] bg-[#EAA40C] text-negro font-[Montserrat] font-bold hover:bg-[#d28f00] transition">
-                                Lee más historias
+                                Lee la historia
                             </a>
                         </div>
 
@@ -320,7 +320,7 @@ get_template_part('template-parts/noticias-slider', null, array(
             <div class="flex justify-center w-full">
                 <a href="<?php echo esc_url($historias_url_seccion); ?>"
                     class="flex w-full lg:w-auto px-8 py-3 justify-center items-center gap-[10px] rounded-[5px] bg-[#A13E18] text-white font-[Montserrat] font-bold hover:bg-[#7d2f08] transition">
-                    Lee más historias
+                    Lee la historia
                 </a>
             </div>
 

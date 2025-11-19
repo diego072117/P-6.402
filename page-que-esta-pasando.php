@@ -49,7 +49,6 @@ get_template_part('template-parts/noticias-grid', null, array(
         <!-- Título Desktop -->
         <div class="hidden lg:block w-full mb-[40px] px-[30px] lg:px-0">
             <h2 class="font-lava text-[48px] leading-tight uppercase text-left">
-                <span class="text-negro">NUESTRAS </span>
                 <span class="text-[#A13E18]">ACTIVIDADES</span>
             </h2>
         </div>
@@ -57,7 +56,6 @@ get_template_part('template-parts/noticias-grid', null, array(
         <!-- Título Mobile -->
         <div class="lg:hidden w-full mb-[40px] px-[30px] lg:px-0">
             <h2 class="font-lava text-[48px] leading-[40px] uppercase text-left">
-                <span class="block text-negro">NUESTRAS</span>
                 <span class="block text-[#A13E18]">ACTIVIDADES</span>
             </h2>
         </div>
@@ -101,11 +99,11 @@ get_template_part('template-parts/noticias-grid', null, array(
                 bg-transparent lg:bg-[#E6E9EC] 
                 backdrop-blur-sm lg:backdrop-blur-0">
 
-            <a href="#"
+            <a href="<?php echo esc_url(home_url('/que-puedo-hacer/')); ?>"
                 class="flex w-full py-[16px] px-[32px] justify-center items-center gap-[10px] rounded-[6px] 
                 bg-[#A13E18] text-white font-[Montserrat] text-[16px] font-semibold 
                 hover:bg-[#8b3013] transition-colors duration-300">
-                Apoya con tu firma
+                Conoce como apoyar
             </a>
         </div>
 
@@ -114,10 +112,18 @@ get_template_part('template-parts/noticias-grid', null, array(
 
 
 
+<!-- Hero Banner Desktop -->
+<div class="hidden lg:block w-full">
+    <?php get_template_part('template-parts/banner-hero-contador', null, ['mostrar_fondo' => false]); ?>
+</div>
 
+<!-- Hero Banner Mobile -->
+<div class="block lg:hidden w-full lg:mt-[60px]">
+    <?php get_template_part('template-parts/banner-hero-contador', null, ['mostrar_fondo' => true]); ?>
+</div>
 
 <?php
 $GLOBALS['footer_margin_top_mobile'] = '0px';
-$GLOBALS['footer_margin_top_desktop'] = '120px';
+$GLOBALS['footer_margin_top_desktop'] = '10px';
 get_footer();
 ?>

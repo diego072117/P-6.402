@@ -150,7 +150,7 @@ if (!function_exists('limitar_titulo_slider')) {
                                 <!-- Botón "Leer más" - siempre abajo -->
                                 <a href="<?php echo esc_url($post_url); ?>"
                                     class="flex w-[315px] px-[32px] py-[12px] justify-center items-center gap-[10px] rounded-[5px] bg-[#EAA40C] text-black font-[Montserrat] text-[16px] font-bold hover:bg-[#d89400] transition-colors duration-300 mt-[16px]">
-                                    Leer más
+                                    Lee más
                                 </a>
                             </div>
 

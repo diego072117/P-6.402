@@ -90,7 +90,7 @@ $background_style = $mostrar_fondo
                     </div>
 
                     <!-- Ayúdanos a llegar a [META DINÁMICA] -->
-                    <div class="flex flex-row items-center justify-center gap-[8px] md:gap-[20px] lg:gap-[24px] xl:gap-[30px] self-stretch text-center">
+                    <div class="flex flex-row items-center justify-start gap-[8px] md:gap-[20px] lg:gap-[24px] xl:gap-[30px] self-stretch text-center">
                         <span class="text-black font-sans text-[9.725px] md:text-[14px] lg:text-[15px] xl:text-[18px] not-italic font-medium whitespace-nowrap"
                             style="line-height: 12.967px; font-feature-settings: 'liga' off, 'clig' off;">
                             Ayúdanos a llegar a
@@ -98,10 +98,6 @@ $background_style = $mostrar_fondo
                         <span class="text-black font-sans text-[21px] md:text-[30px] lg:text-[34px] xl:text-[40px] not-italic font-bold"
                             style="line-height: 12.967px;">
                             <?php echo esc_html(number_format($datos_contador['meta'], 0, ',', '.')); ?>
-                        </span>
-                        <span class="text-black font-sans text-[9.725px] md:text-[14px] lg:text-[15px] xl:text-[18px] not-italic font-medium whitespace-nowrap"
-                            style="line-height: 12.967px; font-feature-settings: 'liga' off, 'clig' off;">
-                            Antes de noviembre
                         </span>
                     </div>
 

@@ -117,7 +117,7 @@ wp_reset_postdata();
                             
                             <a href="<?php echo esc_url($permalink); ?>"
                                 class="flex w-[315px] px-[32px] py-[12px] justify-center items-center gap-[10px] rounded-[5px] bg-[#EAA40C] text-black font-[Montserrat] text-[16px] font-bold hover:bg-[#d89400] transition-colors duration-300 mt-[16px]">
-                                Leer más
+                                Lee más
                             </a>
                         </div>
                     </div>
@@ -167,7 +167,7 @@ wp_reset_postdata();
                             
                             <a href="<?php echo esc_url($permalink); ?>"
                                 class="flex w-full max-w-[315px] px-[32px] py-[12px] justify-center items-center gap-[10px] rounded-[5px] bg-[#EAA40C] text-black font-[Montserrat] text-[16px] font-bold hover:bg-[#d89400] transition-colors duration-300 mt-[24px]">
-                                Leer más
+                                Lee más
                             </a>
                         </div>
                     </div>

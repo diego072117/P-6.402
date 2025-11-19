@@ -13,7 +13,7 @@
 
 <body <?php body_class(); ?>>
 
-    <header class="bg-blanco-gris relative z-50 shadow-md">
+    <header class="bg-blanco-gris fixed top-0 left-0 right-0 z-50 shadow-md">
         <div class="flex items-center px-4 lg:px-[120px] py-6 gap-2.5">
             <div class="flex-shrink-0">
 

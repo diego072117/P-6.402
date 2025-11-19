@@ -2,6 +2,10 @@ html {
   scroll-behavior: smooth;
 }
 
+body {
+    padding-top: 121px; 
+}
+
 @font-face {
   font-family: "Lava Arabic";
   src: url("../fonts/LavaArabicRegular.ttf") format("truetype");
@@ -103,7 +107,33 @@ html {
   background: #f5f5f5;
 }
 
-/* YouTube e iframes estándar */
+/* YouTube - mantener como está */
+.conocenos-video-container.youtube-container {
+  height: 300px;
+}
+
+@media (min-width: 1024px) {
+  .conocenos-video-container.youtube-container {
+    height: 100%;
+  }
+}
+
+/* Instagram - formato vertical más compacto */
+.conocenos-video-container.instagram-container {
+  height: 450px;
+  max-width: 320px;
+  margin: 0 auto;
+  background: white;
+}
+
+@media (min-width: 1024px) {
+  .conocenos-video-container.instagram-container {
+    height: 500px;
+    max-width: 350px;
+  }
+}
+
+/* iframes estándar */
 .conocenos-video-container iframe {
   width: 100% !important;
   height: 100% !important;
@@ -112,19 +142,7 @@ html {
   display: block;
 }
 
-/* Contenedor específico para Instagram */
-.conocenos-video-container.instagram-container {
-  position: relative;
-  height: 300px !important;
-}
-
-@media (min-width: 1024px) {
-  .conocenos-video-container.instagram-container {
-    height: 324px !important;
-  }
-}
-
-/* Wrapper para Instagram que controla el tamaño */
+/* Wrapper para Instagram */
 .instagram-wrapper {
   width: 100%;
   height: 100%;
@@ -134,26 +152,13 @@ html {
 }
 
 .instagram-wrapper iframe {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 200px !important;
+  width: 100% !important;
   height: 100% !important;
-  max-width: none !important;
   border: none;
   border-radius: 0.5rem;
 }
 
-@media (max-width: 1023px) {
-  .instagram-wrapper iframe {
-    width: 100% !important;
-    left: 0;
-    transform: none;
-  }
-}
-
-/* Agregar un loader mientras carga */
+/* Loader mientras carga */
 .conocenos-video-container::before {
   content: "";
   position: absolute;

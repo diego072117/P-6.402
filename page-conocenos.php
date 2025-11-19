@@ -117,31 +117,30 @@ get_template_part('template-parts/banner-hero', null, array(
                     if (!empty($matches[1])) {
                         $youtube_id = $matches[1];
                         $video_embed = '<iframe 
-                    src="https://www.youtube.com/embed/' . esc_attr($youtube_id) . '" 
-                    frameborder="0" 
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                    allowfullscreen
-                    loading="lazy"></iframe>';
+            src="https://www.youtube.com/embed/' . esc_attr($youtube_id) . '" 
+            frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+            allowfullscreen
+            loading="lazy"></iframe>';
                     }
                 }
-                // INSTAGRAM - Versión corregida sin unload
+                // INSTAGRAM
                 elseif (strpos($video_url, 'instagram.com') !== false) {
                     $is_instagram = true;
                     preg_match('/\/(?:p|reel)\/([a-zA-Z0-9_-]+)/', $video_url, $matches);
 
                     if (!empty($matches[1])) {
                         $instagram_code = $matches[1];
-                        // Cambiado: removido 'allow-modals' y 'allow-forms' que pueden causar el warning
                         $video_embed = '<div class="instagram-wrapper">
-                    <iframe 
-                        src="https://www.instagram.com/p/' . esc_attr($instagram_code) . '/embed/captioned/" 
-                        frameborder="0" 
-                        scrolling="no" 
-                        allowtransparency="true"
-                        sandbox="allow-scripts allow-same-origin allow-popups"
-                        loading="lazy"
-                        allow=""></iframe>
-                </div>';
+            <iframe 
+                src="https://www.instagram.com/p/' . esc_attr($instagram_code) . '/embed/captioned/" 
+                frameborder="0" 
+                scrolling="no" 
+                allowtransparency="true"
+                sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox allow-top-navigation"
+                loading="lazy"
+                allow=""></iframe>
+        </div>';
                     }
                 }
                 // VIMEO
@@ -151,11 +150,11 @@ get_template_part('template-parts/banner-hero', null, array(
                     if (!empty($matches[1])) {
                         $vimeo_id = $matches[1];
                         $video_embed = '<iframe 
-                    src="https://player.vimeo.com/video/' . esc_attr($vimeo_id) . '" 
-                    frameborder="0" 
-                    allow="autoplay; fullscreen; picture-in-picture" 
-                    allowfullscreen
-                    loading="lazy"></iframe>';
+            src="https://player.vimeo.com/video/' . esc_attr($vimeo_id) . '" 
+            frameborder="0" 
+            allow="autoplay; fullscreen; picture-in-picture" 
+            allowfullscreen
+            loading="lazy"></iframe>';
                     }
                 }
             }
@@ -163,7 +162,7 @@ get_template_part('template-parts/banner-hero', null, array(
             if (!empty($video_embed)) :
             ?>
                 <!-- Código HTML del video embebido -->
-                <div class="conocenos-video-container <?php echo $is_instagram ? 'instagram-container' : ''; ?> w-full h-[300px] lg:h-full rounded-lg overflow-hidden shadow-lg">
+                <div class="conocenos-video-container <?php echo $is_instagram ? 'instagram-container' : 'youtube-container'; ?> w-full rounded-lg overflow-hidden shadow-lg">
                     <?php echo $video_embed; ?>
                 </div>
             <?php else : ?>
@@ -192,7 +191,7 @@ get_template_part('template-parts/banner-hero', null, array(
 </section>
 
 <!-- Sección Por Qué Argentina -->
-<section class="mt-[60px] lg:mt-[120px] bg-white flex justify-center px-[30px] lg:px-0">
+<section id="por_que_argentina" class="mt-[60px] lg:mt-[120px] bg-white flex justify-center px-[30px] lg:px-0">
     <div class="flex flex-col lg:flex-row w-full lg:w-[1153px] justify-center items-stretch gap-0">
 
         <div class="order-1 lg:order-2 w-full lg:w-[576px] lg:h-[478px] flex-shrink-0 overflow-hidden hidden lg:block">
