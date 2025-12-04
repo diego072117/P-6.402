@@ -184,6 +184,79 @@ function justicia_customize_register($wp_customize)
         'description' => 'Sube el archivo Excel o CSV con las firmas. El contador se actualizará automáticamente.',
     )));
 
+    // -----------------------------------
+    // CAMPO 8: Intervalo de Rotación de Imágenes
+    // -----------------------------------
+    $wp_customize->add_setting('banner_principal_intervalo', array(
+        'default'   => '5',
+        'transport' => 'refresh',
+        'sanitize_callback' => 'absint'
+    ));
+
+    $wp_customize->add_control('banner_principal_intervalo_control', array(
+        'label'      => __('Intervalo de Cambio de Imágenes (segundos)', 'tema-custom'),
+        'section'    => 'banner_home_section',
+        'settings'   => 'banner_principal_intervalo',
+        'type'       => 'number',
+        'input_attrs' => array(
+            'min' => 3,
+            'max' => 15,
+            'step' => 1,
+        ),
+        'description' => 'Tiempo entre cada imagen de fondo (3-15 segundos)',
+    ));
+
+    // -----------------------------------
+    // CAMPO 9: Imagen de Fondo 1
+    // -----------------------------------
+    $wp_customize->add_setting('banner_principal_imagen1', array(
+        'default'   => '',
+        'transport' => 'refresh',
+        'sanitize_callback' => 'absint'
+    ));
+
+    $wp_customize->add_control(new WP_Customize_Media_Control($wp_customize, 'banner_principal_imagen1_control', array(
+        'label'      => __('Imagen de Fondo 1', 'tema-custom'),
+        'section'    => 'banner_home_section',
+        'settings'   => 'banner_principal_imagen1',
+        'mime_type'  => 'image',
+        'description' => 'Primera imagen rotativa del banner',
+    )));
+
+    // -----------------------------------
+    // CAMPO 10: Imagen de Fondo 2
+    // -----------------------------------
+    $wp_customize->add_setting('banner_principal_imagen2', array(
+        'default'   => '',
+        'transport' => 'refresh',
+        'sanitize_callback' => 'absint'
+    ));
+
+    $wp_customize->add_control(new WP_Customize_Media_Control($wp_customize, 'banner_principal_imagen2_control', array(
+        'label'      => __('Imagen de Fondo 2', 'tema-custom'),
+        'section'    => 'banner_home_section',
+        'settings'   => 'banner_principal_imagen2',
+        'mime_type'  => 'image',
+        'description' => 'Segunda imagen rotativa del banner',
+    )));
+
+    // -----------------------------------
+    // CAMPO 11: Imagen de Fondo 3
+    // -----------------------------------
+    $wp_customize->add_setting('banner_principal_imagen3', array(
+        'default'   => '',
+        'transport' => 'refresh',
+        'sanitize_callback' => 'absint'
+    ));
+
+    $wp_customize->add_control(new WP_Customize_Media_Control($wp_customize, 'banner_principal_imagen3_control', array(
+        'label'      => __('Imagen de Fondo 3', 'tema-custom'),
+        'section'    => 'banner_home_section',
+        'settings'   => 'banner_principal_imagen3',
+        'mime_type'  => 'image',
+        'description' => 'Tercera imagen rotativa del banner',
+    )));
+
 
     // ===================================
     // SECCIÓN: Conoce Más

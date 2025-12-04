@@ -210,9 +210,17 @@ $contacto_texto_inferior = get_theme_mod('contacto_texto_inferior', 'También pu
 </div>
 
 <!-- Hero Banner Mobile -->
-<div class="block lg:hidden w-full lg:mt-[60px]">
-    <?php get_template_part('template-parts/banner-hero-contador', null, ['mostrar_fondo' => true]); ?>
+<div class="block lg:hidden w-full relative overflow-hidden">
+    <!-- Fondo con imagen -->
+    <div class="absolute inset-0 w-full h-full bg-cover bg-center z-0"
+         style="background-image: url('<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/image1.png');"></div>
+    
+    <!-- Banner con fondo desactivado pero con z-index para estar encima del fondo -->
+    <div class="relative z-10">
+        <?php get_template_part('template-parts/banner-hero-contador', null, ['mostrar_fondo' => false]); ?>
+    </div>
 </div>
+
 
 <?php
 $GLOBALS['footer_margin_top_mobile'] = '0px';

@@ -667,10 +667,16 @@ get_template_part('template-parts/banner-hero', null, array(
 </div>
 
 <!-- Hero Banner Mobile -->
-<div class="block lg:hidden w-full mt-[60px]">
-    <?php get_template_part('template-parts/banner-hero-contador', null, ['mostrar_fondo' => true]); ?>
+<div class="block lg:hidden w-full mt-[60px] relative overflow-hidden">
+    <!-- Fondo con imagen -->
+    <div class="absolute inset-0 w-full h-full bg-cover bg-center z-0"
+         style="background-image: url('<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/image1.png');"></div>
+    
+    <!-- Banner con fondo desactivado pero con z-index para estar encima del fondo -->
+    <div class="relative z-10">
+        <?php get_template_part('template-parts/banner-hero-contador', null, ['mostrar_fondo' => false]); ?>
+    </div>
 </div>
-
 
 
 

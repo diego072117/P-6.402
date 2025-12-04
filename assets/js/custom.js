@@ -977,7 +977,8 @@ document.addEventListener("DOMContentLoaded", function () {
         !entry.target.classList.contains("progress-animated")
       ) {
         const progressContainer = entry.target;
-        const targetPercentage = progressContainer.getAttribute("data-percentage");
+        const targetPercentage =
+          progressContainer.getAttribute("data-percentage");
 
         // Marcar como animado para no repetir
         progressContainer.classList.add("progress-animated");
@@ -1016,9 +1017,9 @@ function animateCounterNumbers() {
   counterElements.forEach(function (element) {
     // Solo animar si no ha sido animado antes
     if (element.classList.contains("counter-animated")) return;
-    
+
     element.classList.add("counter-animated");
-    
+
     const target = parseInt(element.getAttribute("data-target"));
     const duration = 2000; // 2 segundos
     const increment = target / (duration / 16); // 60fps
@@ -1037,3 +1038,76 @@ function animateCounterNumbers() {
     updateCounter();
   });
 }
+/* ========================================
+   Script de animación para Banner Principal
+   ======================================== */
+document.addEventListener("DOMContentLoaded", function () {
+  const container = document.querySelector(".banner-principal-container");
+  if (!container) return;
+
+  const mostrarFondo = container.dataset.mostrarFondo === "1";
+  if (!mostrarFondo) return;
+
+  const slides = container.querySelectorAll(".banner-principal-slide");
+  const progressBar = container.querySelector(".banner-principal-progress-bar");
+  const intervalo = parseInt(container.dataset.intervalo) || 5000;
+
+  if (slides.length <= 1) return;
+
+  let currentIndex = 0;
+  let progressInterval;
+
+  function cambiarSlide(siguiente) {
+    // Ocultar slide actual
+    slides[currentIndex].classList.remove("active");
+    slides[currentIndex].style.opacity = "0";
+
+    // Calcular siguiente índice
+    currentIndex =
+      siguiente !== undefined ? siguiente : (currentIndex + 1) % slides.length;
+
+    // Mostrar nuevo slide
+    slides[currentIndex].classList.add("active");
+    slides[currentIndex].style.opacity = "1";
+
+    // Reiniciar barra de progreso
+    if (progressBar) {
+      progressBar.style.transition = "none";
+      progressBar.style.height = "0%";
+      setTimeout(() => {
+        progressBar.style.transition = `height ${intervalo}ms linear`;
+        progressBar.style.height = "100%";
+      }, 50);
+    }
+  }
+
+  // Iniciar barra de progreso
+  if (progressBar) {
+    setTimeout(() => {
+      progressBar.style.transition = `height ${intervalo}ms linear`;
+      progressBar.style.height = "100%";
+    }, 50);
+  }
+
+  // Rotación automática
+  progressInterval = setInterval(() => {
+    cambiarSlide();
+  }, intervalo);
+
+  // Pausar en hover (opcional)
+  container.addEventListener("mouseenter", () => {
+    clearInterval(progressInterval);
+    if (progressBar) {
+      progressBar.style.animationPlayState = "paused";
+    }
+  });
+
+  container.addEventListener("mouseleave", () => {
+    progressInterval = setInterval(() => {
+      cambiarSlide();
+    }, intervalo);
+    if (progressBar) {
+      progressBar.style.animationPlayState = "running";
+    }
+  });
+});

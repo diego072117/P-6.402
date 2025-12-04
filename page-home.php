@@ -89,7 +89,7 @@ get_header();
 ?>
 
 <!-- Hero Banner Principal -->
-<?php get_template_part('template-parts/banner-hero-contador', null, ['mostrar_fondo' => true]); ?>
+<?php get_template_part('template-parts/banner-hero-contador', null, ['mostrar_fondo' => true, 'text_white' => true]); ?>
 
 <!-- Sección Conoce Más -->
 <section class="flex flex-col lg:flex-row mt-[60px] lg:mt-[180px] items-center justify-center lg:gap-[50px] overflow-visible px-[30px] lg:px-0">
@@ -168,7 +168,8 @@ get_template_part('template-parts/noticias-slider', null, array(
     'texto_boton' => 'Más noticias',
     'url_boton' => home_url('/noticias'),
     'texto_vacio' => 'No hay noticias disponibles en este momento.',
-    'show_button' => false
+    'show_button' => false,
+    'show_title' => true
 ));
 ?>
 
